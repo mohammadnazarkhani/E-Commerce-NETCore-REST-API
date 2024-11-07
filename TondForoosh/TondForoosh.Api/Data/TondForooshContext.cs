@@ -22,6 +22,19 @@ namespace TondForoosh.Api.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Specify decimal precision and scale to avoid truncation warnings
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalPrice)
+                .HasColumnType("decimal(18, 2)");  // Example: 18 digits with 2 after decimal point
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(oi => oi.TotalPrice)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18, 2)");
+
             // User to ShoppingCart: One-to-One
             modelBuilder.Entity<User>()
                 .HasOne(u => u.ShoppingCart)
