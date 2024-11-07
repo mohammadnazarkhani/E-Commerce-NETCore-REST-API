@@ -26,6 +26,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Automatically apply migrations
+await app.MigrateDbAsync();
+
 app.UseHttpsRedirection();
 
 // Map Endpoints
