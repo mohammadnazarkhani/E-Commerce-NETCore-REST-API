@@ -25,7 +25,7 @@ namespace TondForoosh.Api.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TondForoosh.Api.Models.CartItem", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.Order", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +82,7 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.OrderItem", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,7 +111,7 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.Product", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.ProductCategory", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("ProductCategories");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.ShoppingCart", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.ShoppingCart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.User", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,15 +197,15 @@ namespace TondForoosh.Api.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.CartItem", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.CartItem", b =>
                 {
-                    b.HasOne("TondForoosh.Api.Models.Product", "Product")
+                    b.HasOne("TondForoosh.Api.Entities.Product", "Product")
                         .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TondForoosh.Api.Models.ShoppingCart", "ShoppingCart")
+                    b.HasOne("TondForoosh.Api.Entities.ShoppingCart", "ShoppingCart")
                         .WithMany("CartItems")
                         .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -216,9 +216,9 @@ namespace TondForoosh.Api.Data.Migrations
                     b.Navigation("ShoppingCart");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.Order", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.Order", b =>
                 {
-                    b.HasOne("TondForoosh.Api.Models.User", "User")
+                    b.HasOne("TondForoosh.Api.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,15 +227,15 @@ namespace TondForoosh.Api.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.OrderItem", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.OrderItem", b =>
                 {
-                    b.HasOne("TondForoosh.Api.Models.Order", "Order")
+                    b.HasOne("TondForoosh.Api.Entities.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TondForoosh.Api.Models.Product", "Product")
+                    b.HasOne("TondForoosh.Api.Entities.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -246,9 +246,9 @@ namespace TondForoosh.Api.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.Product", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.Product", b =>
                 {
-                    b.HasOne("TondForoosh.Api.Models.ProductCategory", "ProductCategory")
+                    b.HasOne("TondForoosh.Api.Entities.ProductCategory", "ProductCategory")
                         .WithMany("Products")
                         .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,40 +257,40 @@ namespace TondForoosh.Api.Data.Migrations
                     b.Navigation("ProductCategory");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.ShoppingCart", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.ShoppingCart", b =>
                 {
-                    b.HasOne("TondForoosh.Api.Models.User", "User")
+                    b.HasOne("TondForoosh.Api.Entities.User", "User")
                         .WithOne("ShoppingCart")
-                        .HasForeignKey("TondForoosh.Api.Models.ShoppingCart", "UserId")
+                        .HasForeignKey("TondForoosh.Api.Entities.ShoppingCart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.Order", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.Product", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.Product", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.ProductCategory", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.ProductCategory", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.ShoppingCart", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.ShoppingCart", b =>
                 {
                     b.Navigation("CartItems");
                 });
 
-            modelBuilder.Entity("TondForoosh.Api.Models.User", b =>
+            modelBuilder.Entity("TondForoosh.Api.Entities.User", b =>
                 {
                     b.Navigation("Orders");
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TondForoosh.Api.Models;
+using TondForoosh.Api.Entities;
 
 namespace TondForoosh.Api.Data
 {

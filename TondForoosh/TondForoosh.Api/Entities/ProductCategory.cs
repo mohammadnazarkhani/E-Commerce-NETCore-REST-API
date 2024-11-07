@@ -1,4 +1,4 @@
-﻿namespace TondForoosh.Api.Models
+﻿namespace TondForoosh.Api.Entities
 {
     public class ProductCategory
     {
