@@ -5,6 +5,7 @@ using TondForoosh.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TondForoosh.Api.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +18,6 @@ builder.Services.AddDbContext<TondForooshContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TondForooshConnection"))
 );
 
-// Add required services for Password Hashing, Auth, Token Generator, etc.
-builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<TokenGenerator>();  // Add TokenGenerator to DI container
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -41,6 +38,33 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+
+builder.Services.AddAuthorization(options =>
+{
+    // Define policies for different roles
+
+    // Admin Only Policy
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole(UserRole.Admin.ToString()));
+
+    // Seller Only Policy
+    options.AddPolicy("SellerOnly", policy =>
+        policy.RequireRole(UserRole.Seller.ToString()));
+
+    // User Only Policy
+    options.AddPolicy("UserOnly", policy =>
+        policy.RequireRole(UserRole.User.ToString()));
+
+    // Admin and Seller Policy (For cases where admin and seller can access a resource)
+    options.AddPolicy("AdminOrSeller", policy =>
+        policy.RequireRole(UserRole.Admin.ToString(), UserRole.Seller.ToString()));
+});
+
+// Add required services for Password Hashing, Auth, Token Generator, etc.
+builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<TokenGenerator>();  // Add TokenGenerator to DI container
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,12 +80,15 @@ await app.MigrateDbAsync();
 app.UseHttpsRedirection();
 
 // Use Authentication middleware
-app.UseAuthentication();  
+app.UseAuthentication();
 
 // Use Authorization middleware 
 app.UseAuthorization();
 
 // Map Endpoints (Register, Login, etc.)
 app.MapAuthenticationEndpoints();
+// Map Category Endpoints
+app.MapCategoryEndpoints();
+
 
 app.Run();
