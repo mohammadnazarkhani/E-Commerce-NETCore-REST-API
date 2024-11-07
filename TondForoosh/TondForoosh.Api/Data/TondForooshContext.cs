@@ -76,6 +76,12 @@ namespace TondForoosh.Api.Data
                 .HasMany(p => p.OrderItems)
                 .WithOne(oi => oi.Product)
                 .HasForeignKey(oi => oi.ProductId);
+
+            // User to Products: One-to-Many
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Products)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId);
         }
     }
 }
