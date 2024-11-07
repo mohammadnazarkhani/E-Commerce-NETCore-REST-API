@@ -11,6 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TondForooshContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TondForooshConnection"))
 );
+var secretKey = builder.Configuration["Jwt:SecretKey"];
+Console.WriteLine(secretKey);
 
 var app = builder.Build();
 
