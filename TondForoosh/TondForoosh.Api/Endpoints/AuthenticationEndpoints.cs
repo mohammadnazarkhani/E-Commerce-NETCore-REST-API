@@ -23,7 +23,7 @@ namespace TondForoosh.Api.Endpoints
                 // Check if username already exists
                 if (await dbContext.Users.AnyAsync(u => u.Username == registerUserDto.Username))
                 {
-                    return Results.BadRequest("Username is already taken.");
+                    return Results.Conflict("Username is already taken.");
                 }
 
                 // Convert DTO to Entity and set default Role as "User"
@@ -37,7 +37,7 @@ namespace TondForoosh.Api.Endpoints
                 await dbContext.SaveChangesAsync();
 
                 // Generate JWT token for the newly registered user
-                var token = authService.Authenticate(user);
+                var token = authService.GenerateTokenForNewUser(user);
 
                 // Return the response with user details and token
                 return Results.CreatedAtRoute(

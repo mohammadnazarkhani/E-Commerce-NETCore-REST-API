@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using TondForoosh.Api.Data;
+using TondForoosh.Api.Endpoints;
 using TondForoosh.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -14,9 +14,8 @@ builder.Services.AddDbContext<TondForooshContext>(options =>
 );
 
 builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
-
-// Register AuthService in Dependency Injection container
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<TokenGenerator>();  // Add TokenGenerator to DI container
 
 var app = builder.Build();
 
@@ -28,5 +27,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Map Endpoints
+app.MapAuthenticationEndpoints();
 
 app.Run();

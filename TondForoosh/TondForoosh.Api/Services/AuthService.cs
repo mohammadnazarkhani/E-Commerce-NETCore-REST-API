@@ -42,6 +42,12 @@ namespace TondForoosh.Api.Services
             return _tokenGenerator.GenerateToken(user);
         }
 
+        // Generate JWT token for a new user during registration
+        public string GenerateTokenForNewUser(User usr)
+        {
+            return _tokenGenerator.GenerateToken(usr); // Use TokenGenerator to generate a token for the new user
+        }
+
         // Validate the JWT token
         public bool ValidateToken(string token)
         {
