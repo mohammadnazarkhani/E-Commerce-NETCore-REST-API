@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TondForoosh.Api.Data;
 
@@ -11,9 +12,11 @@ using TondForoosh.Api.Data;
 namespace TondForoosh.Api.Data.Migrations
 {
     [DbContext(typeof(TondForooshContext))]
-    partial class TondForooshContextModelSnapshot : ModelSnapshot
+    [Migration("20241107074745_UserRoleEnum")]
+    partial class UserRoleEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
