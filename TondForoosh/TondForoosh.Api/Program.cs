@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TondForoosh.Api.Data;
+using TondForoosh.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TondForooshContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TondForooshConnection"))
 );
+
+// Register AuthService in Dependency Injection container
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 var app = builder.Build();
 
