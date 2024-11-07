@@ -4,7 +4,7 @@ namespace TondForoosh.Api.Services
 {
     public interface IAuthService
     {
-        string Authenticate(User usr);
+        string Authenticate(string username, string password);
         string GenerateTokenForNewUser(User usr);
         bool ValidateToken(string token);
     }

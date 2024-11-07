@@ -27,13 +27,13 @@ namespace TondForoosh.Api.Services
         }
 
         // Authenticate the user and return a JWT token
-        public string Authenticate(User usr)
+        public string Authenticate(string username, string password)
         {
             // Find user from the database
-            var user = _context.Users.FirstOrDefault(u => u.Username == usr.Username);
+            var user = _context.Users.FirstOrDefault(u => u.Username == username);
 
             // If user not found or password is incorrect, return null
-            if (user == null || !_passwordHasher.VerifyPassword(user.Password, usr.Password)) // Use VerifyPassword for checking hashed password
+            if (user == null || !_passwordHasher.VerifyPassword(user.Password, password)) // Use VerifyPassword for checking hashed password
             {
                 return null; // Invalid username or password
             }
