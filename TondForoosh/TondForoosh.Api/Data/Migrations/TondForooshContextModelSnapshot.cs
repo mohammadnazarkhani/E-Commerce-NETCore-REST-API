@@ -126,14 +126,9 @@ namespace TondForoosh.Api.Data.Migrations
                     b.Property<int>("ProductCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductCategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -153,6 +148,29 @@ namespace TondForoosh.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("TondForoosh.Api.Entities.SellerProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SellerProducts");
                 });
 
             modelBuilder.Entity("TondForoosh.Api.Entities.ShoppingCart", b =>
@@ -255,13 +273,24 @@ namespace TondForoosh.Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("TondForoosh.Api.Entities.SellerProduct", b =>
+                {
+                    b.HasOne("TondForoosh.Api.Entities.Product", "Product")
+                        .WithMany("SellerProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TondForoosh.Api.Entities.User", "Seller")
-                        .WithMany("Products")
+                        .WithMany("SellerProducts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductCategory");
+                    b.Navigation("Product");
 
                     b.Navigation("Seller");
                 });
@@ -287,6 +316,8 @@ namespace TondForoosh.Api.Data.Migrations
                     b.Navigation("CartItems");
 
                     b.Navigation("OrderItems");
+
+                    b.Navigation("SellerProducts");
                 });
 
             modelBuilder.Entity("TondForoosh.Api.Entities.ProductCategory", b =>
@@ -303,7 +334,7 @@ namespace TondForoosh.Api.Data.Migrations
                 {
                     b.Navigation("Orders");
 
-                    b.Navigation("Products");
+                    b.Navigation("SellerProducts");
 
                     b.Navigation("ShoppingCart");
                 });

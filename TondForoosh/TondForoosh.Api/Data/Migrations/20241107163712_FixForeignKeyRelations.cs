@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TondForoosh.Api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FixForeignKeyRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace TondForoosh.Api.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,6 +96,32 @@ namespace TondForoosh.Api.Data.Migrations
                     table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ShoppingCarts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SellerProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SellerProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SellerProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SellerProducts_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -188,6 +214,16 @@ namespace TondForoosh.Api.Data.Migrations
                 column: "ProductCategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SellerProducts_ProductId",
+                table: "SellerProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellerProducts_UserId",
+                table: "SellerProducts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCarts_UserId",
                 table: "ShoppingCarts",
                 column: "UserId",
@@ -202,6 +238,9 @@ namespace TondForoosh.Api.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "SellerProducts");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCarts");

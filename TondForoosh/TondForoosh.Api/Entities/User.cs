@@ -18,7 +18,7 @@
         public ShoppingCart? ShoppingCart { get; set; }
         public List<Order> Orders { get; set; } = new List<Order>();
 
-        // Navigation property for Products sold by the user
-        public List<Product>? Products { get; set; } = new List<Product>();
+        // Navigation property for SellerProduct
+        public List<SellerProduct> SellerProducts { get; set; } = new List<SellerProduct>();
     }
 }

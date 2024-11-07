@@ -17,6 +17,7 @@ namespace TondForoosh.Api.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<SellerProduct> SellerProducts { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,7 +26,7 @@ namespace TondForoosh.Api.Data
             // Specify decimal precision and scale to avoid truncation warnings
             modelBuilder.Entity<Order>()
                 .Property(o => o.TotalPrice)
-                .HasColumnType("decimal(18, 2)");  // Example: 18 digits with 2 after decimal point
+                .HasColumnType("decimal(18, 2)");
 
             modelBuilder.Entity<OrderItem>()
                 .Property(oi => oi.TotalPrice)
@@ -77,11 +78,23 @@ namespace TondForoosh.Api.Data
                 .WithOne(oi => oi.Product)
                 .HasForeignKey(oi => oi.ProductId);
 
-            // User to Products: One-to-Many
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Products)
-                .WithOne(p => p.Seller)
-                .HasForeignKey(p => p.UserId);
+            // Defining relationships for SellerProduct
+            modelBuilder.Entity<SellerProduct>()
+                .HasKey(sp => sp.Id);
+
+            // SellerProduct to User (Seller): Many-to-One
+            modelBuilder.Entity<SellerProduct>()
+                .HasOne(sp => sp.Seller)
+                .WithMany(u => u.SellerProducts)
+                .HasForeignKey(sp => sp.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // Adjust DeleteBehavior as needed
+
+            // SellerProduct to Product: Many-to-One
+            modelBuilder.Entity<SellerProduct>()
+                .HasOne(sp => sp.Product)
+                .WithMany(p => p.SellerProducts)
+                .HasForeignKey(sp => sp.ProductId)
+                .OnDelete(DeleteBehavior.Cascade); // Adjust DeleteBehavior as needed
         }
     }
 }
