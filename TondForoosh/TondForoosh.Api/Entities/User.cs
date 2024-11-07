@@ -19,6 +19,6 @@
         public List<Order> Orders { get; set; } = new List<Order>();
 
         // Navigation property for Products sold by the user
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<Product>? Products { get; set; } = new List<Product>();
     }
 }

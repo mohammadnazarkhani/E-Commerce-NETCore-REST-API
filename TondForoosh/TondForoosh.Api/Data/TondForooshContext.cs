@@ -80,7 +80,7 @@ namespace TondForoosh.Api.Data
             // User to Products: One-to-Many
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Products)
-                .WithOne(p => p.User)
+                .WithOne(p => p.Seller)
                 .HasForeignKey(p => p.UserId);
         }
     }

@@ -10,9 +10,9 @@
         public int ProductCategoryId { get; set; }
         public ProductCategory ProductCategory { get; set; }
 
-        // Foreign key for User (Seller)
-        public int UserId { get; set; } 
-        public User User { get; set; }
+        // Foreign Key for Seller (User)
+        public int UserId { get; set; }  // Each Product belongs to a Seller
+        public User Seller { get; set; }  // Navigation property for Seller
 
         // Navigation properties    
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
