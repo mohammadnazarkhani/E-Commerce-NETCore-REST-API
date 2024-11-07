@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using TondForoosh.Api.Entities;
+﻿using TondForoosh.Api.Entities;
 using TondForoosh.Api.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using TondForoosh.Api.Data;
 
 namespace TondForoosh.Api.Services
@@ -16,24 +14,26 @@ namespace TondForoosh.Api.Services
     {
         private readonly TokenGenerator _tokenGenerator;
         private readonly IConfiguration _configuration;
-        private readonly TondForooshContext _context; // Inject DbContext for accessing Users table
+        private readonly TondForooshContext _context;
+        private readonly IPasswordHasherService _passwordHasher;
 
         // Constructor to inject dependencies
-        public AuthService(TokenGenerator tokenGenerator, IConfiguration configuration, TondForooshContext context)
+        public AuthService(TokenGenerator tokenGenerator, IConfiguration configuration, TondForooshContext context, IPasswordHasherService passwordHasher)
         {
             _tokenGenerator = tokenGenerator;
             _configuration = configuration;
-            _context = context; // Assign the DbContext
+            _context = context;
+            _passwordHasher = passwordHasher;  // Inject password hasher service
         }
 
         // Authenticate the user and return a JWT token
-        public string Authenticate(string username, string password)
+        public string Authenticate(User usr)
         {
             // Find user from the database
-            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            var user = _context.Users.FirstOrDefault(u => u.Username == usr.Username);
 
             // If user not found or password is incorrect, return null
-            if (user == null || user.Password != password)
+            if (user == null || !_passwordHasher.VerifyPassword(user.Password, usr.Password)) // Use VerifyPassword for checking hashed password
             {
                 return null; // Invalid username or password
             }

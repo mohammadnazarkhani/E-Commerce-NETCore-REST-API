@@ -13,9 +13,10 @@ builder.Services.AddDbContext<TondForooshContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TondForooshConnection"))
 );
 
+builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+
 // Register AuthService in Dependency Injection container
 builder.Services.AddScoped<IAuthService, AuthService>();
-
 
 var app = builder.Build();
 
