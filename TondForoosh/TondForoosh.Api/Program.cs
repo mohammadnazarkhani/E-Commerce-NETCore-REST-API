@@ -60,6 +60,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole(UserRole.Admin.ToString(), UserRole.Seller.ToString()));
 });
 
+builder.Services.AddHttpContextAccessor();
+
 // Add required services for Password Hashing, Auth, Token Generator, etc.
 builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -89,6 +91,8 @@ app.UseAuthorization();
 app.MapAuthenticationEndpoints();
 // Map Category Endpoints
 app.MapCategoryEndpoints();
+// Map Product Endpoints
+app.MapProductEndpoints();
 
 
 app.Run();

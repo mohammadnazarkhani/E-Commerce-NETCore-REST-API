@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using TondForoosh.Api.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace TondForoosh.Api.Services
 {
@@ -16,14 +18,17 @@ namespace TondForoosh.Api.Services
         private readonly IConfiguration _configuration;
         private readonly TondForooshContext _context;
         private readonly IPasswordHasherService _passwordHasher;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         // Constructor to inject dependencies
-        public AuthService(TokenGenerator tokenGenerator, IConfiguration configuration, TondForooshContext context, IPasswordHasherService passwordHasher)
+        public AuthService(TokenGenerator tokenGenerator, IConfiguration configuration, TondForooshContext context,
+                           IPasswordHasherService passwordHasher, IHttpContextAccessor httpContextAccessor)
         {
             _tokenGenerator = tokenGenerator;
             _configuration = configuration;
             _context = context;
-            _passwordHasher = passwordHasher;  // Inject password hasher service
+            _passwordHasher = passwordHasher;
+            _httpContextAccessor = httpContextAccessor; // Inject IHttpContextAccessor
         }
 
         // Authenticate the user and return a JWT token
@@ -74,6 +79,21 @@ namespace TondForoosh.Api.Services
             {
                 return false; // Token is invalid
             }
+        }
+
+        // Get the current user from the HTTP request based on the JWT token
+        public User GetCurrentUser()
+        {
+            // Get the User ID from the JWT token claims
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // If user ID is found, retrieve the user from the database
+            if (userId != null)
+            {
+                return _context.Users.FirstOrDefault(u => u.Id == int.Parse(userId));
+            }
+
+            return null; // Return null if user ID is not found in the token
         }
     }
 }

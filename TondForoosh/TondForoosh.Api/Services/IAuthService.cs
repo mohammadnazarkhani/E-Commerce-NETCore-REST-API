@@ -7,5 +7,6 @@ namespace TondForoosh.Api.Services
         string Authenticate(string username, string password);
         string GenerateTokenForNewUser(User usr);
         bool ValidateToken(string token);
+        User GetCurrentUser(); 
     }
 }
