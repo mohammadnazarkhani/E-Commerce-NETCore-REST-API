@@ -4,17 +4,21 @@ using TondForoosh.Api.Mapping;
 using TondForoosh.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace TondForoosh.Api.Endpoints
 {
     public static class CategoryEndpoints
     {
+        const string GetCategoriesEndpointName = "GetCategories";
+        const string GetCategoryEndpointName = "GetCategory";
+        const string CreateCategoryEndpointName = "CreateCategory";
+        const string UpdateCategoryEndpointName = "UpdateCategory";
+        const string DeleteCategoryEndpointName = "DeleteCategory";
+
         public static RouteGroupBuilder MapCategoryEndpoints(this WebApplication app)
         {
             var group = app.MapGroup("/categories")
-                .WithParameterValidation();
+                .WithParameterValidation(); // This is for DTO validation if required.
 
             // GET /categories (For everyone)
             group.MapGet("/", async (TondForooshContext dbContext) =>
@@ -25,7 +29,7 @@ namespace TondForoosh.Api.Endpoints
 
                 return Results.Ok(categories);
             })
-            .WithName("GetCategories");
+            .WithName(GetCategoriesEndpointName); // Name for this endpoint
 
             // GET /categories/{id} (For everyone)
             group.MapGet("/{id}", async (int id, TondForooshContext dbContext) =>
@@ -40,7 +44,7 @@ namespace TondForoosh.Api.Endpoints
 
                 return Results.Ok(category);
             })
-            .WithName("GetCategory");
+            .WithName(GetCategoryEndpointName); // Name for this endpoint
 
             // POST /categories (Only Admin)
             group.MapPost("/", [Authorize(Policy = "AdminOnly")] async (CreateCategoryDto createCategoryDto, TondForooshContext dbContext) =>
@@ -50,9 +54,9 @@ namespace TondForoosh.Api.Endpoints
                 dbContext.ProductCategories.Add(category);
                 await dbContext.SaveChangesAsync();
 
-                return Results.CreatedAtRoute("GetCategory", new { id = category.Id }, category.ToDto());
+                return Results.CreatedAtRoute(GetCategoryEndpointName, new { id = category.Id }, category.ToDto());
             })
-            .WithName("CreateCategory");
+            .WithName(CreateCategoryEndpointName); // Name for this endpoint
 
             // PUT /categories/{id} (Only Admin)
             group.MapPut("/{id}", [Authorize(Policy = "AdminOnly")] async (int id, CreateCategoryDto createCategoryDto, TondForooshContext dbContext) =>
@@ -67,7 +71,7 @@ namespace TondForoosh.Api.Endpoints
 
                 return Results.Ok(category.ToDto());
             })
-            .WithName("UpdateCategory");
+            .WithName(UpdateCategoryEndpointName); // Name for this endpoint
 
             // DELETE /categories/{id} (Only Admin)
             group.MapDelete("/{id}", [Authorize(Policy = "AdminOnly")] async (int id, TondForooshContext dbContext) =>
@@ -81,7 +85,7 @@ namespace TondForoosh.Api.Endpoints
 
                 return Results.NoContent();
             })
-            .WithName("DeleteCategory");
+            .WithName(DeleteCategoryEndpointName); // Name for this endpoint
 
             return group;
         }

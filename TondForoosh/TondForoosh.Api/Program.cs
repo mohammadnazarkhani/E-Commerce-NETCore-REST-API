@@ -6,12 +6,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TondForoosh.Api.Entities;
+using TondForoosh.Api.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(TondForooshMappingProfile));
 
 // Add DbContext and Connection String
 builder.Services.AddDbContext<TondForooshContext>(options =>
