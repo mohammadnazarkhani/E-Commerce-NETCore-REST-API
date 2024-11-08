@@ -22,6 +22,8 @@ builder.Services.AddDbContext<TondForooshContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TondForooshConnection"))
 );
 
+// Register UnitOfWork as a Scoped service
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
