@@ -1,0 +1,26 @@
+name: Greetings
+
+on:
+  pull_request_target:
+    types: [opened]
+  issues:
+    types: [opened]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Send greeting message on first interaction
+        uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            🎉 سلام! خوش آمدید به پروژه "تند فروش"!
+            از اینکه به این پروژه پیوستید خوشحالیم! اگر سوالی دارید یا به کمک نیاز دارید، خوشحال می‌شویم که کمک کنیم.
+            لطفاً برای شروع با [دستورات README](./README.md) آشنا شوید.
+          pr-message: |
+            🎉 سلام! خوش آمدید به پروژه "تند فروش"!
+            از ارسال اولین درخواست pull خود بسیار خوشحالیم. لطفاً هر سوال یا مشکلی داشتید، با ما تماس بگیرید!
