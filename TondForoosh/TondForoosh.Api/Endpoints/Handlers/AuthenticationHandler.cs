@@ -1,9 +1,9 @@
 ﻿using TondForoosh.Api.Entities;
-using TondForoosh.Api.Dtos;
 using TondForoosh.Api.Services;
 using TondForoosh.Api.Data;
 using System.Threading.Tasks;
 using TondForoosh.Api.Mapping;
+using TondForoosh.Api.Dtos.User;
 
 namespace TondForoosh.Api.Endpoints.Handlers
 {

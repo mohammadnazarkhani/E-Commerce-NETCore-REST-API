@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using TondForoosh.Api.Dtos;
+using TondForoosh.Api.Dtos.User;
 using TondForoosh.Api.Entities;
 
 namespace TondForoosh.Api.Mapping
 {
-    // Create a mapping profile for AutoMapper
     public class TondForooshMappingProfile : Profile
     {
         public TondForooshMappingProfile()
@@ -21,9 +21,10 @@ namespace TondForoosh.Api.Mapping
             CreateMap<Product, ProductDetailDto>();          // Product -> ProductDetailDto
 
             // User Mappings
-            CreateMap<RegisterUserDto, User>();              // RegisterUserDto -> User
-
-            // You can add more mappings for other entities as needed
+            CreateMap<CreateUserDto, User>();                // CreateUserDto -> User
+            CreateMap<UpdateUserDto, User>();                // UpdateUserDto -> User
+            CreateMap<User, UserDto>();                      // User -> UserDto
+            CreateMap<User, AuthenticateUserDto>();         // User -> AuthenticateUserDto
         }
     }
 }

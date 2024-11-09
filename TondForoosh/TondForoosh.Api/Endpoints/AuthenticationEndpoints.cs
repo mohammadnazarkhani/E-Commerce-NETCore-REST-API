@@ -1,4 +1,4 @@
-﻿using TondForoosh.Api.Dtos;
+﻿using TondForoosh.Api.Dtos.User;
 using TondForoosh.Api.Endpoints.Handlers;
 
 namespace TondForoosh.Api.Endpoints
