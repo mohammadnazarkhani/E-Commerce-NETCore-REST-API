@@ -1,51 +1,38 @@
-﻿using TondForoosh.Api.Endpoints.Handlers;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using TondForoosh.Api.Data;
-using TondForoosh.Api.Dtos;
+﻿using TondForoosh.Api.Dtos;
+using TondForoosh.Api.Endpoints.Handlers;
 using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 
 namespace TondForoosh.Api.Endpoints
 {
     public static class CategoryEndpoints
     {
-        const string GetCategoriesEndpointName = "GetCategories";
-        const string GetCategoryEndpointName = "GetCategory";
-        const string CreateCategoryEndpointName = "CreateCategory";
-        const string UpdateCategoryEndpointName = "UpdateCategory";
-        const string DeleteCategoryEndpointName = "DeleteCategory";
+        const string CategoryEndpointGroupName = "Categories";
 
-        public static void MapCategoryEndpoints(this IEndpointRouteBuilder endpoints)
+        public static RouteGroupBuilder MapCategoryEndpoints(this WebApplication app)
         {
-            var group = endpoints.MapGroup("/categories")
-                .WithParameterValidation(); // This is for DTO validation if required.
+            var group = app.MapGroup("/categories")
+                .WithParameterValidation()
+                .WithTags(CategoryEndpointGroupName);
 
-            // GET /categories (For everyone)
+            // GET all categories (no authorization required)
             group.MapGet("/", async (CategoryEndpointHandler handler) =>
-                await handler.GetAllCategoriesAsync())
-                .WithName(GetCategoriesEndpointName);
+                await handler.GetAllCategoriesAsync());
 
-            // GET /categories/{id} (For everyone)
-            group.MapGet("/{id:int}", async (int id, CategoryEndpointHandler handler) =>
-                await handler.GetCategoryByIdAsync(id))
-                .WithName(GetCategoryEndpointName);
-
-            // POST /categories (Only Admin)
+            // POST a new category (Admin only)
             group.MapPost("/", [Authorize(Policy = "AdminOnly")] async (CreateCategoryDto dto, CategoryEndpointHandler handler) =>
-                await handler.CreateCategoryAsync(dto))
-                .WithName(CreateCategoryEndpointName);
+                await handler.CreateCategoryAsync(dto));
 
-            // PUT /categories/{id} (Only Admin)
-            group.MapPut("/{id:int}", [Authorize(Policy = "AdminOnly")] async (int id, CreateCategoryDto dto, CategoryEndpointHandler handler) =>
-                await handler.UpdateCategoryAsync(id, dto))
-                .WithName(UpdateCategoryEndpointName);
+            // PUT an existing category (Admin only)
+            group.MapPut("/{id:int}", [Authorize(Policy = "AdminOnly")] async (int id, UpdateCategoryDto dto, CategoryEndpointHandler handler) =>
+                await handler.UpdateCategoryAsync(id, dto));
 
-            // DELETE /categories/{id} (Only Admin)
+            // DELETE an existing category (Admin only)
             group.MapDelete("/{id:int}", [Authorize(Policy = "AdminOnly")] async (int id, CategoryEndpointHandler handler) =>
-                await handler.DeleteCategoryAsync(id))
-                .WithName(DeleteCategoryEndpointName);
+                await handler.DeleteCategoryAsync(id));
+
+            return group;
         }
     }
 }

@@ -1,18 +1,20 @@
-﻿using TondForoosh.Api.Endpoints.Handlers;
+﻿using TondForoosh.Api.Dtos;
+using TondForoosh.Api.Endpoints.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using TondForoosh.Api.Data;
-using TondForoosh.Api.Dtos;
-using System.Threading.Tasks;
 
 namespace TondForoosh.Api.Endpoints
 {
     public static class ProductEndpoints
     {
-        public static void MapProductEndpoints(this IEndpointRouteBuilder endpoints)
+        const string ProductEndpointGroupName = "Products";
+
+        public static RouteGroupBuilder MapProductEndpoints(this WebApplication app)
         {
-            var group = endpoints.MapGroup("/products");
+            var group = app.MapGroup("/products")
+                .WithParameterValidation()
+                .WithTags(ProductEndpointGroupName);
 
             group.MapGet("/", async (ProductEndpointHandler handler) =>
                 await handler.GetAllProductsAsync());
@@ -20,23 +22,16 @@ namespace TondForoosh.Api.Endpoints
             group.MapGet("/{id:int}", async (int id, ProductEndpointHandler handler) =>
                 await handler.GetProductByIdAsync(id));
 
-            group.MapPost("/", async (CreateProductDto dto, ProductEndpointHandler handler, IHttpContextAccessor context) =>
-            {
-                var sellerId = int.Parse(context.HttpContext.User.Identity.Name); // Get seller ID from context
-                return await handler.CreateProductAsync(dto, sellerId);
-            }).RequireAuthorization();
+            group.MapPost("/", [Authorize(Policy = "SellerOnly")] async (CreateProductDto dto, ProductEndpointHandler handler) =>
+                await handler.CreateProductAsync(dto));
 
-            group.MapPut("/{id:int}", async (int id, UpdateProductDto dto, ProductEndpointHandler handler, IHttpContextAccessor context) =>
-            {
-                var sellerId = int.Parse(context.HttpContext.User.Identity.Name); // Get seller ID from context
-                return await handler.UpdateProductAsync(id, dto, sellerId);
-            }).RequireAuthorization();
+            group.MapPut("/{id:int}", [Authorize(Policy = "SellerOnly")] async (int id, UpdateProductDto dto, ProductEndpointHandler handler) =>
+                await handler.UpdateProductAsync(id, dto));
 
-            group.MapDelete("/{id:int}", async (int id, ProductEndpointHandler handler, IHttpContextAccessor context) =>
-            {
-                var sellerId = int.Parse(context.HttpContext.User.Identity.Name); // Get seller ID from context
-                return await handler.DeleteProductAsync(id, sellerId);
-            }).RequireAuthorization();
+            group.MapDelete("/{id:int}", [Authorize(Policy = "SellerOnly")] async (int id, ProductEndpointHandler handler) =>
+                await handler.DeleteProductAsync(id));
+
+            return group;
         }
     }
 }

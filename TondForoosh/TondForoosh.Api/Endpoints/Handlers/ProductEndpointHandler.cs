@@ -4,16 +4,19 @@ using TondForoosh.Api.Entities;
 using TondForoosh.Api.Mapping;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using TondForoosh.Api.Services;
 
 namespace TondForoosh.Api.Endpoints.Handlers
 {
     public class ProductEndpointHandler
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuthService _authService;
 
-        public ProductEndpointHandler(IUnitOfWork unitOfWork)
+        public ProductEndpointHandler(IUnitOfWork unitOfWork, IAuthService authService)
         {
             _unitOfWork = unitOfWork;
+            _authService = authService;
         }
 
         // Get all products
@@ -34,13 +37,16 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Create a new product
-        public async Task<IActionResult> CreateProductAsync(CreateProductDto createProductDto, int sellerId)
+        public async Task<IActionResult> CreateProductAsync(CreateProductDto createProductDto)
         {
+            var currentUser = _authService.GetCurrentUser();
+            if (currentUser == null) return new UnauthorizedResult();
+
             var product = createProductDto.ToEntity();
 
             product.SellerProducts.Add(new SellerProduct
             {
-                UserId = sellerId,
+                UserId = currentUser.Id,
                 Product = product
             });
 
@@ -51,13 +57,16 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Update an existing product
-        public async Task<IActionResult> UpdateProductAsync(int id, UpdateProductDto updateProductDto, int sellerId)
+        public async Task<IActionResult> UpdateProductAsync(int id, UpdateProductDto updateProductDto)
         {
+            var currentUser = _authService.GetCurrentUser();
+            if (currentUser == null) return new UnauthorizedResult();
+
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
                 return new NotFoundResult();
 
-            var isSeller = await _unitOfWork.SellerProductRepository.IsProductAssociatedWithSellerAsync(sellerId, id);
+            var isSeller = await _unitOfWork.SellerProductRepository.IsProductAssociatedWithSellerAsync(currentUser.Id, id);
             if (!isSeller)
                 return new StatusCodeResult(403); // Forbidden
 
@@ -69,13 +78,16 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Delete an existing product
-        public async Task<IActionResult> DeleteProductAsync(int id, int sellerId)
+        public async Task<IActionResult> DeleteProductAsync(int id)
         {
+            var currentUser = _authService.GetCurrentUser();
+            if (currentUser == null) return new UnauthorizedResult();
+
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
                 return new NotFoundResult();
 
-            var isSeller = await _unitOfWork.SellerProductRepository.IsProductAssociatedWithSellerAsync(sellerId, id);
+            var isSeller = await _unitOfWork.SellerProductRepository.IsProductAssociatedWithSellerAsync(currentUser.Id, id);
             if (!isSeller)
                 return new StatusCodeResult(403); // Forbidden
 
