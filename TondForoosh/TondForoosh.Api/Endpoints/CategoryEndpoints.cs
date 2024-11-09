@@ -1,9 +1,11 @@
-﻿using TondForoosh.Api.Dtos;
-using TondForoosh.Api.Entities;
-using TondForoosh.Api.Mapping;
+﻿using TondForoosh.Api.Endpoints.Handlers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using TondForoosh.Api.Data;
-using Microsoft.EntityFrameworkCore;
+using TondForoosh.Api.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace TondForoosh.Api.Endpoints
 {
@@ -15,79 +17,35 @@ namespace TondForoosh.Api.Endpoints
         const string UpdateCategoryEndpointName = "UpdateCategory";
         const string DeleteCategoryEndpointName = "DeleteCategory";
 
-        public static RouteGroupBuilder MapCategoryEndpoints(this WebApplication app)
+        public static void MapCategoryEndpoints(this IEndpointRouteBuilder endpoints)
         {
-            var group = app.MapGroup("/categories")
+            var group = endpoints.MapGroup("/categories")
                 .WithParameterValidation(); // This is for DTO validation if required.
 
             // GET /categories (For everyone)
-            group.MapGet("/", async (TondForooshContext dbContext) =>
-            {
-                var categories = await dbContext.ProductCategories
-                    .Select(c => c.ToDto()) // Convert to Dto
-                    .ToListAsync();
-
-                return Results.Ok(categories);
-            })
-            .WithName(GetCategoriesEndpointName); // Name for this endpoint
+            group.MapGet("/", async (CategoryEndpointHandler handler) =>
+                await handler.GetAllCategoriesAsync())
+                .WithName(GetCategoriesEndpointName);
 
             // GET /categories/{id} (For everyone)
-            group.MapGet("/{id}", async (int id, TondForooshContext dbContext) =>
-            {
-                var category = await dbContext.ProductCategories
-                    .Where(c => c.Id == id)
-                    .Select(c => c.ToDto()) // Convert to Dto
-                    .FirstOrDefaultAsync();
-
-                if (category == null)
-                    return Results.NotFound();
-
-                return Results.Ok(category);
-            })
-            .WithName(GetCategoryEndpointName); // Name for this endpoint
+            group.MapGet("/{id:int}", async (int id, CategoryEndpointHandler handler) =>
+                await handler.GetCategoryByIdAsync(id))
+                .WithName(GetCategoryEndpointName);
 
             // POST /categories (Only Admin)
-            group.MapPost("/", [Authorize(Policy = "AdminOnly")] async (CreateCategoryDto createCategoryDto, TondForooshContext dbContext) =>
-            {
-                var category = createCategoryDto.ToEntity();
-
-                dbContext.ProductCategories.Add(category);
-                await dbContext.SaveChangesAsync();
-
-                return Results.CreatedAtRoute(GetCategoryEndpointName, new { id = category.Id }, category.ToDto());
-            })
-            .WithName(CreateCategoryEndpointName); // Name for this endpoint
+            group.MapPost("/", [Authorize(Policy = "AdminOnly")] async (CreateCategoryDto dto, CategoryEndpointHandler handler) =>
+                await handler.CreateCategoryAsync(dto))
+                .WithName(CreateCategoryEndpointName);
 
             // PUT /categories/{id} (Only Admin)
-            group.MapPut("/{id}", [Authorize(Policy = "AdminOnly")] async (int id, CreateCategoryDto createCategoryDto, TondForooshContext dbContext) =>
-            {
-                var category = await dbContext.ProductCategories.FindAsync(id);
-                if (category == null)
-                    return Results.NotFound();
-
-                category.Title = createCategoryDto.Title; // Assuming the name is being updated
-                dbContext.ProductCategories.Update(category);
-                await dbContext.SaveChangesAsync();
-
-                return Results.Ok(category.ToDto());
-            })
-            .WithName(UpdateCategoryEndpointName); // Name for this endpoint
+            group.MapPut("/{id:int}", [Authorize(Policy = "AdminOnly")] async (int id, CreateCategoryDto dto, CategoryEndpointHandler handler) =>
+                await handler.UpdateCategoryAsync(id, dto))
+                .WithName(UpdateCategoryEndpointName);
 
             // DELETE /categories/{id} (Only Admin)
-            group.MapDelete("/{id}", [Authorize(Policy = "AdminOnly")] async (int id, TondForooshContext dbContext) =>
-            {
-                var category = await dbContext.ProductCategories.FindAsync(id);
-                if (category == null)
-                    return Results.NotFound();
-
-                dbContext.ProductCategories.Remove(category);
-                await dbContext.SaveChangesAsync();
-
-                return Results.NoContent();
-            })
-            .WithName(DeleteCategoryEndpointName); // Name for this endpoint
-
-            return group;
+            group.MapDelete("/{id:int}", [Authorize(Policy = "AdminOnly")] async (int id, CategoryEndpointHandler handler) =>
+                await handler.DeleteCategoryAsync(id))
+                .WithName(DeleteCategoryEndpointName);
         }
     }
 }
