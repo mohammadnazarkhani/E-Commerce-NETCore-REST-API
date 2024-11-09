@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using TondForoosh.Api.Entities;
 using TondForoosh.Api.Mapping;
+using TondForoosh.Api.Endpoints.Handlers;
 
 namespace TondForoosh.Api.Extensions
 {
@@ -15,6 +16,11 @@ namespace TondForoosh.Api.Extensions
         // Register services required for the application
         public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // Add services to the container.
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
             // Add DbContext
             services.AddDbContext<TondForooshContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("TondForooshConnection"))
@@ -54,10 +60,17 @@ namespace TondForoosh.Api.Extensions
                 options.AddPolicy("AdminOrSeller", policy => policy.RequireRole(UserRole.Admin.ToString(), UserRole.Seller.ToString()));
             });
 
+            // Register IHttpContextAccessor
+            services.AddHttpContextAccessor();
+
             // Register password hashing and authentication services
             services.AddScoped<IPasswordHasherService, PasswordHasherService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<TokenGenerator>();  // Add TokenGenerator to DI container
+
+            // Register AuthenticationHandler to the DI container
+            // This allows AuthenticationHandler to be injected wherever it is needed in the application
+            services.AddScoped<AuthenticationHandler>();
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using TondForoosh.Api.Dtos;
-using TondForoosh.Api.Services;
-using TondForoosh.Api.Data;
-using Microsoft.EntityFrameworkCore;
-using TondForoosh.Api.Entities;
-using TondForoosh.Api.Mapping;
+using TondForoosh.Api.Endpoints.Handlers;
 
 namespace TondForoosh.Api.Endpoints
 {
@@ -19,48 +15,23 @@ namespace TondForoosh.Api.Endpoints
                 .WithParameterValidation();
 
             // POST /auth/register (for user registration)
-            group.MapPost("/register", async (RegisterUserDto registerUserDto, TondForooshContext dbContext, IAuthService authService, IPasswordHasherService passwordHasher) =>
+            group.MapPost("/register", async (RegisterUserDto registerUserDto, AuthenticationHandler authHandler) =>
             {
-                // Check if username already exists
-                if (await dbContext.Users.AnyAsync(u => u.Username == registerUserDto.Username))
-                {
-                    return Results.BadRequest("Username is already taken.");
-                }
+                // Use the AuthenticationHandler to handle the registration logic
+                var result = await authHandler.HandleRegisterAsync(registerUserDto);
 
-                // Convert DTO to Entity and set default Role as "User"
-                User user = registerUserDto.ToEntity();
-
-                // Hash the password before saving to the database
-                user.Password = passwordHasher.HashPassword(registerUserDto.Password);
-
-                // Save the new user to the database
-                dbContext.Users.Add(user);
-                await dbContext.SaveChangesAsync();
-
-                // Generate JWT token for the newly registered user
-                var token = authService.GenerateTokenForNewUser(user);
-
-                // Return the response with user details and token
-                return Results.CreatedAtRoute(
-                    RegisterEndpointName,
-                    new { id = user.Id },
-                    new { user.Id, user.Username, Token = token }
-                );
+                // Return the result directly as it is already handled in the handler
+                return result;  // This could be CreatedAtRoute or BadRequest as per the result from HandleRegisterAsync
             }).WithName(RegisterEndpointName);
 
             // POST /auth/login (for user login)
-            group.MapPost("/login", async (LoginUserDto loginUserDto, IAuthService authService) =>
+            group.MapPost("/login", async (LoginUserDto loginUserDto, AuthenticationHandler authHandler) =>
             {
-                // Use the Authenticate method to verify the user and generate a token
-                var token = authService.Authenticate(loginUserDto.Username, loginUserDto.Password);
+                // Use the AuthenticationHandler to handle the login logic
+                var result = authHandler.HandleLogin(loginUserDto);
 
-                if (token == null)
-                {
-                    return Results.Unauthorized();
-                }
-
-                // Return the generated token in the response
-                return Results.Ok(new { Token = token });
+                // Return the result directly as it is already handled in the handler
+                return result;  // This could be Ok or Unauthorized as per the result from HandleLogin
             }).WithName(LoginEndpointName);
 
             return group;
