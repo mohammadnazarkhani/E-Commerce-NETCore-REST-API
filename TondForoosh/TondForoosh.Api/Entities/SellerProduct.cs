@@ -5,10 +5,10 @@ public class SellerProduct
     public int Id { get; set; }
 
     // Foreign key for User (Seller)
-    public int UserId { get; set; }
-    public User Seller { get; set; }
+    public required int UserId { get; set; }
+    public required User Seller { get; set; }
 
     // Foreign key for Product
-    public int ProductId { get; set; }
-    public Product Product { get; set; }
+    public required int ProductId { get; set; }
+    public required Product Product { get; set; }
 }

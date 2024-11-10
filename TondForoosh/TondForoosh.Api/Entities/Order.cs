@@ -9,8 +9,8 @@
         public required string OrderStatus { get; set; }
 
         // Foreign key for User
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public required int UserId { get; set; }
+        public required User User { get; set; }
 
         // Navigation property for OrderItems
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

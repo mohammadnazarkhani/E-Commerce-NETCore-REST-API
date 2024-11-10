@@ -9,8 +9,8 @@ namespace TondForoosh.Api.Entities
         public required decimal Price { get; set; }
 
         // Foreign key for Product Category
-        public int ProductCategoryId { get; set; }
-        public ProductCategory ProductCategory { get; set; }
+        public required int ProductCategoryId { get; set; }
+        public required ProductCategory ProductCategory { get; set; }
 
         // Navigation properties    
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
