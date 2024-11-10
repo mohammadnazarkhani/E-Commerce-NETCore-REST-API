@@ -16,11 +16,11 @@ namespace TondForoosh.Api.Entities
         public int Id { get; set; }
         public required string Username { get; set; }
         public required string Password { get; set; }
-        public required UserRole? Role { get; set; }
+        public UserRole? Role { get; set; }
 
         // Navigation properties
         public ShoppingCart? ShoppingCart { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
-        public List<SellerProduct> SellerProducts { get; set; } = new List<SellerProduct>();
+        public List<Order>? Orders { get; set; } = new List<Order>();
+        public List<SellerProduct>? SellerProducts { get; set; } = new List<SellerProduct>();
     }
 }

@@ -16,16 +16,20 @@ namespace TondForoosh.Api.Mapping
             CreateMap<ProductCategory, CategoryDto>();        // ProductCategory -> CategoryDto
 
             // Product Mappings
-            CreateMap<CreateProductDto, Product>();          // CreateProductDto -> Product
-            CreateMap<UpdateProductDto, Product>();          // UpdateProductDto -> Product
-            CreateMap<Product, ProductDto>();                // Product -> ProductDto
-            CreateMap<Product, ProductDetailDto>();          // Product -> ProductDetailDto
+            CreateMap<CreateProductDto, Product>();           // CreateProductDto -> Product
+            CreateMap<UpdateProductDto, Product>();           // UpdateProductDto -> Product
+            CreateMap<Product, ProductDto>();                 // Product -> ProductDto
+            CreateMap<Product, ProductDetailDto>();           // Product -> ProductDetailDto
 
             // User Mappings
-            CreateMap<CreateUserDto, User>();                // CreateUserDto -> User
-            CreateMap<UpdateUserDto, User>();                // UpdateUserDto -> User
-            CreateMap<User, UserDto>();                      // User -> UserDto
-            CreateMap<User, LoginUserDto>();         // User -> AuthenticateUserDto
+            CreateMap<CreateUserDto, User>();                 // CreateUserDto -> User
+            CreateMap<RegisterUserDto, User>()                // RegisterUserDto -> User
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => UserRole.User)); // Default role for registered users
+            CreateMap<UpdateUserDto, User>();                 // UpdateUserDto -> User
+            CreateMap<User, UserDto>();                       // User -> UserDto
+
+            // Login Mappings
+            CreateMap<LoginUserDto, User>();                  // LoginUserDto -> User
         }
     }
 }

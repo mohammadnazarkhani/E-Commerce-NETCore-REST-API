@@ -16,7 +16,18 @@ namespace TondForoosh.Api.Mapping
             };
         }
 
-        // Updates User entity with values from UpdateUserDto
+        // Maps RegisterUserDto to User entity
+        public static User ToEntity(this RegisterUserDto userDto)
+        {
+            return new User
+            {
+                Username = userDto.Username,
+                Password = userDto.Password,
+                Role = UserRole.User // Default role for new registrations
+            };
+        }
+
+        // Maps UpdateUserDto to existing User entity
         public static User UpdateEntity(this User user, UpdateUserDto userDto)
         {
             user.Username = userDto.Username;
@@ -27,21 +38,20 @@ namespace TondForoosh.Api.Mapping
         // Maps User entity to UserDto for returning user data
         public static UserDto ToDto(this User user)
         {
-            return new UserDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Role = user.Role
-            };
+            return new UserDto(
+                user.Id,
+                user.Username,
+                user.Role ?? UserRole.User
+            );
         }
 
-        // Maps User entity to AuthenticateUserDto for authentication
-        public static LoginUserDto ToAuthenticateDto(this User user)
+        // Maps LoginUserDto to User entity (Only username and password needed)
+        public static User ToEntity(this LoginUserDto userDto)
         {
-            return new AuthenticateUserDto
+            return new User
             {
-                Username = user.Username,
-                Password = user.Password
+                Username = userDto.Username,
+                Password = userDto.Password
             };
         }
     }
