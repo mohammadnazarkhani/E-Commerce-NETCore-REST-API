@@ -2,7 +2,7 @@
 
 namespace TondForoosh.Api.Dtos.User
 {
-    public record class AuthenticateUserDto(
+    public record class LoginUserDto(
 
         [Required]
         [StringLength(50, MinimumLength = 3)]

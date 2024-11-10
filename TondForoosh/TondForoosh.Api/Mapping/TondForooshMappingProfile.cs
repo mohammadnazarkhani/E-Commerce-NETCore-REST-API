@@ -25,7 +25,7 @@ namespace TondForoosh.Api.Mapping
             CreateMap<CreateUserDto, User>();                // CreateUserDto -> User
             CreateMap<UpdateUserDto, User>();                // UpdateUserDto -> User
             CreateMap<User, UserDto>();                      // User -> UserDto
-            CreateMap<User, AuthenticateUserDto>();         // User -> AuthenticateUserDto
+            CreateMap<User, LoginUserDto>();         // User -> AuthenticateUserDto
         }
     }
 }

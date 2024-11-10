@@ -22,7 +22,7 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Handler for user registration
-        public async Task<IResult> HandleRegisterAsync(AuthenticateUserDto authenticateUserDto)
+        public async Task<IResult> HandleRegisterAsync(LoginUserDto authenticateUserDto)
         {
             // Check if the username already exists using the UserRepository from UnitOfWork
             if (await _unitOfWork.UserRepository.UserExistsAsync(registerUserDto.Username))
@@ -52,7 +52,7 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Handler for user login
-        public IResult HandleLogin(AuthenticateUserDto authenticateUserDto)
+        public IResult HandleLogin(LoginUserDto authenticateUserDto)
         {
             // Use the Authenticate method to verify the user and generate a token
             var token = _authService.Authenticate(authenticateUserDto.Username, authenticateUserDto.Password);

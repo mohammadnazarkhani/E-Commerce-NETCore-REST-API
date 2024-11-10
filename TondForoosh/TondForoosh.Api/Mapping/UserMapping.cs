@@ -36,7 +36,7 @@ namespace TondForoosh.Api.Mapping
         }
 
         // Maps User entity to AuthenticateUserDto for authentication
-        public static AuthenticateUserDto ToAuthenticateDto(this User user)
+        public static LoginUserDto ToAuthenticateDto(this User user)
         {
             return new AuthenticateUserDto
             {
