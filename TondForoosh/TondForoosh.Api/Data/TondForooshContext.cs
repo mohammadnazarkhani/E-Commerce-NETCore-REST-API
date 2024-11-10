@@ -17,7 +17,7 @@ namespace TondForoosh.Api.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<SellerProduct> SellerProducts { get; set; } 
+        public DbSet<SellerProduct> SellerProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
