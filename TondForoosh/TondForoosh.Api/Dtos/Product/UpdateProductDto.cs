@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TondForoosh.Api.Dtos
+namespace TondForoosh.Api.Dtos.Product
 {
     // DTO for updating an existing product
     public record class UpdateProductDto(

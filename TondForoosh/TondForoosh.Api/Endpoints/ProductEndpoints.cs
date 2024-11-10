@@ -1,8 +1,8 @@
-﻿using TondForoosh.Api.Dtos;
-using TondForoosh.Api.Endpoints.Handlers;
+﻿using TondForoosh.Api.Endpoints.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using TondForoosh.Api.Dtos.Product;
 
 namespace TondForoosh.Api.Endpoints
 {

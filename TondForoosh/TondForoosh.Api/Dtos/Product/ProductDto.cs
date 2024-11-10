@@ -1,7 +1,7 @@
-﻿namespace TondForoosh.Api.Dtos
+﻿namespace TondForoosh.Api.Dtos.Product
 {
-    // DTO for detailed product info (including seller's info)
-    public record class ProductDetailDto(
+    // DTO for representing a product in lists (without detailed info)
+    public record class ProductDto(
         int Id,
 
         string Name,
@@ -11,6 +11,5 @@
         string CategoryTitle,  // Category title
 
         string SellerUsername  // Seller's username
-
     );
 }

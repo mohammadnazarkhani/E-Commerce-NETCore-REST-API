@@ -1,4 +1,4 @@
-﻿using TondForoosh.Api.Dtos;
+﻿using TondForoosh.Api.Dtos.Product;
 using TondForoosh.Api.Entities;
 
 namespace TondForoosh.Api.Mapping

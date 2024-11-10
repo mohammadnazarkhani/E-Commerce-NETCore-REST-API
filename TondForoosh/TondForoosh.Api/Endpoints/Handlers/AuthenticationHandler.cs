@@ -22,7 +22,7 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Handler for user registration
-        public async Task<IResult> HandleRegisterAsync(RegisterUserDto registerUserDto)
+        public async Task<IResult> HandleRegisterAsync(AuthenticateUserDto authenticateUserDto)
         {
             // Check if the username already exists using the UserRepository from UnitOfWork
             if (await _unitOfWork.UserRepository.UserExistsAsync(registerUserDto.Username))
@@ -31,10 +31,10 @@ namespace TondForoosh.Api.Endpoints.Handlers
             }
 
             // Convert DTO to Entity and set the default role as "User"
-            User user = registerUserDto.ToEntity();
+            User user = authenticateUserDto.ToEntity();
 
             // Hash the password before saving it to the database
-            user.Password = _passwordHasher.HashPassword(registerUserDto.Password);
+            user.Password = _passwordHasher.HashPassword(authenticateUserDto.Password);
 
             // Save the new user to the database using UnitOfWork
             await _unitOfWork.UserRepository.AddAsync(user);  // Use AddAsync to insert the user
@@ -52,10 +52,10 @@ namespace TondForoosh.Api.Endpoints.Handlers
         }
 
         // Handler for user login
-        public IResult HandleLogin(LoginUserDto loginUserDto)
+        public IResult HandleLogin(AuthenticateUserDto authenticateUserDto)
         {
             // Use the Authenticate method to verify the user and generate a token
-            var token = _authService.Authenticate(loginUserDto.Username, loginUserDto.Password);
+            var token = _authService.Authenticate(authenticateUserDto.Username, authenticateUserDto.Password);
 
             // If authentication fails, return Unauthorized
             if (token == null)

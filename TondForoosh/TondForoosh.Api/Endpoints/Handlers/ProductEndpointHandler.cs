@@ -1,10 +1,10 @@
 ﻿using TondForoosh.Api.Data;
-using TondForoosh.Api.Dtos;
 using TondForoosh.Api.Entities;
 using TondForoosh.Api.Mapping;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TondForoosh.Api.Services;
+using TondForoosh.Api.Dtos.Product;
 
 namespace TondForoosh.Api.Endpoints.Handlers
 {

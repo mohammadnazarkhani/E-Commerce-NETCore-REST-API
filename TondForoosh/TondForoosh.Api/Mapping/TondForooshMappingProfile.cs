@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using TondForoosh.Api.Dtos;
+using TondForoosh.Api.Dtos.Category;
+using TondForoosh.Api.Dtos.Product;
 using TondForoosh.Api.Dtos.User;
 using TondForoosh.Api.Entities;
 
