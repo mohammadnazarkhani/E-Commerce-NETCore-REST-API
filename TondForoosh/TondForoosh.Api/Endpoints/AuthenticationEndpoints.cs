@@ -17,21 +17,17 @@ namespace TondForoosh.Api.Endpoints
             // POST /auth/register (for user registration)
             group.MapPost("/register", async (RegisterUserDto registerUserDto, AuthenticationHandler authHandler) =>
             {
-                // Use the AuthenticationHandler to handle the registration logic
+                // Calls the registration handler and returns the result (created or bad request)
                 var result = await authHandler.HandleRegisterAsync(registerUserDto);
-
-                // Return the result directly as it is already handled in the handler
-                return result;  // This could be CreatedAtRoute or BadRequest as per the result from HandleRegisterAsync
+                return result;
             }).WithName(RegisterEndpointName);
 
             // POST /auth/login (for user login)
-            group.MapPost("/login", async (LoginUserDto loginUserDto, AuthenticationHandler authHandler) =>
+            group.MapPost("/login", (LoginUserDto loginUserDto, AuthenticationHandler authHandler) =>
             {
-                // Use the AuthenticationHandler to handle the login logic
+                // Calls the login handler and returns the result (ok or unauthorized)
                 var result = authHandler.HandleLogin(loginUserDto);
-
-                // Return the result directly as it is already handled in the handler
-                return result;  // This could be Ok or Unauthorized as per the result from HandleLogin
+                return result;
             }).WithName(LoginEndpointName);
 
             return group;

@@ -9,11 +9,11 @@ namespace TondForoosh.Api.Endpoints.Handlers
 {
     public class AuthenticationHandler
     {
-        private readonly IUnitOfWork _unitOfWork; // Injecting UnitOfWork to manage repositories and transactions
+        private readonly IUnitOfWork _unitOfWork; // Managing repository and transactions
         private readonly IAuthService _authService;
         private readonly IPasswordHasherService _passwordHasher;
 
-        // Constructor to inject dependencies
+        // Constructor for dependency injection
         public AuthenticationHandler(IUnitOfWork unitOfWork, IAuthService authService, IPasswordHasherService passwordHasher)
         {
             _unitOfWork = unitOfWork;
@@ -21,49 +21,47 @@ namespace TondForoosh.Api.Endpoints.Handlers
             _passwordHasher = passwordHasher;
         }
 
-        // Handler for user registration
-        public async Task<IResult> HandleRegisterAsync(LoginUserDto authenticateUserDto)
+        // Method for user registration
+        public async Task<IResult> HandleRegisterAsync(RegisterUserDto registerUserDto)
         {
-            // Check if the username already exists using the UserRepository from UnitOfWork
+            // Check if the username already exists
             if (await _unitOfWork.UserRepository.UserExistsAsync(registerUserDto.Username))
             {
                 return Results.BadRequest("Username is already taken.");
             }
 
-            // Convert DTO to Entity and set the default role as "User"
-            User user = authenticateUserDto.ToEntity();
+            // Convert DTO to Entity and set user role to "User"
+            User user = registerUserDto.ToEntity();
+            user.Password = _passwordHasher.HashPassword(registerUserDto.Password); // Hashing the password
 
-            // Hash the password before saving it to the database
-            user.Password = _passwordHasher.HashPassword(authenticateUserDto.Password);
+            // Save the new user to the database
+            await _unitOfWork.UserRepository.AddAsync(user);
+            await _unitOfWork.SaveChangesAsync();
 
-            // Save the new user to the database using UnitOfWork
-            await _unitOfWork.UserRepository.AddAsync(user);  // Use AddAsync to insert the user
-            await _unitOfWork.SaveChangesAsync(); // Ensure changes are saved
-
-            // Generate JWT token for the newly registered user
+            // Generate JWT token for the registered user
             var token = _authService.GenerateTokenForNewUser(user);
 
-            // Return the response with user details and token
+            // Return response with user details and token
             return Results.CreatedAtRoute(
-                "RegisterUser", // This is the route name
+                "RegisterUser",
                 new { id = user.Id },
                 new { user.Id, user.Username, Token = token }
             );
         }
 
-        // Handler for user login
-        public IResult HandleLogin(LoginUserDto authenticateUserDto)
+        // Method for user login
+        public IResult HandleLogin(LoginUserDto loginUserDto)
         {
-            // Use the Authenticate method to verify the user and generate a token
-            var token = _authService.Authenticate(authenticateUserDto.Username, authenticateUserDto.Password);
+            // Authenticate the user and generate a token
+            var token = _authService.Authenticate(loginUserDto.Username, loginUserDto.Password);
 
-            // If authentication fails, return Unauthorized
+            // If authentication fails
             if (token == null)
             {
                 return Results.Unauthorized();
             }
 
-            // Return the generated token in the response
+            // Return the token
             return Results.Ok(new { Token = token });
         }
     }
