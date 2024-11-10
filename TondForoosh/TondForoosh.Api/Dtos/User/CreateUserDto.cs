@@ -1,11 +1,19 @@
-﻿using TondForoosh.Api.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using TondForoosh.Api.Entities;
 
 namespace TondForoosh.Api.Dtos.User
 {
-    public class CreateUserDto
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public UserRole Role { get; set; }
-    }
+    public record class CreateUserDto(
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        string Username,
+
+        [Required]
+        [StringLength(100, MinimumLength = 6)] // Ensure password has minimum length
+        string Password,
+
+        [Required]
+        UserRole Role
+    );
 }

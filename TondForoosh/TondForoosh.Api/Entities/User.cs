@@ -1,5 +1,5 @@
-﻿using TondForoosh.Api.Dtos.User;
-using TondForoosh.Api.Common;
+﻿using System.Collections.Generic;
+using TondForoosh.Api.Dtos.User;
 
 namespace TondForoosh.Api.Entities
 {
@@ -11,7 +11,7 @@ namespace TondForoosh.Api.Entities
         User
     }
 
-    public class User : IUpdatable<UpdateUserDto>
+    public class User
     {
         public int Id { get; set; }
         public required string Username { get; set; }
@@ -22,12 +22,5 @@ namespace TondForoosh.Api.Entities
         public ShoppingCart? ShoppingCart { get; set; }
         public List<Order> Orders { get; set; } = new List<Order>();
         public List<SellerProduct> SellerProducts { get; set; } = new List<SellerProduct>();
-
-        // Implementation of UpdateEntity method from IUpdatable interface
-        public void UpdateEntity(UpdateUserDto userDto)
-        {
-            Username = userDto.Username;
-            Role = userDto.Role;
-        }
     }
 }

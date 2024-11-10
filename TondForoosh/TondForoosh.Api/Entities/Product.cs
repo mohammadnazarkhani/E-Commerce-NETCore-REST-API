@@ -1,9 +1,8 @@
-﻿using TondForoosh.Api.Common;
-using TondForoosh.Api.Dtos.Product;
+﻿using TondForoosh.Api.Dtos.Product;
 
 namespace TondForoosh.Api.Entities
 {
-    public class Product : IUpdatable<UpdateProductDto>
+    public class Product
     {
         public int Id { get; set; }
         public required string Name { get; set; }
@@ -17,13 +16,5 @@ namespace TondForoosh.Api.Entities
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public List<SellerProduct> SellerProducts { get; set; } = new List<SellerProduct>();
-
-        // Implementation of UpdateEntity method for Product
-        public void UpdateEntity(UpdateProductDto dto)
-        {
-            Name = dto.Name;
-            Price = dto.Price;
-            ProductCategoryId = dto.ProductCategoryId;
-        }
     }
 }

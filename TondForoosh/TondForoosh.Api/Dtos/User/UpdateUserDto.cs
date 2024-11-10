@@ -1,10 +1,15 @@
-﻿using TondForoosh.Api.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using TondForoosh.Api.Entities;
 
 namespace TondForoosh.Api.Dtos.User
 {
-    public class UpdateUserDto
-    {
-        public string Username { get; set; }
-        public UserRole Role { get; set; }
-    }
+    public record class UpdateUserDto(
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        string Username,
+
+        [Required]
+        UserRole Role
+    );
 }
