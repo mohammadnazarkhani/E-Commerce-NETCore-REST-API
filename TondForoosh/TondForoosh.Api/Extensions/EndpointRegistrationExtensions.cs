@@ -11,6 +11,7 @@ namespace TondForoosh.Api.Extensions
             app.MapAuthenticationEndpoints();
             app.MapCategoryEndpoints();
             app.MapProductEndpoints();
+            app.MapUserEndpoints();
         }
     }
 }
