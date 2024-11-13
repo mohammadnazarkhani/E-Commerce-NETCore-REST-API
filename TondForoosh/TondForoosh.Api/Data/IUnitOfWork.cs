@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TondForoosh.Api.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace TondForoosh.Api.Data
 {
-    // Unit of Work interface to handle multiple repositories in a single transaction.
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        ICategoryRepository CategoryRepository { get; }
-        IProductRepository ProductRepository { get; }
-        IOrderRepository OrderRepository { get; }
-        ICartItemRepository CartItemRepository { get; }
-        IUserRepository UserRepository { get; }
-        ISellerProductRepository SellerProductRepository { get; }
-        IShoppingCartRepository ShoppingCartRepository { get; }
-
-        // Commit all changes to the database.
-        Task<int> SaveChangesAsync();
+        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }
