@@ -24,7 +24,7 @@ public class SeedData
                 Name = "لپ‌تاپ",
                 Description = "لپ‌تاپ با عملکرد بالا برای کار و بازی.",
                 Price = 999.99m,
-                ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.senetic.es%2Fproduct%2FLGI-00042&psig=AOvVaw0BRRxtiai_54IbG8JId9Qw&ust=1741288319436000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMCWtuDS84sDFQAAAAAdAAAAABAE"
+                ImageUrl = "https://dkstatics-public.digikala.com/digikala-products/f9d556a68cc4a507cc80981935cf68ae2e3d7711_1690028248.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/format,webp/quality,q_90"
             },
             new Product
             {
