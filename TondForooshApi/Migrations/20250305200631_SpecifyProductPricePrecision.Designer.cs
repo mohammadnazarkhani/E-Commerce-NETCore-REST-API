@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TondForooshApi.Models;
 
@@ -10,9 +11,11 @@ using TondForooshApi.Models;
 namespace TondForooshApi.Migrations
 {
     [DbContext(typeof(TFDbContext))]
-    partial class TFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250305200631_SpecifyProductPricePrecision")]
+    partial class SpecifyProductPricePrecision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
