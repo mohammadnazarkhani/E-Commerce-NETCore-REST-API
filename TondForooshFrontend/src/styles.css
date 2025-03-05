@@ -1,0 +1,29 @@
+:root {
+    --bs-primary: #ff6f00; /* Orange color */
+    --bs-secondary: #ff8f00;
+    --bs-success: #ffca28;
+    --bs-danger: #f44336;
+    --bs-warning: #ff9800;
+    --bs-info: #00bcd4;
+    --bs-light: #f5f5f5;
+    --bs-dark: #212121;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+  }
+  
+  .navbar {
+    background-color: var(--bs-primary) !important;
+  }
+  
+  .btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-secondary);
+  }
+  
