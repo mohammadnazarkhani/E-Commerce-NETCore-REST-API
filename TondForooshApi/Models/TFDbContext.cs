@@ -9,4 +9,6 @@ public class TFDbContext : DbContext
     {
 
     }
+
+    public IQueryable<Product> Products { get; set; } = Enumerable.Empty<Product>().AsQueryable();
 }
