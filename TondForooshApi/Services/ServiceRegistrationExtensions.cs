@@ -31,7 +31,6 @@ public static class ServiceRegistrationExtensions
         {
             endpoints.MapControllers();
         });
-        app.UseHttpsRedirection();
     }
     #endregion
 
