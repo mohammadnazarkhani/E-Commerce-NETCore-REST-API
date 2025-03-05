@@ -11,7 +11,6 @@ public static class ServiceRegistrationExtensions
     #region API Services
     public static void RegisterApiServices(this IServiceCollection services)
     {
-        services.AddControllers();
         services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", builder =>
@@ -21,12 +20,13 @@ public static class ServiceRegistrationExtensions
                        .AllowAnyHeader();
             });
         });
+        services.AddControllers();
     }
 
     public static void RegisterApiMiddlewares(this IApplicationBuilder app)
     {
-        app.UseRouting();
         app.UseCors("AllowAll");
+        app.UseRouting();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
