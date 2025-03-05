@@ -25,12 +25,13 @@ public static class ServiceRegistrationExtensions
 
     public static void RegisterApiMiddlewares(this IApplicationBuilder app)
     {
-        app.UseHttpsRedirection();
+        app.UseRouting();
         app.UseCors("AllowAll");
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
+        app.UseHttpsRedirection();
     }
     #endregion
 
@@ -40,6 +41,24 @@ public static class ServiceRegistrationExtensions
         var connectionString = configuration.GetConnectionString("SqlServerConnection");
         services.AddDbContext<TFDbContext>(opts =>
             opts.UseSqlServer(connectionString));
+
+        // Register SeedData as a transient service
+        services.AddTransient<SeedData>();
+    }
+
+    public static void RegisterDataMiddlewares(this IApplicationBuilder app)
+    {
+        // Access IWebHostEnvironment using the ApplicationServices
+        var env = app.ApplicationServices.GetRequiredService<IWebHostEnvironment>();
+
+        if (env.IsDevelopment())
+        {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var seedData = scope.ServiceProvider.GetRequiredService<SeedData>();
+                seedData.Initialize();
+            }
+        }
     }
     #endregion
 
