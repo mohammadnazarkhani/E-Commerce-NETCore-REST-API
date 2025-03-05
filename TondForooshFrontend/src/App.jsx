@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Button, Navbar, Nav } from 'react-bootstrap';
+import './styles.css'; // if you are using custom CSS for orange theme
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    // Fetch products from your backend API (you can use a mock API or local server)
+    fetch('http://localhost:5000/api/home/products')
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {/* Navbar */}
+      <Navbar bg="primary" variant="dark">
+        <Container>
+          <Navbar.Brand href="#">TondForoosh</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#products">Products</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+
+      {/* Products Section */}
+      <Container className="mt-4">
+        <Row>
+          {products.map((product) => (
+            <Col key={product.id} md={4}>
+              <Card>
+                <Card.Img variant="top" src={product.imageUrl} />
+                <Card.Body>
+                  <Card.Title>{product.name}</Card.Title>
+                  <Card.Text>{product.description}</Card.Text>
+                  <Button variant="primary">${product.price}</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </div>
+  );
 }
 
-export default App
+export default App;
