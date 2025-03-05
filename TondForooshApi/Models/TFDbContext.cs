@@ -10,5 +10,14 @@ public class TFDbContext : DbContext
 
     }
 
-    public DbSet<Product> Products { get; set; } 
+    public DbSet<Product> Products { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Price)
+            .HasPrecision(18, 2);
+    }
 }
