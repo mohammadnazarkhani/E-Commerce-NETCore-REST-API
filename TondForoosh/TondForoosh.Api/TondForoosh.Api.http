@@ -1,6 +1,0 @@
-@TondForoosh.Api_HostAddress = http://localhost:5194
-
-GET {{TondForoosh.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
