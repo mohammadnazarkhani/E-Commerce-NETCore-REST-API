@@ -43,6 +43,9 @@ public static class ServiceRegistrationExtensions
 
         // Register SeedData as a transient service
         services.AddTransient<SeedData>();
+
+        // Add TondForoosh Repository to the DI
+        services.AddScoped<ITondForooshRepository, EFTFRepository>();
     }
 
     public static void RegisterDataMiddlewares(this IApplicationBuilder app)

@@ -10,17 +10,16 @@ namespace TondForooshApi.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly TFDbContext _context;
-
-        public HomeController(TFDbContext context)
+        private ITondForooshRepository repository;
+        public HomeController(ITondForooshRepository repo)
         {
-            _context = context;
+            repository = repo;
         }
 
         [HttpGet("products")]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            var products = _context.Products.ToList();
+            var products = repository.Products.ToList();
             return Ok(products);
         }
     }

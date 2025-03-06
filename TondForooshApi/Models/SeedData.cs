@@ -1,4 +1,5 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace TondForooshApi.Models;
 
@@ -16,6 +17,12 @@ public class SeedData
         if (context.Products.Any())
         {
             return;   // Data is already seeded
+        }
+
+        // Apply any pending migrations
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            context.Database.Migrate();
         }
 
         context.Products.AddRange(
