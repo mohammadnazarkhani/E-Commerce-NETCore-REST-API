@@ -1,6 +1,29 @@
+@keyframes shine {
+  0% {
+    border-bottom-color: rgb(144, 238, 144);
+  }
+  50% {
+    border-bottom-color: rgb(0, 206, 209);
+  }
+  100% {
+    border-bottom-color: rgb(144, 238, 144);
+  }
+}
+
 .navbar-custom-bg.navbar {
-  background: linear-gradient(to bottom, #c73e2f, #e06b3a) !important; /* Top to bottom gradient */
-  background: linear-gradient(to right, #c73e2f, #e06b3a, #c73e2f) !important; /* Left to right gradient */
+  background: linear-gradient(
+    to bottom,
+    #008080,
+    #20b2aa
+  ) !important; /* Top to bottom gradient */
+  background: linear-gradient(
+    to right,
+    #008080,
+    #20b2aa,
+    #008080
+  ) !important; /* Left to right gradient */
+  border-bottom: 2px solid rgb(144, 238, 144); /* Bottom border color */
+  animation: shine 5s infinite; /* Apply a more subtle shine animation */
 }
 
 .navbar-brand-custom {
@@ -12,5 +35,5 @@
 .nav-link-custom {
   font-size: 1rem;
   font-weight: normal;
-  color: #cccccc;
+  color: #e0ffff;
 }
