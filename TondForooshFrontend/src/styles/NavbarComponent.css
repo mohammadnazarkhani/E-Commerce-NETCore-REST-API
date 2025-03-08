@@ -23,9 +23,8 @@
     #008080
   ) !important; /* Left to right gradient */
   border-bottom: 2px solid; /* Gradient border */
-  border-image: linear-gradient(to right, #008080, #20b2aa) 1; /* Gradient border */
   animation: shine 5s infinite; /* Apply a more subtle shine animation */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to navbar */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow effect for more depth */
   position: sticky; /* Make navbar sticky */
   top: 0; /* Stick to the top */
   z-index: 1000; /* Ensure it stays above other content */
