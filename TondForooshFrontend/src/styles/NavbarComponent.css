@@ -1,5 +1,6 @@
 .navbar-custom-bg.navbar {
-  background-color: #FFA500 !important; /* Orangy tone */
+  background: linear-gradient(to bottom, #c73e2f, #e06b3a) !important; /* Top to bottom gradient */
+  background: linear-gradient(to right, #c73e2f, #e06b3a, #c73e2f) !important; /* Left to right gradient */
 }
 
 .navbar-brand-custom {
