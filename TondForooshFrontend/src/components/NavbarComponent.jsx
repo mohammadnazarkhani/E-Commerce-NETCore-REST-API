@@ -1,13 +1,24 @@
-import React from 'react'; 
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import React from "react";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import "../styles/NavbarComponent.css"; // Import the CSS file
 
 const NavbarComponent = () => (
-  <Navbar bg="dark" variant="dark" expand="lg" className="w-100">
+  <Navbar
+    dir="rtl"
+    bg="orange"
+    variant="dark"
+    sticky="top"
+    expand="lg"
+    className="w-100"
+  >
     <Container fluid>
-      <Navbar.Brand href="/">TondForoosh</Navbar.Brand>
-      <Nav className="me-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#products">Products</Nav.Link>
+      <Navbar.Brand href="/" className="navbar-brand-custom">
+        تند‌فروش
+      </Navbar.Brand>
+      <Nav className="ms-auto">
+        <Nav.Link href="/" className="nav-link-custom">
+          خانه
+        </Nav.Link>
       </Nav>
     </Container>
   </Navbar>
