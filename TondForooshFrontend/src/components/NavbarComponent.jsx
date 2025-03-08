@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import "../styles/NavbarComponent.css"; // Import the CSS file
+import Logo from "./Logo"; // Import the Logo component
 
 const NavbarComponent = () => {
   return (
@@ -12,8 +13,8 @@ const NavbarComponent = () => {
       className="w-100 navbar-custom-bg"
     >
       <Container fluid>
-        <Navbar.Brand href="/" className="navbar-brand-custom">
-          تند‌فروش
+        <Navbar.Brand href="/" className="navbar-logo">
+          <Logo /> 
         </Navbar.Brand>
         <Nav className="ms-auto">
           <Nav.Link href="/" className="nav-link-custom">

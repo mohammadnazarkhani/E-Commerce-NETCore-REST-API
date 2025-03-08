@@ -22,9 +22,13 @@
     #20b2aa,
     #008080
   ) !important; /* Left to right gradient */
-  border-bottom: 2px solid rgb(144, 238, 144); /* Bottom border color */
+  border-bottom: 2px solid; /* Gradient border */
+  border-image: linear-gradient(to right, #008080, #20b2aa) 1; /* Gradient border */
   animation: shine 5s infinite; /* Apply a more subtle shine animation */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to navbar */
+  position: sticky; /* Make navbar sticky */
+  top: 0; /* Stick to the top */
+  z-index: 1000; /* Ensure it stays above other content */
 }
 
 .navbar-brand-custom {
@@ -33,13 +37,27 @@
   color: #ffffff;
 }
 
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 0; /* Remove any margin on the right */
+  padding-right: 0; /* Remove padding to ensure the logo is closer to the right side */
+  justify-content: flex-start; /* Align items to the start */
+}
+
 .nav-link-custom {
   font-size: 1rem;
   font-weight: normal;
   color: #e0ffff;
-  transition: color 0.3s ease-in-out; /* Smooth transition for color */
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for color and background */
 }
 
 .nav-link-custom:hover {
   color: #ffffff; /* Change color on hover */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Add background color on hover */
 }
