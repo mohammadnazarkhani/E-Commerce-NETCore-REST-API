@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=IranSans&display=swap"); /* Import IranSans font */
+
 @keyframes shine {
   0% {
     border-bottom-color: rgb(144, 238, 144);
@@ -45,14 +47,15 @@
 }
 
 .nav-link-custom {
-  font-size: 1rem;
-  font-weight: normal;
-  color: #e0ffff;
+  font-size: 1.2rem !important; /* Increase font size */
+  font-weight: bold; /* Make the font bold */
+  color: #ffffff; /* Change color to white for better readability */
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for color and background */
+  font-family: "IranSans", sans-serif !important; /* Use IranSans font */
 }
 
 .nav-link-custom:hover {
-  color: #ffffff; /* Change color on hover */
+  color: #ffeb3b; /* Change color on hover to a bright yellow */
   background-color: rgba(
     255,
     255,
