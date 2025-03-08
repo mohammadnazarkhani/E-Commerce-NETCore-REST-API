@@ -1,8 +1,13 @@
-.product-card {
+.product-card  {
   display: flex;
   flex-direction: column;
   background-color: #FFA500 !important; /* Orangy tone */
-  border: 1px solid #FFD700; /* Golden tone */
+  border: 1px solid #FFD700; /* Smoothened golden tone */
+  transition: box-shadow 0.3s ease-in-out; /* Smooth transition for shadow */
+}
+
+.product-card:hover {
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
 
 .product-card .card-body {
