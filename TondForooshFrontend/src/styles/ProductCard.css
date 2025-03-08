@@ -1,6 +1,8 @@
 .product-card {
   display: flex;
   flex-direction: column;
+  background-color: #FFA500; /* Orangy tone */
+  border: 1px solid #FFD700; /* Golden tone */
 }
 
 .product-card .card-body {
@@ -10,4 +12,15 @@
 
 .product-card .card-body .mt-auto {
   margin-top: auto;
+}
+
+.product-card .btn-warning {
+  background-color: #FFA500; /* Orangy tone */
+  border-color: #FFD700; /* Golden tone */
+  color: #fffacd; /* Light golden color */
+}
+
+.product-card .btn-warning:hover {
+  background-color: #FF8C00; /* Darker orangy tone */
+  border-color: #FFD700; /* Golden tone */
 }
