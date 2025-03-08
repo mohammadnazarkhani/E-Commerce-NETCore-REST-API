@@ -1,13 +1,16 @@
-.product-card  {
+.product-card {
   display: flex;
   flex-direction: column;
-  background-color: #FFA500 !important; /* Orangy tone */
-  border: 1px solid #FFD700; /* Smoothened golden tone */
-  transition: box-shadow 0.3s ease-in-out; /* Smooth transition for shadow */
+  background-color: #008080 !important; /* Teal tone to match navbar */
+  border: 1px solid #20b2aa; /* Light sea green tone to match navbar */
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for transform and shadow */
+  margin-bottom: 40px; /* Add space at the bottom of the card */
 }
 
 .product-card:hover {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  transform: translateY(-5px); /* Slightly lift the card on hover */
 }
 
 .product-card .card-body {
@@ -20,12 +23,26 @@
 }
 
 .product-card .btn-warning {
-  background-color: #FFA500 !important; /* Orangy tone */
-  border-color: #FFD700; /* Golden tone */
-  color: #fffacd; /* Light golden color */
+  background-color: #008080 !important; /* Teal tone to match navbar */
+  border-color: #20b2aa; /* Light sea green tone to match navbar */
+  color: #e0ffff; /* Light cyan color to match navbar */
 }
 
 .product-card .btn-warning:hover {
-  background-color: #FF8C00 !important; /* Darker orangy tone */
-  border-color: #FFD700; /* Golden tone */
+  background-color: #006666 !important; /* Darker teal tone */
+  border-color: #20b2aa; /* Light sea green tone */
+}
+
+.product-card .product-card-btn {
+  background-color: #008080 !important; /* Teal tone to match navbar */
+  border-color: #20b2aa; /* Light sea green tone to match navbar */
+  color: #e0ffff; /* Light cyan color to match navbar */
+  border-radius: 5px; /* Add border radius to button */
+  padding: 10px 20px; /* Add padding to button */
+  font-size: 1rem; /* Increase font size */
+}
+
+.product-card .product-card-btn:hover {
+  background-color: #006666 !important; /* Darker teal tone */
+  border-color: #20b2aa; /* Light sea green tone */
 }

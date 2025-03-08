@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => (
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>{product.description}</Card.Text>
       </div>
-      <Button variant="warning" className="mt-auto">
+      <Button className="product-card-btn mt-auto">
         Buy - ${product.price}
       </Button>
     </Card.Body>

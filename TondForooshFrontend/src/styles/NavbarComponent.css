@@ -24,6 +24,7 @@
   ) !important; /* Left to right gradient */
   border-bottom: 2px solid rgb(144, 238, 144); /* Bottom border color */
   animation: shine 5s infinite; /* Apply a more subtle shine animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to navbar */
 }
 
 .navbar-brand-custom {
@@ -36,4 +37,9 @@
   font-size: 1rem;
   font-weight: normal;
   color: #e0ffff;
+  transition: color 0.3s ease-in-out; /* Smooth transition for color */
+}
+
+.nav-link-custom:hover {
+  color: #ffffff; /* Change color on hover */
 }
