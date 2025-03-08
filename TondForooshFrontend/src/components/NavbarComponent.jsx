@@ -5,11 +5,10 @@ import "../styles/NavbarComponent.css"; // Import the CSS file
 const NavbarComponent = () => (
   <Navbar
     dir="rtl"
-    bg="orange"
     variant="dark"
     sticky="top"
     expand="lg"
-    className="w-100"
+    className="w-100 navbar-custom-bg"
   >
     <Container fluid>
       <Navbar.Brand href="/" className="navbar-brand-custom">
