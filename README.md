@@ -70,4 +70,4 @@ npm run dev
 
 ## اسکرین‌شات
 
-![Screenshot](Screenshot 2025-03-10 204204.png)
+![Screenshot](Screenshot_2025-03-10_204204.png)
