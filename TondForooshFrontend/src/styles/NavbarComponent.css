@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=IranSans&display=swap"); /* Import IranSans font */
+
+@keyframes shine {
+  0% {
+    border-bottom-color: rgb(144, 238, 144);
+  }
+  50% {
+    border-bottom-color: rgb(0, 206, 209);
+  }
+  100% {
+    border-bottom-color: rgb(144, 238, 144);
+  }
+}
+
+.navbar-custom-bg.navbar {
+  background: linear-gradient(
+    to bottom,
+    #008080,
+    #20b2aa
+  ) !important; /* Top to bottom gradient */
+  background: linear-gradient(
+    to right,
+    #008080,
+    #20b2aa,
+    #008080
+  ) !important; /* Left to right gradient */
+  border-bottom: 2px solid; /* Gradient border */
+  animation: shine 5s infinite; /* Apply a more subtle shine animation */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow effect for more depth */
+  position: sticky; /* Make navbar sticky */
+  top: 0; /* Stick to the top */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+.navbar-brand-custom {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 0; /* Remove any margin on the right */
+  padding-right: 0; /* Remove padding to ensure the logo is closer to the right side */
+  justify-content: flex-start; /* Align items to the start */
+}
+
+.nav-link-custom {
+  font-size: 1.2rem !important; /* Increase font size */
+  font-weight: bold; /* Make the font bold */
+  color: #ffffff; /* Change color to white for better readability */
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transition for color and background */
+  font-family: "IranSans", sans-serif !important; /* Use IranSans font */
+}
+
+.nav-link-custom:hover {
+  color: #ffeb3b; /* Change color on hover to a bright yellow */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Add background color on hover */
+}

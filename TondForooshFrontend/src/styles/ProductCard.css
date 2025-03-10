@@ -1,0 +1,135 @@
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    to bottom,
+    #f5f7fa,
+    #8bc7c4
+  ) !important; /* Soft gradient from light gray to light blue */
+  border: 1px solid #20b2aa !important; /* Light sea green border to match navbar */
+  border-radius: 10px; /* Add rounded corners */
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for transform and shadow */
+  margin-bottom: 40px; /* Add space at the bottom of the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhance shadow effect */
+  overflow: hidden; /* Hide overflow for smooth transitions */
+  position: relative; /* Position relative for absolute positioning of children */
+}
+
+.product-card:hover {
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  transform: translateY(-5px); /* Slightly lift the card on hover */
+}
+
+.product-card .price-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ffeb3b; /* Bright yellow background */
+  color: #333333; /* Dark text color */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  z-index: 2; /* Ensure it stays above other content */
+}
+
+.product-card .card-body {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ) !important; /* Semi-transparent white background */
+  position: absolute; /* Position absolute for smooth transitions */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  transition: transform 0.25s cubic-bezier(0.1, 0.72, 0.4, 0.97); /* Quicker transition for transform */
+  transform: translateY(100%); /* Initially hide the card body */
+  direction: rtl; /* Right-to-left text direction */
+}
+
+.product-card:hover .card-body,
+.product-card.touch-device .card-body {
+  transform: translateY(
+    0
+  ); /* Show the card body on hover or on touch devices */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Semi-transparent white background */
+}
+
+.product-card .card-title {
+  color: #333333; /* Dark gray color for the title */
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.product-card .card-text {
+  font-size: 0.9rem;
+  color: #666666; /* Gray color for the text */
+}
+
+.product-card .btn-warning {
+  background-color: #20b2aa !important; /* Light sea green button to match navbar */
+  border-color: #20b2aa !important; /* Keep border color consistent */
+  color: #ffffff; /* White color for better readability */
+  border-radius: 5px; /* Add border radius to button */
+  padding: 10px 20px; /* Add padding to button */
+  font-size: 1rem; /* Increase font size */
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out; /* Quicker transition for background and transform */
+  opacity: 0; /* Initially hide the button */
+  transform: translateY(20px); /* Move the button down initially */
+}
+
+.product-card:hover .btn-warning,
+.product-card.touch-device .btn-warning {
+  opacity: 1; /* Show the button on hover or on touch devices */
+  transform: translateY(
+    0
+  ); /* Move the button up on hover or on touch devices */
+}
+
+.product-card .btn-warning:hover {
+  background-color: #008080 !important; /* Teal color on hover */
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.35s cubic-bezier(0.1, 0.72, 0.4, 0.97); /* Smooth transition for transform */
+}
+
+.product-card:hover img {
+  transform: scale(1.1); /* Slightly zoom the image on hover */
+}
+
+.product-card .product-card-btn {
+  background-color: #20b2aa !important; /* Light sea green button to match navbar */
+  border-color: #20b2aa !important; /* Keep border color consistent */
+  color: #ffffff; /* White color for better readability */
+  border-radius: 5px; /* Add border radius to button */
+  padding: 10px 20px; /* Add padding to button */
+  font-size: 1rem; /* Increase font size */
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Quicker transition for background and border */
+}
+
+.product-card .product-card-btn:hover {
+  background-color: #008080 !important; /* Teal color on hover */
+  border-color: #20b2aa !important; /* Keep border color consistent */
+}
+
+/* Ensure content is always visible on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .product-card .card-body,
+  .product-card .btn-warning {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

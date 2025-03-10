@@ -1,0 +1,16 @@
+.footer-custom-bg {
+  background-color: #008080; /* Teal tone to match navbar */
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.footer-link {
+  color: #e0ffff; /* Light cyan color to match navbar */
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-link:hover {
+  color: #ffffff; /* Change color on hover */
+}

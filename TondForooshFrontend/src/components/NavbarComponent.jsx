@@ -1,16 +1,29 @@
-import React from 'react'; 
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import React from "react";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import "../styles/NavbarComponent.css"; // Import the CSS file
+import Logo from "./Logo"; // Import the Logo component
 
-const NavbarComponent = () => (
-  <Navbar bg="dark" variant="dark" expand="lg" className="w-100">
-    <Container fluid>
-      <Navbar.Brand href="/">TondForoosh</Navbar.Brand>
-      <Nav className="me-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#products">Products</Nav.Link>
-      </Nav>
-    </Container>
-  </Navbar>
-);
+const NavbarComponent = () => {
+  return (
+    <Navbar
+      dir="rtl"
+      variant="dark"
+      sticky="top"
+      expand="lg"
+      className="w-100 navbar-custom-bg"
+    >
+      <Container fluid>
+        <Navbar.Brand href="/" className="navbar-logo">
+          <Logo /> 
+        </Navbar.Brand>
+        <Nav className="ms-auto">
+          <Nav.Link href="/" className="nav-link-custom">
+            خانه
+          </Nav.Link>
+        </Nav>
+      </Container>
+    </Navbar>
+  );
+};
 
 export default NavbarComponent;
