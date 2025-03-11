@@ -11,16 +11,20 @@ const NavbarComponent = () => {
       sticky="top"
       expand="lg"
       className="w-100 navbar-custom-bg"
+      bg="dark"
     >
       <Container fluid>
         <Navbar.Brand href="/" className="navbar-logo">
           <Logo /> 
         </Navbar.Brand>
-        <Nav className="ms-auto">
-          <Nav.Link href="/" className="nav-link-custom">
-            خانه
-          </Nav.Link>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link href="/" className="nav-link-custom">
+              خانه
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

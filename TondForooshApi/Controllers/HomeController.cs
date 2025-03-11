@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TondForooshApi.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace TondForooshApi.Controllers
 {
@@ -17,10 +19,20 @@ namespace TondForooshApi.Controllers
         }
 
         [HttpGet("products")]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = repository.Products.ToList();
+            var products = await repository.Products.ToListAsync();
             return Ok(products);
+        }
+
+        [HttpGet("product/{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
+            Product? p = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (p == null)
+                return NotFound();
+
+            return Ok(p);
         }
     }
 }
