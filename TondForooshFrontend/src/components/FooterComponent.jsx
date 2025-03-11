@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "../styles/Footer.css"; // Import the CSS file
 
-const Footer = () => (
+const FooterComponent = () => (
   <footer className="footer-custom-bg">
     <Container>
       <Row>
@@ -18,4 +18,4 @@ const Footer = () => (
   </footer>
 );
 
-export default Footer;
+export default FooterComponent;

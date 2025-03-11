@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import axiosInstance from "./axiosInstance";
 import NavbarComponent from "./components/NavbarComponent";
 import ProductCard from "./components/ProductCard";
-import Footer from "./components/Footer"; // Import the Footer component
+import FooterComponent from "./components/FooterComponent"; // Import the Footer component
 import "./styles/ProductCard.css"; // Import the ProductCard CSS file
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
         </Row>
       </Container>
       {/* Footer */}
-      <Footer /> {/* Add the Footer component */}
+      <FooterComponent /> {/* Add the Footer component */}
     </div>
   );
 }
