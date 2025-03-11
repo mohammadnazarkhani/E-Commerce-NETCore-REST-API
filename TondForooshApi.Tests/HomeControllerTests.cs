@@ -9,6 +9,7 @@ using TondForooshApi.Models;
 using Xunit;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace TondForooshApi.Tests
 {
@@ -41,7 +42,7 @@ namespace TondForooshApi.Tests
         }
 
         [Fact]
-        public async Task Can_Get_Single_Product()
+        public async Task Can_Get_Single_Product_By_Id()
         {
             // Arrange 
             Product p1 = new Product { Id = 1, Name = "P1" };
@@ -62,6 +63,30 @@ namespace TondForooshApi.Tests
             Assert.NotNull(result);
             Assert.True(result.Result is OkObjectResult);
             Assert.Equal(p1, product);
+        }
+
+        [Fact]
+        public async Task Returns_NotFound_For_Non_Existent_Product()
+        {
+            // Arrange 
+            Product p1 = new Product { Id = 1, Name = "P1" };
+            Product p2 = new Product { Id = 2, Name = "P2" };
+
+            // - create mock repo
+            Mock<ITondForooshRepository> mockRepo = new();
+            mockRepo.Setup(m => m.Products).Returns(new List<Product> { p1, p2 }.AsQueryable().BuildMock());
+
+            // - create controller instance
+            HomeController targetController = new(mockRepo.Object);
+
+            // Act
+            var result = await targetController.GetProduct(4);
+            var actionResult = result.Result;
+            Product? product = (result.Result as OkObjectResult)?.Value as Product;
+
+            // Assert
+            Assert.True(actionResult is NotFoundResult);
+            Assert.Null(product);
         }
     }
 }
