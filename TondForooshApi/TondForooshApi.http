@@ -2,3 +2,8 @@
 
 GET {{TondForooshApi_HostAddress}}/api/home/products
 Accept: application/json
+
+###
+
+GET {{{{TondForooshApi_HostAddress}}}}/api/home/product/1 HTTP/1.1
+Accept: application/json
