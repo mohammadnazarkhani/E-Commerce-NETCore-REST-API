@@ -19,9 +19,9 @@ namespace TondForooshApi.Controllers
         }
 
         [HttpGet("products")]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = repository.Products.ToList();
+            var products = await repository.Products.ToListAsync();
             return Ok(products);
         }
 

@@ -22,14 +22,12 @@ namespace TondForooshApi.Tests
             Product p2 = new Product { Id = 2, Name = "P2" };
 
             Mock<ITondForooshRepository> mock = new();
-            mock.Setup(m => m.Products).Returns((new Product[] {
-                p1, p2
-            }).AsQueryable<Product>());
+            mock.Setup(m => m.Products).Returns(new List<Product> { p1, p2 }.AsQueryable().BuildMock());
 
             HomeController controller = new(mock.Object);
 
             // Act
-            var result = controller.GetProducts();
+            var result = await controller.GetProducts();
             var okResult = result.Result as OkObjectResult;
             var products = okResult?.Value as IEnumerable<Product>;
 
