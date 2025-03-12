@@ -26,6 +26,8 @@ namespace TondForooshApi.Controllers
         }
 
         [HttpGet("product/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             Product? p = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
