@@ -38,7 +38,7 @@ namespace TondForooshApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateNewProduct([FromBody] CreateProductDto createProductDto)
+        public async Task<ActionResult<long>> CreateNewProduct([FromBody] CreateProductDto createProductDto)
         {
             if (createProductDto == null)
             {

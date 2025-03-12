@@ -125,4 +125,34 @@ public class ProductControllerTests
         Assert.Equal(createProductDto.Price, p.Price);
         Assert.Equal(createProductDto.ImageUrl, p.ImageUrl);
     }
+
+    [Fact]
+    public async Task Returns_BadRequest_WhenNullDtoProvided_For_CreateNewProducct()
+    {
+        // Arrange 
+        Product p1 = new Product { Id = 1, Name = "P1" };
+        Product p2 = new Product { Id = 2, Name = "P2" };
+
+        // - create mock repo
+        Mock<ITondForooshRepository> mockRepo = new();
+        var products = new List<Product> { p1, p2 };
+        mockRepo.Setup(m => m.Products).Returns(products.AsQueryable().BuildMock());
+        mockRepo.Setup(m => m.AddAsync(It.IsAny<Product>())).ReturnsAsync((Product product) =>
+        {
+            product.Id = products.Max(p => p.Id) + 1;
+            products.Add(product);
+            return product.Id;
+        });
+
+        // - create controller instance
+        ProductController targetController = new(mockRepo.Object);
+
+        // - create CreateProductDto instance when null
+        CreateProductDto createProductDto = null!;
+        // Act
+        ActionResult<long> result = await targetController.CreateNewProduct(createProductDto);
+
+        // Assert
+        Assert.True(result.Result is BadRequestResult);
+    }
 }
