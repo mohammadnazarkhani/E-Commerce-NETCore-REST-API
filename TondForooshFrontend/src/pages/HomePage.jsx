@@ -13,7 +13,7 @@ const HomePage = () => {
   useEffect(() => {
     setLoading(true);
     axiosInstance
-      .get("/home/products")
+      .get("api/home/products")
       .then((response) => {
         setProducts(response.data);
         setError(null);

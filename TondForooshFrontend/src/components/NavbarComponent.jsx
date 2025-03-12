@@ -23,6 +23,9 @@ const NavbarComponent = () => {
             <Nav.Link href="/" className="nav-link-custom">
               خانه
             </Nav.Link>
+            <Nav.Link href="/create/product" className="nav-link-custom">
+              افزودن محصول
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
