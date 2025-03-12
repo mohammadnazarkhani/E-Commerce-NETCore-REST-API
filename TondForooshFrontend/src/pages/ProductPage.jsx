@@ -17,7 +17,7 @@ const ProductPage = () => {
     console.log("Fetching product with id:", id);
 
     axiosInstance
-      .get(`/home/product/${id}`)
+      .get(`api/home/product/${id}`)
       .then((res) => {
         setProduct(res.data);
         setLoading(false);
