@@ -155,4 +155,36 @@ public class ProductControllerTests
         // Assert
         Assert.True(result.Result is BadRequestResult);
     }
+
+    [Fact]
+    public async Task Returns_BadRequest_When_Name_Is_Null()
+    {
+        // Arrange
+        Mock<ITondForooshRepository> mockRepo = new();
+        ProductController targetController = new(mockRepo.Object);
+        targetController.ModelState.AddModelError("Name", "Required");
+        CreateProductDto createProductDto = new(null!, "Description", 100M, "URL");
+
+        // Act
+        var result = await targetController.CreateNewProduct(createProductDto);
+
+        // Assert
+        Assert.True(result.Result is BadRequestResult);
+    }
+
+    [Fact]
+    public async Task Returns_BadRequest_When_Price_Is_Out_Of_Range()
+    {
+        // Arrange
+        Mock<ITondForooshRepository> mockRepo = new();
+        ProductController targetController = new(mockRepo.Object);
+        targetController.ModelState.AddModelError("Price", "Out of range");
+        CreateProductDto createProductDto = new("P3", "Description", 0M, "URL");
+
+        // Act
+        var result = await targetController.CreateNewProduct(createProductDto);
+
+        // Assert
+        Assert.True(result.Result is BadRequestResult);
+    }
 }

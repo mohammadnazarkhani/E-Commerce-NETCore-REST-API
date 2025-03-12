@@ -14,6 +14,7 @@ namespace TondForooshApi.Controllers
         public ProductController(ITondForooshRepository repo)
         {
             repository = repo;
+            ControllerContext = new ControllerContext();
         }
 
         [HttpGet]
@@ -40,7 +41,7 @@ namespace TondForooshApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<long>> CreateNewProduct([FromBody] CreateProductDto createProductDto)
         {
-            if (createProductDto == null)
+            if (createProductDto == null || !ModelState.IsValid)
             {
                 return BadRequest();
             }
