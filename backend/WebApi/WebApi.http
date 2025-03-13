@@ -1,6 +1,9 @@
-@WebApi_HostAddress = http://localhost:5221
+@TondForooshApi_HostAddress = http://localhost:5000
 
-GET {{WebApi_HostAddress}}/weatherforecast/
+GET {{TondForooshApi_HostAddress}}/api/home/products
 Accept: application/json
 
 ###
+
+GET {{{{TondForooshApi_HostAddress}}}}/api/home/product/1 HTTP/1.1
+Accept: application/json
