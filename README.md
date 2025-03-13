@@ -1,6 +1,6 @@
 ### Other Versions
 
-<kbd>[<img title="English" alt="English" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](./Documentation/README_EN.md)</kbd>
+<kbd>[<img title="English" alt="English" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](./docs/README_EN.md)</kbd>
 
 <div dir="rtl" align="right" style="text-align: right;">
 
