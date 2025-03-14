@@ -40,7 +40,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<long>> CreateNewProduct([FromBody] CreateProductDto createProductDto)
+        public async Task<ActionResult<long>> CreateProduct([FromBody] CreateProductDto createProductDto)
         {
             if (createProductDto == null || !ModelState.IsValid)
             {
@@ -58,6 +58,34 @@ namespace WebApi.Controllers
             var productId = await repository.AddAsync(newProduct);
 
             return Ok(productId);
+        }
+
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductDto updateProductDto)
+        {
+            if (updateProductDto == null || !ModelState.IsValid)
+                return BadRequest("Invalid Data");
+
+            var product = await repository.Products.FirstOrDefaultAsync(p => p.Id == updateProductDto.Id);
+            if (product == null)
+                return NotFound();
+
+            // Update only provided values
+            if (!string.IsNullOrEmpty(updateProductDto.Name))
+                product.Name = updateProductDto.Name;
+            if (!string.IsNullOrEmpty(updateProductDto.Description))
+                product.Description = updateProductDto.Description;
+            if (updateProductDto.Price > 0)
+                product.Price = updateProductDto.Price;
+            if (!string.IsNullOrEmpty(updateProductDto.ImageUrl))
+                product.ImageUrl = updateProductDto.ImageUrl;
+
+            await repository.UpdateAsync(product);
+            return NoContent();
         }
     }
 }
