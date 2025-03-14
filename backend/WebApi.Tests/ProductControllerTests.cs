@@ -109,7 +109,7 @@ public class ProductControllerTests
         CreateProductDto createProductDto = new("P3", "Description", 100M, "URL");
 
         // Act
-        var result = await targetController.CreateNewProduct(createProductDto);
+        var result = await targetController.CreateProduct(createProductDto);
         var actionResult = result.Result;
         long newProductId = (actionResult as OkObjectResult)?.Value as long? ?? -1;
 
@@ -149,7 +149,7 @@ public class ProductControllerTests
         // - create CreateProductDto instance when null
         CreateProductDto createProductDto = null!;
         // Act
-        ActionResult<long> result = await targetController.CreateNewProduct(createProductDto);
+        ActionResult<long> result = await targetController.CreateProduct(createProductDto);
 
         // Assert
         Assert.True(result.Result is BadRequestResult);
@@ -165,7 +165,7 @@ public class ProductControllerTests
         CreateProductDto createProductDto = new(null!, "Description", 100M, "URL");
 
         // Act
-        var result = await targetController.CreateNewProduct(createProductDto);
+        var result = await targetController.CreateProduct(createProductDto);
 
         // Assert
         Assert.True(result.Result is BadRequestResult);
@@ -181,7 +181,7 @@ public class ProductControllerTests
         CreateProductDto createProductDto = new("P3", "Description", 0M, "URL");
 
         // Act
-        var result = await targetController.CreateNewProduct(createProductDto);
+        var result = await targetController.CreateProduct(createProductDto);
 
         // Assert
         Assert.True(result.Result is BadRequestResult);
