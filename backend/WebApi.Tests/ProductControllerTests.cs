@@ -186,4 +186,135 @@ public class ProductControllerTests
         // Assert
         Assert.True(result.Result is BadRequestResult);
     }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldReturnNoContent_WhenProductIsUpdatedSuccessfully()
+    {
+        // Arrange
+        var product = new Product { Id = 1, Name = "P1", Description = "Old Desc", Price = 10M };
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
+        mockRepo.Setup(m => m.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
+        var controller = new ProductController(mockRepo.Object);
+        var updateDto = new UpdateProductDto { Id = 1, Name = "Updated", Price = 20M };
+
+        // Act
+        var result = await controller.UpdateProduct(updateDto);
+
+        // Assert
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldReturnNotFound_WhenProductDoesNotExist()
+    {
+        // Arrange
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(new List<Product>().AsQueryable().BuildMock());
+        var controller = new ProductController(mockRepo.Object);
+        var updateDto = new UpdateProductDto { Id = 1, Name = "Updated" };
+
+        // Act
+        var result = await controller.UpdateProduct(updateDto);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldReturnBadRequest_WhenModelStateIsInvalid()
+    {
+        // Arrange
+        var mockRepo = new Mock<ITondForooshRepository>();
+        var controller = new ProductController(mockRepo.Object);
+        controller.ModelState.AddModelError("error", "some error");
+        var updateDto = new UpdateProductDto { Id = 1 };
+
+        // Act
+        var result = await controller.UpdateProduct(updateDto);
+
+        // Assert
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldReturnBadRequest_WhenDtoIsNull()
+    {
+        // Arrange
+        var mockRepo = new Mock<ITondForooshRepository>();
+        var controller = new ProductController(mockRepo.Object);
+
+        // Act
+        var result = await controller.UpdateProduct(null!);
+
+        // Assert
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldNotUpdateProduct_WhenPriceIsInvalid()
+    {
+        // Arrange
+        var product = new Product { Id = 1, Name = "P1", Price = 10M };
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
+        var controller = new ProductController(mockRepo.Object);
+        var updateDto = new UpdateProductDto { Id = 1, Price = -5M };
+
+        // Act
+        var result = await controller.UpdateProduct(updateDto);
+
+        // Assert
+        Assert.Equal(10M, product.Price);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldReturnNoContent_WhenNoFieldsAreUpdated()
+    {
+        // Arrange
+        var product = new Product { Id = 1, Name = "P1", Description = "Desc", Price = 10M };
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
+        mockRepo.Setup(m => m.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
+        var controller = new ProductController(mockRepo.Object);
+        var updateDto = new UpdateProductDto { Id = 1 };
+
+        // Act
+        var result = await controller.UpdateProduct(updateDto);
+
+        // Assert
+        Assert.IsType<NoContentResult>(result);
+        Assert.Equal("P1", product.Name);
+        Assert.Equal("Desc", product.Description);
+        Assert.Equal(10M, product.Price);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ShouldUpdateProductWithAllFields_WhenAllFieldsAreProvided()
+    {
+        // Arrange
+        var product = new Product { Id = 1, Name = "P1", Description = "Old Desc", Price = 10M, ImageUrl = "old.jpg" };
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
+        mockRepo.Setup(m => m.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
+        var controller = new ProductController(mockRepo.Object);
+        var updateDto = new UpdateProductDto
+        {
+            Id = 1,
+            Name = "New Name",
+            Description = "New Desc",
+            Price = 20M,
+            ImageUrl = "new.jpg"
+        };
+
+        // Act
+        var result = await controller.UpdateProduct(updateDto);
+
+        // Assert
+        Assert.IsType<NoContentResult>(result);
+        Assert.Equal("New Name", product.Name);
+        Assert.Equal("New Desc", product.Description);
+        Assert.Equal(20M, product.Price);
+        Assert.Equal("new.jpg", product.ImageUrl);
+    }
 }
