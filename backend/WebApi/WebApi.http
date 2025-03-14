@@ -1,9 +1,52 @@
 @TondForooshApi_HostAddress = http://localhost:5000
 
+### Home Controller ###
+
+# Get all products
 GET {{TondForooshApi_HostAddress}}/api/home/products
 Accept: application/json
 
 ###
 
-GET {{{{TondForooshApi_HostAddress}}}}/api/home/product/1 HTTP/1.1
+# Get product by id
+GET {{TondForooshApi_HostAddress}}/api/home/product/1
 Accept: application/json
+
+### Product Controller ###
+
+# Get all products
+GET {{TondForooshApi_HostAddress}}/api/product
+Accept: application/json
+
+###
+
+# Get product by id
+GET {{TondForooshApi_HostAddress}}/api/product/1
+Accept: application/json
+
+###
+
+# Create new product
+POST {{TondForooshApi_HostAddress}}/api/product
+Content-Type: application/json
+
+{
+    "name": "New Product",
+    "description": "Product description",
+    "price": 29.99,
+    "imageUrl": "https://example.com/image.jpg"
+}
+
+###
+
+# Update product
+PUT {{TondForooshApi_HostAddress}}/api/product
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Updated Product",
+    "description": "Updated description",
+    "price": 39.99,
+    "imageUrl": "https://example.com/updated-image.jpg"
+}
