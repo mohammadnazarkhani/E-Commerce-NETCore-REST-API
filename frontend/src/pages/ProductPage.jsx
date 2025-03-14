@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import axiosInstance from "../axiosInstance";
 import "../styles/ProductPage.css"; // Import the CSS file from the styles folder
 
 const ProductPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -51,6 +53,13 @@ const ProductPage = () => {
         <h1 className="product-title">{product.name}</h1>
         <p className="product-description">{product.description}</p>
         <p className="product-price">${product.price}</p>
+        <Button 
+          variant="warning" 
+          onClick={() => navigate(`/edit/product/${id}`)}
+          className="mt-3"
+        >
+          ویرایش محصول
+        </Button>
       </div>
     </div>
   );
