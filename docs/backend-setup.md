@@ -35,3 +35,4 @@
 - `GET /api/products`: Get all products
 - `GET /api/products/{id}`: Get a product by ID
 - `POST /api/products`: Create a new product
+- `PUT /api/products`: Update an existing product

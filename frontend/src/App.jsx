@@ -9,6 +9,7 @@ import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import AddNewProductPage from "./pages/AddNewProductPage";
+import EditProductPage from "./pages/EditProductPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -17,6 +18,7 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/create/product" element={<AddNewProductPage />} />
+        <Route path="/edit/product/:id" element={<EditProductPage />} />
       </Route>
     )
   );
