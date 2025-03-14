@@ -10,8 +10,9 @@ namespace TondForooshApi.Tests;
 
 public class ProductControllerTests
 {
+    #region GetProducts
     [Fact]
-    public async Task Can_Use_Repository()
+    public async Task GetProducts_ShouldReturnAllProducts_WhenProductsExist()
     {
         // Arrange
         Product p1 = new Product { Id = 1, Name = "P1" };
@@ -35,9 +36,11 @@ public class ProductControllerTests
         Assert.Equal("P1", productArray[0].Name);
         Assert.Equal("P2", productArray[1].Name);
     }
+    #endregion
 
+    #region GetProduct
     [Fact]
-    public async Task Can_Get_Single_Product_By_Id()
+    public async Task GetProduct_ShouldReturnProduct_WhenIdExists()
     {
         // Arrange 
         Product p1 = new Product { Id = 1, Name = "P1" };
@@ -61,7 +64,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public async Task Returns_NotFound_For_Non_Existent_Product()
+    public async Task GetProduct_ShouldReturnNotFound_WhenIdDoesNotExist()
     {
         // Arrange 
         Product p1 = new Product { Id = 1, Name = "P1" };
@@ -83,9 +86,11 @@ public class ProductControllerTests
         Assert.True(actionResult is NotFoundResult);
         Assert.Null(product);
     }
+    #endregion
 
+    #region CreateProduct
     [Fact]
-    public async Task Can_Create_NewPruduct()
+    public async Task CreateProduct_ShouldCreateNewProduct_WhenValidDataProvided()
     {
         // Arrange 
         Product p1 = new Product { Id = 1, Name = "P1" };
@@ -126,7 +131,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public async Task Returns_BadRequest_WhenNullDtoProvided_For_CreateNewProducct()
+    public async Task CreateProduct_ShouldReturnBadRequest_WhenDtoIsNull()
     {
         // Arrange 
         Product p1 = new Product { Id = 1, Name = "P1" };
@@ -156,7 +161,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public async Task Returns_BadRequest_When_Name_Is_Null()
+    public async Task CreateProduct_ShouldReturnBadRequest_WhenNameIsNull()
     {
         // Arrange
         Mock<ITondForooshRepository> mockRepo = new();
@@ -172,7 +177,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public async Task Returns_BadRequest_When_Price_Is_Out_Of_Range()
+    public async Task CreateProduct_ShouldReturnBadRequest_WhenPriceIsInvalid()
     {
         // Arrange
         Mock<ITondForooshRepository> mockRepo = new();
@@ -186,7 +191,9 @@ public class ProductControllerTests
         // Assert
         Assert.True(result.Result is BadRequestResult);
     }
+    #endregion
 
+    #region UpdateProduct
     [Fact]
     public async Task UpdateProduct_ShouldReturnNoContent_WhenProductIsUpdatedSuccessfully()
     {
@@ -317,4 +324,5 @@ public class ProductControllerTests
         Assert.Equal(20M, product.Price);
         Assert.Equal("new.jpg", product.ImageUrl);
     }
+    #endregion
 }
