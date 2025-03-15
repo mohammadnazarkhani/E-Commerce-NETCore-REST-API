@@ -87,5 +87,18 @@ namespace WebApi.Controllers
             await repository.UpdateAsync(product);
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> DeleteProduct(long id)
+        {
+            var product = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+                return NotFound();
+
+            repository.Delete(product);
+            return NoContent();
+        }
     }
 }
