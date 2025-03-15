@@ -97,7 +97,7 @@ namespace WebApi.Controllers
             if (product == null)
                 return NotFound();
 
-            repository.Delete(product);
+            await repository.DeleteAsync(product);
             return NoContent();
         }
     }

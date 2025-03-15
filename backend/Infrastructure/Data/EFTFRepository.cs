@@ -31,9 +31,9 @@ public class EFTFRepository : ITondForooshRepository
         await context.SaveChangesAsync();
     }
 
-    public void Delete(Product product)
+    public async Task DeleteAsync(Product product)
     {
         context.Products.Remove(product);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

@@ -7,5 +7,5 @@ public interface ITondForooshRepository
     IQueryable<Product> Products { get; }
     Task<long> AddAsync(Product product);
     Task UpdateAsync(Product product);
-    void Delete(Product product);
+    Task DeleteAsync(Product product);
 }
