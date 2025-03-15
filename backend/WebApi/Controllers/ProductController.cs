@@ -77,12 +77,13 @@ namespace WebApi.Controllers
             // Update only provided values
             if (!string.IsNullOrEmpty(updateProductDto.Name))
                 product.Name = updateProductDto.Name;
-            if (!string.IsNullOrEmpty(updateProductDto.Description))
+            if (updateProductDto.Description != null)
                 product.Description = updateProductDto.Description;
             if (updateProductDto.Price > 0)
                 product.Price = updateProductDto.Price;
-            if (!string.IsNullOrEmpty(updateProductDto.ImageUrl))
-                product.ImageUrl = updateProductDto.ImageUrl;
+            
+            // Handle ImageUrl separately - allow null/empty to clear the URL
+            product.ImageUrl = updateProductDto.ImageUrl;
 
             await repository.UpdateAsync(product);
             return NoContent();

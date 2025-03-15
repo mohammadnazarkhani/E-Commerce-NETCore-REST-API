@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import "../styles/Footer.css"; // Import the CSS file
+import { Link } from "react-router-dom";
+import "../styles/Footer.css";
 
 const FooterComponent = () => (
   <footer className="footer-custom-bg">
@@ -9,8 +10,8 @@ const FooterComponent = () => (
         <Col className="text-center py-3">
           <p>&copy; 2023 TondForoosh. All rights reserved.</p>
           <p>
-            <a href="/privacy-policy" className="footer-link">Privacy Policy</a> | 
-            <a href="/terms-of-service" className="footer-link">Terms of Service</a>
+            <Link to="/privacy-policy" className="footer-link">Privacy Policy</Link> |{" "}
+            <Link to="/terms-of-service" className="footer-link">Terms of Service</Link>
           </p>
         </Col>
       </Row>

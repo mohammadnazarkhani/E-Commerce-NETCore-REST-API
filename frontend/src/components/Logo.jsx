@@ -18,10 +18,10 @@ const Logo = () => (
     <text
       x="71"
       y="40"
-      font-family="Arial, sans-serif"
-      font-size="24"
+      fontFamily="Arial, sans-serif"
+      fontSize="24"
       fill="url(#grad2)"
-      font-weight="bold"
+      fontWeight="bold"
     >
       تند‌فروش
     </text>

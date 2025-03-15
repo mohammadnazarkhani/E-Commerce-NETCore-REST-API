@@ -13,14 +13,19 @@ const HomePage = () => {
   useEffect(() => {
     setLoading(true);
     axiosInstance
-      .get("api/home/products")
+      .get("api/product")  // Changed to match ProductController route
       .then((response) => {
-        setProducts(response.data);
-        setError(null);
+        if (Array.isArray(response.data)) {
+          setProducts(response.data);
+          setError(null);
+        } else {
+          throw new Error('Invalid data format received');
+        }
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
         setError("Failed to load products. Please try again later.");
+        setProducts([]);
       })
       .finally(() => setLoading(false));
   }, []);

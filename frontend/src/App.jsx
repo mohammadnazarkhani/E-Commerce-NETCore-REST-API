@@ -11,6 +11,25 @@ import ProductPage from "./pages/ProductPage";
 import AddNewProductPage from "./pages/AddNewProductPage";
 import EditProductPage from "./pages/EditProductPage";
 
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Application Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Something went wrong. Please refresh the page.</div>;
+    }
+    return this.props.children;
+  }
+}
+
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,7 +41,12 @@ const App = () => {
       </Route>
     )
   );
-  return <RouterProvider router={router} />;
+
+  return (
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 };
 
 export default App;

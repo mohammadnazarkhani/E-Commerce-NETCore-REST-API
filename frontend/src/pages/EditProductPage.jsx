@@ -25,7 +25,7 @@ const EditProductPage = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     
@@ -36,27 +36,31 @@ const EditProductPage = () => {
     }
 
     const formData = new FormData(form);
+    const imageUrl = formData.get('imageUrl');
+    
+    // Validate URL if provided
+    if (imageUrl && !imageUrl.match(/^https?:\/\/.+/)) {
+      setError('Please enter a valid http:// or https:// URL for the image');
+      return;
+    }
+
     const updateData = {
       id: parseInt(id),
       name: formData.get('name'),
       description: formData.get('description') || "",
       price: formData.get('price') ? parseFloat(formData.get('price')) : 0,
-      imageUrl: formData.get('imageUrl') || ""
+      imageUrl: imageUrl || null
     };
 
-    axiosInstance.put('api/product', updateData, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(() => {
-        console.log("Product updated successfully");
-        navigate(`/product/${id}`);
-      })
-      .catch(error => {
-        console.error("Error updating product:", error.response?.data || error.message);
-        setError(error.response?.data || "Failed to update product");
-      });
+    try {
+      await axiosInstance.put('api/product', updateData);
+      navigate(`/product/${id}`);
+    } catch (error) {
+      const errorMessage = error.response?.data?.errors
+        ? Object.values(error.response.data.errors).flat().join(', ')
+        : 'Error updating product';
+      setError(errorMessage);
+    }
   };
 
   if (loading) {
