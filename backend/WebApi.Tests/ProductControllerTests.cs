@@ -325,4 +325,44 @@ public class ProductControllerTests
         Assert.Equal("new.jpg", product.ImageUrl);
     }
     #endregion
+
+    #region DeleteProduct
+    [Fact]
+    public async Task DeleteProduct_ShouldReturnNotFound_WhenProductDoesNotExists()
+    {
+        // Arrange
+        var product = new Product { Id = 1, Name = "P1", Description = "Old Desc", Price = 10M };
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
+        var controller = new ProductController(mockRepo.Object);
+
+        // Act
+        var result = await controller.DeleteProduct(2);
+
+        // Assert
+        Assert.True(result is NotFoundResult);
+        Assert.Equal(1, mockRepo.Object.Products.Count());
+    }
+
+    [Fact]
+    public async Task DeleteProduct_ShouldReturnNoContentResult_WhenProductDeletedSuccessfully()
+    {
+        // Arrange
+        var product = new Product { Id = 1, Name = "P1", Description = "Old Desc", Price = 10M };
+        var productList = new List<Product> { product };
+        var mockRepo = new Mock<ITondForooshRepository>();
+        mockRepo.Setup(m => m.Products).Returns(productList.AsQueryable().BuildMock());
+        mockRepo.Setup(m => m.DeleteAsync(It.IsAny<Product>()))
+            .Callback<Product>(p => productList.Remove(p))
+            .Returns(Task.CompletedTask);
+        var controller = new ProductController(mockRepo.Object);
+
+        // Act
+        var result = await controller.DeleteProduct(1);
+
+        // Assert
+        Assert.True(result is NoContentResult);
+        Assert.Empty(mockRepo.Object.Products);
+    }
+    #endregion
 }

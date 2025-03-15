@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Product>> GetProduct(long id)
         {
             Product? p = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (p == null)
@@ -77,14 +77,28 @@ namespace WebApi.Controllers
             // Update only provided values
             if (!string.IsNullOrEmpty(updateProductDto.Name))
                 product.Name = updateProductDto.Name;
-            if (!string.IsNullOrEmpty(updateProductDto.Description))
+            if (updateProductDto.Description != null)
                 product.Description = updateProductDto.Description;
             if (updateProductDto.Price > 0)
                 product.Price = updateProductDto.Price;
-            if (!string.IsNullOrEmpty(updateProductDto.ImageUrl))
-                product.ImageUrl = updateProductDto.ImageUrl;
+            
+            // Handle ImageUrl separately - allow null/empty to clear the URL
+            product.ImageUrl = updateProductDto.ImageUrl;
 
             await repository.UpdateAsync(product);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> DeleteProduct(long id)
+        {
+            var product = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+                return NotFound();
+
+            await repository.DeleteAsync(product);
             return NoContent();
         }
     }

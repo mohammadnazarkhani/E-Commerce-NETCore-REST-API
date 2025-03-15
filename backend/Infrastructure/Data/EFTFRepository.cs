@@ -30,4 +30,10 @@ public class EFTFRepository : ITondForooshRepository
         entry.State = EntityState.Modified;
         await context.SaveChangesAsync();
     }
+
+    public async Task DeleteAsync(Product product)
+    {
+        context.Products.Remove(product);
+        await context.SaveChangesAsync();
+    }
 }

@@ -40,10 +40,18 @@ const ProductDetailsForm = ({ onSubmit, product, validated }) => {
       <Form.Group className="mb-3" controlId="formProductImageUrl">
         <Form.Label>آدرس آنلاین تصویر محصول</Form.Label>
         <Form.Control
-          type="text"
+          type="url"
           name="imageUrl"
+          pattern="https?://.+"
+          placeholder="https://example.com/image.jpg"
           defaultValue={product?.imageUrl || ''}
         />
+        <Form.Text className="text-muted">
+          لطفا یک آدرس معتبر http یا https وارد کنید
+        </Form.Text>
+        <Form.Control.Feedback type="invalid">
+          لطفا یک آدرس معتبر وارد کنید (مثال: https://example.com/image.jpg)
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group>
         <Button type="submit">

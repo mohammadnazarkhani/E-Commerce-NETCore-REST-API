@@ -7,15 +7,23 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.request.use((request) => {
-  console.log("Starting Request:", request.method, request.url, request.data);
-  return request;
-});
+axiosInstance.interceptors.request.use(
+  (request) => {
+    console.log("Starting Request:", request.method, request.url);
+    return request;
+  },
+  (error) => Promise.reject(error)
+);
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", error.response?.data || error.message);
+    // Extract meaningful error message
+    const errorMessage = error.response?.data?.errors
+      ? Object.values(error.response.data.errors).flat().join(', ')
+      : error.response?.data?.title || error.message || 'An error occurred';
+    
+    console.error("API Error:", errorMessage);
     return Promise.reject(error);
   }
 );

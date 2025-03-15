@@ -9,26 +9,30 @@ const AddNewProductPage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
+    event.preventDefault();
+    
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
       setValidated(true);
       return;
     }
 
-    event.preventDefault();
-
     const formData = new FormData(form);
+    const productData = {
+      name: formData.get('name'),
+      description: formData.get('description'),
+      price: parseFloat(formData.get('price')),
+      imageUrl: formData.get('imageUrl')
+    };
+
     axiosInstance
-      .post("api/product", formData)
+      .post("api/product", productData)
       .then((response) => {
-        const productId = response.data;
-        navigate(`/product/${productId}`);
+        navigate(`/product/${response.data}`);
       })
       .catch((error) => {
         console.error("Error adding product:", error);
-        setValidated(true);
       });
   };
 
