@@ -75,3 +75,11 @@
   - Bad Request: 400 if request data is invalid
 
 **Note**: All fields except `id` are optional. Only provided fields will be updated.
+
+### Delete Product
+
+- **URL**: `/api/products/{id}`
+- **Method**: `DELETE`
+- **Response**:
+  - Success: 204 No Content
+  - Not Found: 404 if product doesn't exist
