@@ -36,3 +36,4 @@
 - `GET /api/products/{id}`: Get a product by ID
 - `POST /api/products`: Create a new product
 - `PUT /api/products`: Update an existing product
+- `DELETE /api/products/{id}`: Delete a product by ID
