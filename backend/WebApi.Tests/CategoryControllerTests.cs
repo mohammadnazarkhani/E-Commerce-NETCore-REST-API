@@ -93,7 +93,8 @@ public class CategoryControllerTests
         // Act
         var result = await controller.CreateCategory(createDto);
         var okResult = result.Result as OkObjectResult;
-        var categoryId = (int)okResult!.Value;
+        Assert.NotNull(okResult); // Add this assertion
+        var categoryId = (int)(okResult?.Value ?? 0); // Fix the unboxing warning
 
         // Assert
         Assert.NotNull(okResult);
