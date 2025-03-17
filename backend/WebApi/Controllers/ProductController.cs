@@ -47,19 +47,26 @@ namespace WebApi.Controllers
                 return BadRequest();
             }
 
+            // Verify that the category exists
+            var category = await repository.Categories.FirstOrDefaultAsync(c => c.Id == createProductDto.CategoryId);
+            if (category == null)
+            {
+                return BadRequest("Invalid category");
+            }
+
             var newProduct = new Product
             {
                 Name = createProductDto.Name,
                 Description = createProductDto.Description,
                 Price = createProductDto.Price,
-                ImageUrl = createProductDto.ImageUrl
+                ImageUrl = createProductDto.ImageUrl,
+                CategoryId = createProductDto.CategoryId
             };
 
             var productId = await repository.AddAsync(newProduct);
 
             return Ok(productId);
         }
-
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

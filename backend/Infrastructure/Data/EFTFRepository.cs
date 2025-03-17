@@ -36,4 +36,29 @@ public class EFTFRepository : ITondForooshRepository
         context.Products.Remove(product);
         await context.SaveChangesAsync();
     }
+
+    public IQueryable<Category> Categories => context.Categories;
+
+    public async Task<int> AddCategoryAsync(Category category)
+    {
+        await context.AddAsync(category);
+        await context.SaveChangesAsync();
+        return category.Id;
+    }
+
+    public async Task UpdateCategoryAsync(Category category)
+    {
+        var entry = context.Entry(category);
+        if (entry.State == EntityState.Detached)
+            context.Categories.Attach(category);
+
+        entry.State = EntityState.Modified;
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteCategoryAsync(Category category)
+    {
+        context.Categories.Remove(category);
+        await context.SaveChangesAsync();
+    }
 }

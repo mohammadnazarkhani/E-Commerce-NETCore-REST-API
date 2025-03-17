@@ -10,13 +10,19 @@ namespace TondForooshApi.Tests;
 
 public class ProductControllerTests
 {
+    private Category GetTestCategory()
+    {
+        return new Category { Id = 1, Name = "Test Category" };
+    }
+
     #region GetProducts
     [Fact]
     public async Task GetProducts_ShouldReturnAllProducts_WhenProductsExist()
     {
         // Arrange
-        Product p1 = new Product { Id = 1, Name = "P1" };
-        Product p2 = new Product { Id = 2, Name = "P2" };
+        var category = GetTestCategory();
+        Product p1 = new Product { Id = 1, Name = "P1", CategoryId = category.Id, Category = category };
+        Product p2 = new Product { Id = 2, Name = "P2", CategoryId = category.Id, Category = category };
 
         Mock<ITondForooshRepository> mock = new();
         mock.Setup(m => m.Products).Returns(new List<Product> { p1, p2 }.AsQueryable().BuildMock());
@@ -43,8 +49,9 @@ public class ProductControllerTests
     public async Task GetProduct_ShouldReturnProduct_WhenIdExists()
     {
         // Arrange 
-        Product p1 = new Product { Id = 1, Name = "P1" };
-        Product p2 = new Product { Id = 2, Name = "P2" };
+        var category = GetTestCategory();
+        Product p1 = new Product { Id = 1, Name = "P1", CategoryId = category.Id, Category = category };
+        Product p2 = new Product { Id = 2, Name = "P2", CategoryId = category.Id, Category = category };
 
         // - create mock repo
         Mock<ITondForooshRepository> mockRepo = new();
@@ -67,8 +74,9 @@ public class ProductControllerTests
     public async Task GetProduct_ShouldReturnNotFound_WhenIdDoesNotExist()
     {
         // Arrange 
-        Product p1 = new Product { Id = 1, Name = "P1" };
-        Product p2 = new Product { Id = 2, Name = "P2" };
+        var category = GetTestCategory();
+        Product p1 = new Product { Id = 1, Name = "P1", CategoryId = category.Id, Category = category };
+        Product p2 = new Product { Id = 2, Name = "P2", CategoryId = category.Id, Category = category };
 
         // - create mock repo
         Mock<ITondForooshRepository> mockRepo = new();
@@ -93,8 +101,9 @@ public class ProductControllerTests
     public async Task CreateProduct_ShouldCreateNewProduct_WhenValidDataProvided()
     {
         // Arrange 
-        Product p1 = new Product { Id = 1, Name = "P1" };
-        Product p2 = new Product { Id = 2, Name = "P2" };
+        var category = GetTestCategory();
+        Product p1 = new Product { Id = 1, Name = "P1", CategoryId = category.Id, Category = category };
+        Product p2 = new Product { Id = 2, Name = "P2", CategoryId = category.Id, Category = category };
 
         // - create mock repo
         Mock<ITondForooshRepository> mockRepo = new();
@@ -106,12 +115,13 @@ public class ProductControllerTests
             products.Add(product);
             return product.Id;
         });
+        mockRepo.Setup(m => m.Categories).Returns(new List<Category> { category }.AsQueryable().BuildMock());
 
         // - create controller instance
         ProductController targetController = new(mockRepo.Object);
 
         // - create CreateProductDto
-        CreateProductDto createProductDto = new("P3", "Description", 100M, "URL");
+        CreateProductDto createProductDto = new("P3", "Description", 100M, "URL", category.Id);
 
         // Act
         var result = await targetController.CreateProduct(createProductDto);
@@ -128,14 +138,16 @@ public class ProductControllerTests
         Assert.Equal(createProductDto.Description, p.Description);
         Assert.Equal(createProductDto.Price, p.Price);
         Assert.Equal(createProductDto.ImageUrl, p.ImageUrl);
+        Assert.Equal(createProductDto.CategoryId, p.CategoryId);
     }
 
     [Fact]
     public async Task CreateProduct_ShouldReturnBadRequest_WhenDtoIsNull()
     {
         // Arrange 
-        Product p1 = new Product { Id = 1, Name = "P1" };
-        Product p2 = new Product { Id = 2, Name = "P2" };
+        var category = GetTestCategory();
+        Product p1 = new Product { Id = 1, Name = "P1", CategoryId = category.Id, Category = category };
+        Product p2 = new Product { Id = 2, Name = "P2", CategoryId = category.Id, Category = category };
 
         // - create mock repo
         Mock<ITondForooshRepository> mockRepo = new();
@@ -167,7 +179,7 @@ public class ProductControllerTests
         Mock<ITondForooshRepository> mockRepo = new();
         ProductController targetController = new(mockRepo.Object);
         targetController.ModelState.AddModelError("Name", "Required");
-        CreateProductDto createProductDto = new(null!, "Description", 100M, "URL");
+        CreateProductDto createProductDto = new(null!, "Description", 100M, "URL", 1);
 
         // Act
         var result = await targetController.CreateProduct(createProductDto);
@@ -183,7 +195,7 @@ public class ProductControllerTests
         Mock<ITondForooshRepository> mockRepo = new();
         ProductController targetController = new(mockRepo.Object);
         targetController.ModelState.AddModelError("Price", "Out of range");
-        CreateProductDto createProductDto = new("P3", "Description", 0M, "URL");
+        CreateProductDto createProductDto = new("P3", "Description", 0M, "URL", 1);
 
         // Act
         var result = await targetController.CreateProduct(createProductDto);
