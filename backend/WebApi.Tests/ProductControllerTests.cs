@@ -15,9 +15,9 @@ public class ProductControllerTests
         return new Category { Id = 1, Name = "Test Category" };
     }
 
-    #region GetProducts
+    #region GetAllProducts
     [Fact]
-    public async Task GetProducts_ShouldReturnAllProducts_WhenProductsExist()
+    public async Task GetProductByIds_ShouldReturnAllProducts_WhenProductsExist()
     {
         // Arrange
         var category = GetTestCategory();
@@ -30,7 +30,7 @@ public class ProductControllerTests
         ProductController controller = new(mock.Object);
 
         // Act
-        var result = await controller.GetProducts();
+        var result = await controller.GetAllProducts();
         var okResult = result.Result as OkObjectResult;
         var products = okResult?.Value as IEnumerable<Product>;
 
@@ -44,9 +44,9 @@ public class ProductControllerTests
     }
     #endregion
 
-    #region GetProduct
+    #region GetProductById
     [Fact]
-    public async Task GetProduct_ShouldReturnProduct_WhenIdExists()
+    public async Task GetProductById_ShouldReturnProduct_WhenIdExists()
     {
         // Arrange 
         var category = GetTestCategory();
@@ -61,7 +61,7 @@ public class ProductControllerTests
         ProductController targetController = new(mockRepo.Object);
 
         // Act
-        var result = await targetController.GetProduct(1);
+        var result = await targetController.GetProductById(1);
         Product product = (result.Result as OkObjectResult)?.Value as Product ?? new Product();
 
         // Assert
@@ -71,7 +71,7 @@ public class ProductControllerTests
     }
 
     [Fact]
-    public async Task GetProduct_ShouldReturnNotFound_WhenIdDoesNotExist()
+    public async Task GetProductById_ShouldReturnNotFound_WhenIdDoesNotExist()
     {
         // Arrange 
         var category = GetTestCategory();
@@ -86,7 +86,7 @@ public class ProductControllerTests
         ProductController targetController = new(mockRepo.Object);
 
         // Act
-        var result = await targetController.GetProduct(4);
+        var result = await targetController.GetProductById(4);
         var actionResult = result.Result;
         Product? product = (result.Result as OkObjectResult)?.Value as Product;
 
