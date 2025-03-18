@@ -37,6 +37,21 @@ namespace WebApi.Controllers
             return Ok(p);
         }
 
+        [HttpGet("category/{categoryId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Product>> GerProductsByCategory(int categoryId)
+        {
+            var products = await repository.Products
+                .Where(p => p.CategoryId == categoryId)
+                .ToListAsync();
+
+            if (products == null || !products.Any())
+                return NotFound("No products found for the given category");
+
+            return Ok(products);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -88,7 +103,7 @@ namespace WebApi.Controllers
                 product.Description = updateProductDto.Description;
             if (updateProductDto.Price > 0)
                 product.Price = updateProductDto.Price;
-            
+
             // Handle ImageUrl separately - allow null/empty to clear the URL
             product.ImageUrl = updateProductDto.ImageUrl;
 
