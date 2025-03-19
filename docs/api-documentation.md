@@ -1,6 +1,6 @@
 # API Documentation
 
-## Endpoints
+## Product Endpoints
 
 ### Get All Products
 
@@ -31,8 +31,27 @@
     "name": "Product 1",
     "description": "Description of Product 1",
     "price": 100.0,
-    "imageUrl": "http://example.com/image1.jpg"
+    "imageUrl": "http://example.com/image1.jpg",
+    "categoryId": 1
   }
+  ```
+
+### Get Products by Category
+
+- **URL**: `/api/products/category/{categoryId}`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "description": "Description of Product 1",
+      "price": 100.0,
+      "imageUrl": "http://example.com/image1.jpg",
+      "categoryId": 1
+    }
+  ]
   ```
 
 ### Create New Product
@@ -83,3 +102,76 @@
 - **Response**:
   - Success: 204 No Content
   - Not Found: 404 if product doesn't exist
+
+## Category Endpoints
+
+### Get All Categories
+
+- **URL**: `/api/categories`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  [
+    {
+      "id": 1,
+      "name": "Category 1"
+    },
+    {
+      "id": 2,
+      "name": "Category 2"
+    }
+  ]
+  ```
+
+### Get Category by ID
+
+- **URL**: `/api/categories/{id}`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  {
+    "id": 1,
+    "name": "Category 1"
+  }
+  ```
+
+### Create Category
+
+- **URL**: `/api/categories`
+- **Method**: `POST`
+- **Request**:
+  ```json
+  {
+    "name": "New Category"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "id": 3
+  }
+  ```
+
+### Update Category
+
+- **URL**: `/api/categories`
+- **Method**: `PUT`
+- **Request**:
+  ```json
+  {
+    "id": 1,
+    "name": "Updated Category Name"
+  }
+  ```
+- **Response**:
+  - Success: 204 No Content
+  - Not Found: 404 if category doesn't exist
+  - Bad Request: 400 if request data is invalid
+
+### Delete Category
+
+- **URL**: `/api/categories/{id}`
+- **Method**: `DELETE`
+- **Response**:
+  - Success: 204 No Content
+  - Not Found: 404 if category doesn't exist
