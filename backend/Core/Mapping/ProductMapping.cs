@@ -30,5 +30,8 @@ public static class ProductMapping
         };
     }
 
-    
+    public static ProductListItemDto ToProductListItemDto(this Product product)
+    {
+        return new ProductListItemDto(product.Id, product.Name, product.Price, product.ImageUrl);
+    }
 }
