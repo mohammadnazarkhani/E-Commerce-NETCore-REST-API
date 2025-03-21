@@ -34,4 +34,9 @@ public static class ProductMapping
     {
         return new ProductListItemDto(product.Id, product.Name, product.Price, product.ImageUrl);
     }
+
+    public static ProductDetailsDto ToProductDetailsDto(this Product product, Category productCategory)
+    {
+        return new ProductDetailsDto(product.Id, product.Name, product.Description, product.Price, product.ImageUrl, product.CategoryId, productCategory.Name);
+    }
 }
