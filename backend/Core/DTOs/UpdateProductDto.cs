@@ -4,7 +4,8 @@ namespace Core.DTOs;
 
 public record class UpdateProductDto(
     [MinLength(3)]
-    string? Name,
+    [Required]
+    string Name,
     string? Description,
     [Range(0.01, double.MaxValue)]
     decimal Price,
