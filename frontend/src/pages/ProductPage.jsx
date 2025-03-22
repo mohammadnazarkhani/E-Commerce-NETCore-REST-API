@@ -70,9 +70,11 @@ const ProductPage = () => {
     <div className="container mt-4 px-3 mb-5">
       <Breadcrumb dir="rtl" className="mt-3">
         <Breadcrumb.Item href="/">خانه</Breadcrumb.Item>
+        <span className="mx-2" style={{ color: '#6c757d' }}>/</span>
         <Breadcrumb.Item href={`/category/${product.categoryId}`}>
           {product.categoryName}
         </Breadcrumb.Item>
+        <span className="mx-2" style={{ color: '#6c757d' }}>/</span>
         <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
       </Breadcrumb>
       <div className="product-container">

@@ -68,7 +68,8 @@ const ProductDetailsForm = ({ onSubmit, product, validated }) => {
         <Form.Select 
           name="categoryId"
           required
-          defaultValue={product?.categoryId || ''}
+          value={product?.categoryId || ''}
+          onChange={(e) => e.currentTarget.value}
         >
           <option value="">انتخاب دسته‌بندی</option>
           {categories.map(category => (
