@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
+using Core.Mapping;
 
 namespace WebApi.Services;
 
@@ -21,6 +22,9 @@ public static class ServiceRegistrationExtensions
             });
         });
         services.AddControllers();
+
+        // Add AutoMapper configuration
+        services.AddAutoMapper(typeof(MappingProfile).Assembly);
     }
 
     public static void RegisterApiMiddlewares(this IApplicationBuilder app)

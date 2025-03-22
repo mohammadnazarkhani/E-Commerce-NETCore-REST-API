@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.DTOs;
+namespace Core.DTOs.Products.Requests;
 
 public record class UpdateProductDto(
+    [Required] long Id,
     [MinLength(3)]
     [Required]
     string Name,

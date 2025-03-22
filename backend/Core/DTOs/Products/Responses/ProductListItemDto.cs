@@ -1,4 +1,4 @@
-namespace Core.DTOs;
+namespace Core.DTOs.Products.Responses;
 
 public record class ProductListItemDto(
     long Id,

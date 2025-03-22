@@ -13,12 +13,13 @@ const EditProductPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axiosInstance.get(`api/product/${id}`)
-      .then(response => {
+    axiosInstance
+      .get(`api/product/${id}`)
+      .then((response) => {
         setProduct(response.data);
         setError(null);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching product:", error);
         setError("Failed to load product");
       })
@@ -28,7 +29,7 @@ const EditProductPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    
+
     if (!form.checkValidity()) {
       event.stopPropagation();
       setValidated(true);
@@ -36,29 +37,29 @@ const EditProductPage = () => {
     }
 
     const formData = new FormData(form);
-    const imageUrl = formData.get('imageUrl');
-    
+    const imageUrl = formData.get("imageUrl");
+
     // Validate URL if provided
     if (imageUrl && !imageUrl.match(/^https?:\/\/.+/)) {
-      setError('Please enter a valid http:// or https:// URL for the image');
+      setError("Please enter a valid http:// or https:// URL for the image");
       return;
     }
 
     const updateData = {
       id: parseInt(id),
-      name: formData.get('name'),
-      description: formData.get('description') || "",
-      price: formData.get('price') ? parseFloat(formData.get('price')) : 0,
-      imageUrl: imageUrl || null
+      name: formData.get("name"),
+      description: formData.get("description") || "",
+      price: formData.get("price") ? parseFloat(formData.get("price")) : 0,
+      imageUrl: imageUrl || null,
     };
 
     try {
-      await axiosInstance.put('api/product', updateData);
+      await axiosInstance.put(`api/product/${id}`, updateData);
       navigate(`/product/${id}`);
     } catch (error) {
       const errorMessage = error.response?.data?.errors
-        ? Object.values(error.response.data.errors).flat().join(', ')
-        : 'Error updating product';
+        ? Object.values(error.response.data.errors).flat().join(", ")
+        : "Error updating product";
       setError(errorMessage);
     }
   };
@@ -82,7 +83,7 @@ const EditProductPage = () => {
   return (
     <Container className="mt-4 px-3 mb-5" dir="rtl">
       <h1 className="mb-5">ویرایش محصول</h1>
-      <ProductDetailsForm 
+      <ProductDetailsForm
         onSubmit={handleSubmit}
         product={product}
         validated={validated}

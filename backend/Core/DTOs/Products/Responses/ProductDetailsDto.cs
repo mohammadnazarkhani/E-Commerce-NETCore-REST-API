@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.DTOs;
+namespace Core.DTOs.Products.Responses;
 
 public record class ProductDetailsDto(
     [Required]

@@ -27,6 +27,9 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/create/product" className="nav-link-custom">
               افزودن محصول
             </Nav.Link>
+            <Nav.Link as={Link} to="/create/category" className="nav-link-custom">
+              افزودن دسته‌بندی
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
