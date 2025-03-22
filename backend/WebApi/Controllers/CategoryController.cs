@@ -46,6 +46,9 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<int>> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
     {
+        if (createCategoryDto == null)
+            return BadRequest();
+
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
@@ -61,6 +64,9 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> UpdateCategory(long id, [FromBody] UpdateCategoryDto updateCategoryDto)
     {
+        if (updateCategoryDto == null)
+            return BadRequest("DTO cannot be null");
+
         if (id != updateCategoryDto.Id)
             return BadRequest("ID mismatch");
 
@@ -71,7 +77,12 @@ public class CategoryController : ControllerBase
         if (category == null)
             return NotFound();
 
-        _mapper.Map(updateCategoryDto, category);
+        // Skip mapping if name is empty to preserve original name
+        if (!string.IsNullOrEmpty(updateCategoryDto.Name))
+        {
+            _mapper.Map(updateCategoryDto, category);
+        }
+
         await repository.UpdateCategoryAsync(category);
         return NoContent();
     }

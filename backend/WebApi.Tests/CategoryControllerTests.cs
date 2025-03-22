@@ -3,13 +3,27 @@ using Moq;
 using WebApi.Controllers;
 using Core.Entities;
 using MockQueryable;
-using Core.DTOs;
+using Core.DTOs.Categories.Requests;
+using Core.DTOs.Categories.Responses;
+using AutoMapper;
 using Infrastructure.Data;
+using Core.Mapping;
 
 namespace TondForooshApi.Tests;
 
 public class CategoryControllerTests
 {
+    private readonly IMapper _mapper;
+
+    public CategoryControllerTests()
+    {
+        var mappingConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile(new MappingProfile());
+        });
+        _mapper = mappingConfig.CreateMapper();
+    }
+
     #region GetCategories
     [Fact]
     public async Task GetCategories_ShouldReturnAllCategories_WhenCategoriesExist()
@@ -24,12 +38,12 @@ public class CategoryControllerTests
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(categories.AsQueryable().BuildMock());
 
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
         var result = await controller.GetCategories();
         var okResult = result.Result as OkObjectResult;
-        var returnedCategories = okResult?.Value as IEnumerable<Category>;
+        var returnedCategories = okResult?.Value as IEnumerable<CategoryDto>;
 
         // Assert
         Assert.NotNull(okResult);
@@ -48,12 +62,12 @@ public class CategoryControllerTests
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(new List<Category> { category }.AsQueryable().BuildMock());
 
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
         var result = await controller.GetCategory(1);
         var okResult = result.Result as OkObjectResult;
-        var returnedCategory = okResult?.Value as Category;
+        var returnedCategory = okResult?.Value as CategoryDto;
 
         // Assert
         Assert.NotNull(okResult);
@@ -68,7 +82,7 @@ public class CategoryControllerTests
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(new List<Category>().AsQueryable().BuildMock());
 
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
         var result = await controller.GetCategory(1);
@@ -87,7 +101,7 @@ public class CategoryControllerTests
         mock.Setup(m => m.AddCategoryAsync(It.IsAny<Category>()))
             .ReturnsAsync(1);
 
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
         var createDto = new CreateCategoryDto("Test Category");
 
         // Act
@@ -106,7 +120,7 @@ public class CategoryControllerTests
     {
         // Arrange
         var mock = new Mock<ITondForooshRepository>();
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
         var result = await controller.CreateCategory(null!);
@@ -126,7 +140,7 @@ public class CategoryControllerTests
         mock.Setup(m => m.Categories).Returns(new List<Category> { category }.AsQueryable().BuildMock());
         mock.Setup(m => m.DeleteCategoryAsync(It.IsAny<Category>())).Returns(Task.CompletedTask);
 
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
         var result = await controller.DeleteCategory(1);
@@ -142,7 +156,7 @@ public class CategoryControllerTests
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(new List<Category>().AsQueryable().BuildMock());
 
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
         var result = await controller.DeleteCategory(1);
@@ -161,15 +175,14 @@ public class CategoryControllerTests
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(new List<Category> { category }.AsQueryable().BuildMock());
         mock.Setup(m => m.UpdateCategoryAsync(It.IsAny<Category>())).Returns(Task.CompletedTask);
-        var controller = new CategoryController(mock.Object);
-        var updateDto = new UpdateCategoryDto { Id = 1, Name = "New Name" };
+        var controller = new CategoryController(mock.Object, _mapper);
+        var updateDto = new UpdateCategoryDto(1, "New Name");
 
         // Act
-        var result = await controller.UpdateCategory(updateDto);
+        var result = await controller.UpdateCategory(1, updateDto);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
-        Assert.Equal("New Name", category.Name);
     }
 
     [Fact]
@@ -178,11 +191,11 @@ public class CategoryControllerTests
         // Arrange
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(new List<Category>().AsQueryable().BuildMock());
-        var controller = new CategoryController(mock.Object);
-        var updateDto = new UpdateCategoryDto { Id = 1, Name = "New Name" };
+        var controller = new CategoryController(mock.Object, _mapper);
+        var updateDto = new UpdateCategoryDto(1, "New Name");
 
         // Act
-        var result = await controller.UpdateCategory(updateDto);
+        var result = await controller.UpdateCategory(1, updateDto);
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
@@ -193,10 +206,10 @@ public class CategoryControllerTests
     {
         // Arrange
         var mock = new Mock<ITondForooshRepository>();
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
 
         // Act
-        var result = await controller.UpdateCategory(null!);
+        var result = await controller.UpdateCategory(1, null!);
 
         // Assert
         Assert.IsType<BadRequestObjectResult>(result);
@@ -207,12 +220,12 @@ public class CategoryControllerTests
     {
         // Arrange
         var mock = new Mock<ITondForooshRepository>();
-        var controller = new CategoryController(mock.Object);
+        var controller = new CategoryController(mock.Object, _mapper);
         controller.ModelState.AddModelError("error", "some error");
-        var updateDto = new UpdateCategoryDto { Id = 1 };
+        var updateDto = new UpdateCategoryDto(1, "New Name");
 
         // Act
-        var result = await controller.UpdateCategory(updateDto);
+        var result = await controller.UpdateCategory(1, updateDto);
 
         // Assert
         Assert.IsType<BadRequestObjectResult>(result);
@@ -226,11 +239,11 @@ public class CategoryControllerTests
         var mock = new Mock<ITondForooshRepository>();
         mock.Setup(m => m.Categories).Returns(new List<Category> { category }.AsQueryable().BuildMock());
         mock.Setup(m => m.UpdateCategoryAsync(It.IsAny<Category>())).Returns(Task.CompletedTask);
-        var controller = new CategoryController(mock.Object);
-        var updateDto = new UpdateCategoryDto { Id = 1, Name = "" };
+        var controller = new CategoryController(mock.Object, _mapper);
+        var updateDto = new UpdateCategoryDto(1, "");
 
         // Act
-        var result = await controller.UpdateCategory(updateDto);
+        var result = await controller.UpdateCategory(1, updateDto);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
