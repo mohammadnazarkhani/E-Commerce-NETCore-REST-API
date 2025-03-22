@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Breadcrumb } from "react-bootstrap";
 import axiosInstance from "../axiosInstance";
 import "../styles/ProductPage.css"; // Import the CSS file from the styles folder
 import ModalComponent from "../components/ModalComponent";
@@ -68,6 +68,15 @@ const ProductPage = () => {
 
   return (
     <div className="container mt-4 px-3 mb-5">
+      <Breadcrumb dir="rtl" className="mt-3">
+        <Breadcrumb.Item href="/">خانه</Breadcrumb.Item>
+        <span className="mx-2" style={{ color: '#6c757d' }}>/</span>
+        <Breadcrumb.Item href={`/product/category/${product.categoryId}`}>
+          {product.categoryName}
+        </Breadcrumb.Item>
+        <span className="mx-2" style={{ color: '#6c757d' }}>/</span>
+        <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+      </Breadcrumb>
       <div className="product-container">
         <img
           src={product.imageUrl}

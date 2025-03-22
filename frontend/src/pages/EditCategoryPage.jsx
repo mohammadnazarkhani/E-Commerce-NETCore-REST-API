@@ -2,26 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Container, Alert, Spinner } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
-import ProductDetailsForm from "../components/ProductDetailsForm";
+import CategoryDetailsForm from "../components/CategoryDetailsForm";
 
-const EditProductPage = () => {
+const EditCategoryPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+  const [category, setCategory] = useState(null);
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     axiosInstance
-      .get(`api/product/${id}`)
+      .get(`api/category/${id}`)
       .then((response) => {
-        setProduct(response.data);
+        setCategory(response.data);
         setError(null);
       })
       .catch((error) => {
-        console.error("Error fetching product:", error);
-        setError("Failed to load product");
+        console.error("Error fetching category:", error);
+        setError("Failed to load category");
       })
       .finally(() => setLoading(false));
   }, [id]);
@@ -37,30 +37,16 @@ const EditProductPage = () => {
     }
 
     const formData = new FormData(form);
-    const imageUrl = formData.get("imageUrl");
-
-    // Validate URL if provided
-    if (imageUrl && !imageUrl.match(/^https?:\/\/.+/)) {
-      setError("Please enter a valid http:// or https:// URL for the image");
-      return;
-    }
-
     const updateData = {
       id: parseInt(id),
       name: formData.get("name"),
-      description: formData.get("description") || "",
-      price: formData.get("price") ? parseFloat(formData.get("price")) : 0,
-      imageUrl: imageUrl || null,
     };
 
     try {
-      await axiosInstance.put(`api/product/${id}`, updateData);
-      navigate(`/product/${id}`);
+      await axiosInstance.put(`api/category/${id}`, updateData);
+      navigate("/categories");
     } catch (error) {
-      const errorMessage = error.response?.data?.errors
-        ? Object.values(error.response.data.errors).flat().join(", ")
-        : "Error updating product";
-      setError(errorMessage);
+      setError(error.response?.data?.message || "Error updating category");
     }
   };
 
@@ -72,24 +58,17 @@ const EditProductPage = () => {
     );
   }
 
-  if (error) {
-    return (
-      <Container className="mt-4">
-        <Alert variant="danger">{error}</Alert>
-      </Container>
-    );
-  }
-
   return (
     <Container className="mt-4 px-3 mb-5" dir="rtl">
-      <h1 className="mb-5">ویرایش محصول</h1>
-      <ProductDetailsForm
+      <h1 className="mb-4">ویرایش دسته‌بندی</h1>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <CategoryDetailsForm
         onSubmit={handleSubmit}
-        product={product}
+        category={category}
         validated={validated}
       />
     </Container>
   );
 };
 
-export default EditProductPage;
+export default EditCategoryPage;

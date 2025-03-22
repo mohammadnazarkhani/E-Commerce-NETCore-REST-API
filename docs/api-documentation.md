@@ -38,18 +38,19 @@
 
 ### Get Products by Category
 
-- **URL**: `/api/products/category/{categoryId}`
+- **URL**: `/api/product/category/{categoryId}`
 - **Method**: `GET`
-- **Response**:
+- **Success Response**:
   ```json
   [
     {
       "id": 1,
-      "name": "Product 1",
-      "description": "Description of Product 1",
-      "price": 100.0,
-      "imageUrl": "http://example.com/image1.jpg",
-      "categoryId": 1
+      "name": "Product Name",
+      "description": "Description",
+      "price": 100.00,
+      "imageUrl": "http://example.com/image.jpg",
+      "categoryId": 1,
+      "categoryName": "Category Name"
     }
   ]
   ```

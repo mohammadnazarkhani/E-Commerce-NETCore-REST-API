@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import axiosInstance from "../axiosInstance";
 
 const ProductDetailsForm = ({ onSubmit, product, validated }) => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get('api/category')
+      .then(response => setCategories(response.data))
+      .catch(error => console.error('Error fetching categories:', error));
+  }, []);
+
   return (
     <Form noValidate validated={validated} onSubmit={onSubmit}>
       <Form.Group className="mb-3" controlId="formProductName">
@@ -53,6 +62,27 @@ const ProductDetailsForm = ({ onSubmit, product, validated }) => {
           لطفا یک آدرس معتبر وارد کنید (مثال: https://example.com/image.jpg)
         </Form.Control.Feedback>
       </Form.Group>
+      
+      <Form.Group className="mb-3" controlId="formProductCategory">
+        <Form.Label>دسته‌بندی محصول</Form.Label>
+        <Form.Select 
+          name="categoryId"
+          required
+          value={product?.categoryId || ''}
+          onChange={(e) => e.currentTarget.value}
+        >
+          <option value="">انتخاب دسته‌بندی</option>
+          {categories.map(category => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </Form.Select>
+        <Form.Control.Feedback type="invalid">
+          لطفاً یک دسته‌بندی انتخاب کنید.
+        </Form.Control.Feedback>
+      </Form.Group>
+
       <Form.Group>
         <Button type="submit">
           {product ? 'ویرایش محصول' : 'افزودن محصول'}

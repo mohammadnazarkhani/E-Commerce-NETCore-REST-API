@@ -3,13 +3,27 @@ using Moq;
 using WebApi.Controllers;
 using Core.Entities;
 using MockQueryable;
-using Core.DTOs;
+using Core.DTOs.Products.Requests;
+using Core.DTOs.Products.Responses;
+using AutoMapper;
 using Infrastructure.Data;
+using Core.Mapping;
 
 namespace TondForooshApi.Tests;
 
 public class ProductControllerTests
 {
+    private readonly IMapper _mapper;
+
+    public ProductControllerTests()
+    {
+        var mappingConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile(new MappingProfile());
+        });
+        _mapper = mappingConfig.CreateMapper();
+    }
+
     private Category GetTestCategory()
     {
         return new Category { Id = 1, Name = "Test Category" };
@@ -17,7 +31,7 @@ public class ProductControllerTests
 
     #region GetAllProducts
     [Fact]
-    public async Task GetProductByIds_ShouldReturnAllProducts_WhenProductsExist()
+    public async Task GetAllProducts_ShouldReturnAllProducts_WhenProductsExist()
     {
         // Arrange
         var category = GetTestCategory();
@@ -27,18 +41,18 @@ public class ProductControllerTests
         Mock<ITondForooshRepository> mock = new();
         mock.Setup(m => m.Products).Returns(new List<Product> { p1, p2 }.AsQueryable().BuildMock());
 
-        ProductController controller = new(mock.Object);
+        ProductController controller = new(mock.Object, _mapper);
 
         // Act
         var result = await controller.GetAllProducts();
         var okResult = result.Result as OkObjectResult;
-        var products = okResult?.Value as IEnumerable<Product>;
+        var products = okResult?.Value as IEnumerable<ProductListItemDto>;
 
         // Assert
         Assert.NotNull(okResult);
         Assert.NotNull(products);
-        Product[] productArray = products.ToArray();
-        Assert.True(productArray.Length == 2);
+        var productArray = products.ToArray();
+        Assert.Equal(2, productArray.Length);
         Assert.Equal("P1", productArray[0].Name);
         Assert.Equal("P2", productArray[1].Name);
     }
@@ -58,16 +72,16 @@ public class ProductControllerTests
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { p1, p2 }.AsQueryable().BuildMock());
 
         // - create controller instance
-        ProductController targetController = new(mockRepo.Object);
+        ProductController targetController = new(mockRepo.Object, _mapper);
 
         // Act
         var result = await targetController.GetProductById(1);
-        Product product = (result.Result as OkObjectResult)?.Value as Product ?? new Product();
+        ProductDetailsDto product = (result.Result as OkObjectResult)?.Value as ProductDetailsDto ?? new ProductDetailsDto(0, string.Empty, null, 0M, null, 0, string.Empty);
 
         // Assert
         Assert.NotNull(result);
         Assert.True(result.Result is OkObjectResult);
-        Assert.Equal(p1, product);
+        Assert.Equal("P1", product.Name);
     }
 
     [Fact]
@@ -83,12 +97,12 @@ public class ProductControllerTests
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { p1, p2 }.AsQueryable().BuildMock());
 
         // - create controller instance
-        ProductController targetController = new(mockRepo.Object);
+        ProductController targetController = new(mockRepo.Object, _mapper);
 
         // Act
         var result = await targetController.GetProductById(4);
         var actionResult = result.Result;
-        Product? product = (result.Result as OkObjectResult)?.Value as Product;
+        ProductDetailsDto? product = (result.Result as OkObjectResult)?.Value as ProductDetailsDto;
 
         // Assert
         Assert.True(actionResult is NotFoundResult);
@@ -108,7 +122,7 @@ public class ProductControllerTests
         // - create mock repo
         Mock<ITondForooshRepository> mockRepo = new();
         var products = new List<Product> { p1, p2 };
-        mockRepo.Setup(m => m.Products).Returns(products.AsQueryable().BuildMock());
+        mockRepo.Setup(m => m.Products).Returns(products.AsQueryable().BuildMock());  // Removed .Object
         mockRepo.Setup(m => m.AddAsync(It.IsAny<Product>())).ReturnsAsync((Product product) =>
         {
             product.Id = products.Max(p => p.Id) + 1;
@@ -118,7 +132,7 @@ public class ProductControllerTests
         mockRepo.Setup(m => m.Categories).Returns(new List<Category> { category }.AsQueryable().BuildMock());
 
         // - create controller instance
-        ProductController targetController = new(mockRepo.Object);
+        ProductController targetController = new(mockRepo.Object, _mapper);
 
         // - create CreateProductDto
         CreateProductDto createProductDto = new("P3", "Description", 100M, "URL", category.Id);
@@ -161,7 +175,7 @@ public class ProductControllerTests
         });
 
         // - create controller instance
-        ProductController targetController = new(mockRepo.Object);
+        ProductController targetController = new(mockRepo.Object, _mapper);
 
         // - create CreateProductDto instance when null
         CreateProductDto createProductDto = null!;
@@ -177,15 +191,16 @@ public class ProductControllerTests
     {
         // Arrange
         Mock<ITondForooshRepository> mockRepo = new();
-        ProductController targetController = new(mockRepo.Object);
-        targetController.ModelState.AddModelError("Name", "Required");
+        ProductController targetController = new(mockRepo.Object, _mapper);
         CreateProductDto createProductDto = new(null!, "Description", 100M, "URL", 1);
+        targetController.ModelState.AddModelError("Name", "Name is required");
 
         // Act
         var result = await targetController.CreateProduct(createProductDto);
 
         // Assert
-        Assert.True(result.Result is BadRequestResult);
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        Assert.NotNull(badRequestResult.Value);
     }
 
     [Fact]
@@ -193,15 +208,16 @@ public class ProductControllerTests
     {
         // Arrange
         Mock<ITondForooshRepository> mockRepo = new();
-        ProductController targetController = new(mockRepo.Object);
-        targetController.ModelState.AddModelError("Price", "Out of range");
+        ProductController targetController = new(mockRepo.Object, _mapper);
         CreateProductDto createProductDto = new("P3", "Description", 0M, "URL", 1);
+        targetController.ModelState.AddModelError("Price", "Price must be greater than 0");
 
         // Act
         var result = await targetController.CreateProduct(createProductDto);
 
         // Assert
-        Assert.True(result.Result is BadRequestResult);
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        Assert.NotNull(badRequestResult.Value);
     }
     #endregion
 
@@ -214,11 +230,11 @@ public class ProductControllerTests
         var mockRepo = new Mock<ITondForooshRepository>();
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
         mockRepo.Setup(m => m.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
-        var controller = new ProductController(mockRepo.Object);
-        var updateDto = new UpdateProductDto { Id = 1, Name = "Updated", Price = 20M };
+        var controller = new ProductController(mockRepo.Object, _mapper);
+        var updateDto = new UpdateProductDto(1, "Updated", "New Desc", 20M, "url", 1);
 
         // Act
-        var result = await controller.UpdateProduct(updateDto);
+        var result = await controller.UpdateProduct(1, updateDto);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
@@ -230,11 +246,11 @@ public class ProductControllerTests
         // Arrange
         var mockRepo = new Mock<ITondForooshRepository>();
         mockRepo.Setup(m => m.Products).Returns(new List<Product>().AsQueryable().BuildMock());
-        var controller = new ProductController(mockRepo.Object);
-        var updateDto = new UpdateProductDto { Id = 1, Name = "Updated" };
+        var controller = new ProductController(mockRepo.Object, _mapper);
+        var updateDto = new UpdateProductDto(1, "Updated", "New Desc", 20M, "url", 1);
 
         // Act
-        var result = await controller.UpdateProduct(updateDto);
+        var result = await controller.UpdateProduct(1, updateDto);
 
         // Assert
         Assert.IsType<NotFoundResult>(result);
@@ -245,12 +261,12 @@ public class ProductControllerTests
     {
         // Arrange
         var mockRepo = new Mock<ITondForooshRepository>();
-        var controller = new ProductController(mockRepo.Object);
+        var controller = new ProductController(mockRepo.Object, _mapper);
         controller.ModelState.AddModelError("error", "some error");
-        var updateDto = new UpdateProductDto { Id = 1 };
+        var updateDto = new UpdateProductDto(1, "Updated", "New Desc", 20M, "url", 1);
 
         // Act
-        var result = await controller.UpdateProduct(updateDto);
+        var result = await controller.UpdateProduct(1, updateDto);
 
         // Assert
         Assert.IsType<BadRequestObjectResult>(result);
@@ -261,10 +277,10 @@ public class ProductControllerTests
     {
         // Arrange
         var mockRepo = new Mock<ITondForooshRepository>();
-        var controller = new ProductController(mockRepo.Object);
+        var controller = new ProductController(mockRepo.Object, _mapper);
 
         // Act
-        var result = await controller.UpdateProduct(null!);
+        var result = await controller.UpdateProduct(1, null!);
 
         // Assert
         Assert.IsType<BadRequestObjectResult>(result);
@@ -277,11 +293,11 @@ public class ProductControllerTests
         var product = new Product { Id = 1, Name = "P1", Price = 10M };
         var mockRepo = new Mock<ITondForooshRepository>();
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
-        var controller = new ProductController(mockRepo.Object);
-        var updateDto = new UpdateProductDto { Id = 1, Price = -5M };
+        var controller = new ProductController(mockRepo.Object, _mapper);
+        var updateDto = new UpdateProductDto(1, "Updated", "New Desc", -5M, "url", 1);
 
         // Act
-        var result = await controller.UpdateProduct(updateDto);
+        var result = await controller.UpdateProduct(1, updateDto);
 
         // Assert
         Assert.Equal(10M, product.Price);
@@ -295,11 +311,11 @@ public class ProductControllerTests
         var mockRepo = new Mock<ITondForooshRepository>();
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
         mockRepo.Setup(m => m.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
-        var controller = new ProductController(mockRepo.Object);
-        var updateDto = new UpdateProductDto { Id = 1 };
+        var controller = new ProductController(mockRepo.Object, _mapper);
+        var updateDto = new UpdateProductDto(1, "P1", "Desc", 10M, "url", 1);
 
         // Act
-        var result = await controller.UpdateProduct(updateDto);
+        var result = await controller.UpdateProduct(1, updateDto);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
@@ -316,18 +332,11 @@ public class ProductControllerTests
         var mockRepo = new Mock<ITondForooshRepository>();
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
         mockRepo.Setup(m => m.UpdateAsync(It.IsAny<Product>())).Returns(Task.CompletedTask);
-        var controller = new ProductController(mockRepo.Object);
-        var updateDto = new UpdateProductDto
-        {
-            Id = 1,
-            Name = "New Name",
-            Description = "New Desc",
-            Price = 20M,
-            ImageUrl = "new.jpg"
-        };
+        var controller = new ProductController(mockRepo.Object, _mapper);
+        var updateDto = new UpdateProductDto(1, "New Name", "New Desc", 20M, "new.jpg", 1);
 
         // Act
-        var result = await controller.UpdateProduct(updateDto);
+        var result = await controller.UpdateProduct(1, updateDto);
 
         // Assert
         Assert.IsType<NoContentResult>(result);
@@ -346,7 +355,7 @@ public class ProductControllerTests
         var product = new Product { Id = 1, Name = "P1", Description = "Old Desc", Price = 10M };
         var mockRepo = new Mock<ITondForooshRepository>();
         mockRepo.Setup(m => m.Products).Returns(new List<Product> { product }.AsQueryable().BuildMock());
-        var controller = new ProductController(mockRepo.Object);
+        var controller = new ProductController(mockRepo.Object, _mapper);
 
         // Act
         var result = await controller.DeleteProduct(2);
@@ -367,7 +376,7 @@ public class ProductControllerTests
         mockRepo.Setup(m => m.DeleteAsync(It.IsAny<Product>()))
             .Callback<Product>(p => productList.Remove(p))
             .Returns(Task.CompletedTask);
-        var controller = new ProductController(mockRepo.Object);
+        var controller = new ProductController(mockRepo.Object, _mapper);
 
         // Act
         var result = await controller.DeleteProduct(1);

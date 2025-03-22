@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Core.DTOs;
+using Core.DTOs.Categories.Requests;
+using Core.DTOs.Categories.Responses;
 using Infrastructure.Data;
 using Core.Entities;
+using AutoMapper;
 
 namespace WebApi.Controllers;
 
@@ -11,35 +13,32 @@ namespace WebApi.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly ITondForooshRepository repository;
+    private readonly IMapper _mapper;
 
-    public CategoryController(ITondForooshRepository repo)
+    public CategoryController(ITondForooshRepository repo, IMapper mapper)
     {
         repository = repo;
+        _mapper = mapper;
     }
 
-    /// <summary>
-    /// Gets all categories
-    /// </summary>
-    /// <returns>List of all categories</returns>
-    /// <response code="200">Returns the list of categories</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
     {
         var categories = await repository.Categories.ToListAsync();
-        return Ok(categories);
+        return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categories));
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Category>> GetCategory(int id)
+    public async Task<ActionResult<CategoryDto>> GetCategory(int id)
     {
         var category = await repository.Categories.FirstOrDefaultAsync(c => c.Id == id);
         if (category == null)
             return NotFound();
 
-        return Ok(category);
+        return Ok(_mapper.Map<CategoryDto>(category));
     }
 
     [HttpPost]
@@ -47,30 +46,42 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<int>> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
     {
-        if (createCategoryDto == null || !ModelState.IsValid)
+        if (createCategoryDto == null)
             return BadRequest();
 
-        var category = new Category { Name = createCategoryDto.Name };
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var category = _mapper.Map<Category>(createCategoryDto);
         var categoryId = await repository.AddCategoryAsync(category);
 
         return Ok(categoryId);
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
+    public async Task<ActionResult> UpdateCategory(long id, [FromBody] UpdateCategoryDto updateCategoryDto)
     {
-        if (updateCategoryDto == null || !ModelState.IsValid)
-            return BadRequest("Invalid Data");
+        if (updateCategoryDto == null)
+            return BadRequest("DTO cannot be null");
 
-        var category = await repository.Categories.FirstOrDefaultAsync(c => c.Id == updateCategoryDto.Id);
+        if (id != updateCategoryDto.Id)
+            return BadRequest("ID mismatch");
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var category = await repository.Categories.FirstOrDefaultAsync(c => c.Id == id);
         if (category == null)
             return NotFound();
 
+        // Skip mapping if name is empty to preserve original name
         if (!string.IsNullOrEmpty(updateCategoryDto.Name))
-            category.Name = updateCategoryDto.Name;
+        {
+            _mapper.Map(updateCategoryDto, category);
+        }
 
         await repository.UpdateCategoryAsync(category);
         return NoContent();

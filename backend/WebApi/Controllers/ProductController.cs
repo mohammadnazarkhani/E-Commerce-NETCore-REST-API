@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Core.DTOs;
 using Infrastructure.Data;
 using Core.Entities;
+using Core.DTOs.Products.Requests;
+using Core.DTOs.Products.Responses;
+using AutoMapper;
 
 namespace WebApi.Controllers
 {
@@ -10,31 +13,36 @@ namespace WebApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private ITondForooshRepository repository;
+        private readonly ITondForooshRepository repository;
+        private readonly IMapper _mapper;
 
-        public ProductController(ITondForooshRepository repo)
+        public ProductController(ITondForooshRepository repo, IMapper mapper)
         {
             repository = repo;
+            _mapper = mapper;
             ControllerContext = new ControllerContext();
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductListItemDto>>> GetAllProducts()
         {
             var products = await repository.Products.ToListAsync();
-            return Ok(products);
+            return Ok(_mapper.Map<IEnumerable<ProductListItemDto>>(products));
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Product>> GetProductById(long id)
+        public async Task<ActionResult<ProductDetailsDto>> GetProductById(long id)
         {
-            Product? p = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
-            if (p == null)
+            var product = await repository.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
                 return NotFound();
 
-            return Ok(p);
+            return Ok(_mapper.Map<ProductDetailsDto>(product));
         }
 
         [HttpGet("category/{categoryId}")]
@@ -57,56 +65,60 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<long>> CreateProduct([FromBody] CreateProductDto createProductDto)
         {
-            if (createProductDto == null || !ModelState.IsValid)
-            {
+            if (createProductDto == null)
                 return BadRequest();
+
+            if (string.IsNullOrEmpty(createProductDto.Name))
+            {
+                ModelState.AddModelError("Name", "Name is required");
+                return BadRequest(ModelState);
             }
 
-            // Verify that the category exists
+            if (createProductDto.Price <= 0)
+            {
+                ModelState.AddModelError("Price", "Price must be greater than 0");
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var category = await repository.Categories.FirstOrDefaultAsync(c => c.Id == createProductDto.CategoryId);
             if (category == null)
             {
-                return BadRequest("Invalid category");
+                ModelState.AddModelError("CategoryId", "Invalid category");
+                return BadRequest(ModelState);
             }
 
-            var newProduct = new Product
-            {
-                Name = createProductDto.Name,
-                Description = createProductDto.Description,
-                Price = createProductDto.Price,
-                ImageUrl = createProductDto.ImageUrl,
-                CategoryId = createProductDto.CategoryId
-            };
-
-            var productId = await repository.AddAsync(newProduct);
+            var product = _mapper.Map<Product>(createProductDto);
+            var productId = await repository.AddAsync(product);
 
             return Ok(productId);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductDto updateProductDto)
+        public async Task<ActionResult> UpdateProduct(long id, [FromBody] UpdateProductDto updateProductDto)
         {
-            if (updateProductDto == null || !ModelState.IsValid)
-                return BadRequest("Invalid Data");
+            if (updateProductDto == null)
+                return BadRequest("DTO cannot be null");
 
-            var product = await repository.Products.FirstOrDefaultAsync(p => p.Id == updateProductDto.Id);
+            if (id != updateProductDto.Id)
+                return BadRequest("ID mismatch");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (updateProductDto.Price <= 0)
+                return BadRequest("Price must be greater than 0");
+
+            var product = await repository.Products.FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
                 return NotFound();
 
-            // Update only provided values
-            if (!string.IsNullOrEmpty(updateProductDto.Name))
-                product.Name = updateProductDto.Name;
-            if (updateProductDto.Description != null)
-                product.Description = updateProductDto.Description;
-            if (updateProductDto.Price > 0)
-                product.Price = updateProductDto.Price;
-
-            // Handle ImageUrl separately - allow null/empty to clear the URL
-            product.ImageUrl = updateProductDto.ImageUrl;
-
+            _mapper.Map(updateProductDto, product);
             await repository.UpdateAsync(product);
             return NoContent();
         }

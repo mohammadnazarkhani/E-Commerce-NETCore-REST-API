@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../styles/NavbarComponent.css";
 import Logo from "./Logo";
+import CategoryDropdown from "./CategoryDropdown";
 
 const NavbarComponent = () => {
   return (
@@ -23,6 +24,10 @@ const NavbarComponent = () => {
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/" className="nav-link-custom">
               خانه
+            </Nav.Link>
+            <CategoryDropdown />
+            <Nav.Link as={Link} to="/categories" className="nav-link-custom">
+              دسته‌بندی‌ها
             </Nav.Link>
             <Nav.Link as={Link} to="/create/product" className="nav-link-custom">
               افزودن محصول
