@@ -10,6 +10,9 @@ import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import AddNewProductPage from "./pages/AddNewProductPage";
 import EditProductPage from "./pages/EditProductPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import AddNewCategoryPage from "./pages/AddNewCategoryPage";
+import EditCategoryPage from "./pages/EditCategoryPage";
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
@@ -38,6 +41,9 @@ const App = () => {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/create/product" element={<AddNewProductPage />} />
         <Route path="/edit/product/:id" element={<EditProductPage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/create/category" element={<AddNewCategoryPage />} />
+        <Route path="/edit/category/:id" element={<EditCategoryPage />} />
       </Route>
     )
   );
