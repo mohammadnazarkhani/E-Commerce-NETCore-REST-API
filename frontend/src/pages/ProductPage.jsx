@@ -71,7 +71,7 @@ const ProductPage = () => {
       <Breadcrumb dir="rtl" className="mt-3">
         <Breadcrumb.Item href="/">خانه</Breadcrumb.Item>
         <span className="mx-2" style={{ color: '#6c757d' }}>/</span>
-        <Breadcrumb.Item href={`/category/${product.categoryId}`}>
+        <Breadcrumb.Item href={`/product/category/${product.categoryId}`}>
           {product.categoryName}
         </Breadcrumb.Item>
         <span className="mx-2" style={{ color: '#6c757d' }}>/</span>

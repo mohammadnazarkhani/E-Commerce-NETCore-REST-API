@@ -87,6 +87,13 @@ const CategoriesPage = () => {
               <td>{category.name}</td>
               <td>
                 <Button
+                  variant="primary"
+                  className="me-2"
+                  onClick={() => navigate(`/product/category/${category.id}`)}
+                >
+                  مشاهده محصولات
+                </Button>
+                <Button
                   variant="warning"
                   className="me-2"
                   onClick={() => navigate(`/edit/category/${category.id}`)}
