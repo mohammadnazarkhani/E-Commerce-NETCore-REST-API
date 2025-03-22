@@ -33,16 +33,39 @@
 ## API Endpoints
 
 ### Product Endpoints
-- `GET /api/products`: Get all products
-- `GET /api/products/{id}`: Get a product by ID
-- `GET /api/products/category/{categoryId}`: Get products by category
-- `POST /api/products`: Create a new product
-- `PUT /api/products`: Update an existing product
-- `DELETE /api/products/{id}`: Delete a product by ID
+- `GET /api/product`: Get all products
+- `GET /api/product/{id}`: Get product by ID
+- `GET /api/product/category/{categoryId}`: Get products by category
+- `POST /api/product`: Create new product
+- `PUT /api/product/{id}`: Update product
+- `DELETE /api/product/{id}`: Delete product
 
 ### Category Endpoints
-- `GET /api/categories`: Get all categories
-- `GET /api/categories/{id}`: Get a category by ID
-- `POST /api/categories`: Create a new category
-- `PUT /api/categories`: Update an existing category
-- `DELETE /api/categories/{id}`: Delete a category by ID
+- `GET /api/category`: Get all categories
+- `GET /api/category/{id}`: Get category by ID
+- `POST /api/category`: Create new category
+- `PUT /api/category/{id}`: Update category
+- `DELETE /api/category/{id}`: Delete category
+
+## Data Models
+
+### Product
+```json
+{
+  "id": 1,
+  "name": "Product Name",
+  "description": "Product Description",
+  "price": 100.00,
+  "imageUrl": "https://example.com/image.jpg",
+  "categoryId": 1,
+  "categoryName": "Category Name"
+}
+```
+
+### Category
+```json
+{
+  "id": 1,
+  "name": "Category Name"
+}
+```

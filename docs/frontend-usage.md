@@ -1,16 +1,46 @@
 # Frontend Usage
 
-## Home Page
+## Main Navigation Pages
 
+### Home Page
 - **URL**: `/`
-- **Description**: Displays a list of products. Click on a product to view its details.
+- **Description**: Displays all products. Access through the "خانه" link or logo.
 
-## Product Details Page
+### Products by Category
+- **URL**: `/product/category/:categoryId`
+- **Description**: Shows products filtered by category. Access through:
+  - Products dropdown in navbar
+  - Category breadcrumb links
+  - "مشاهده محصولات" button in categories list
 
+### Product Details Page
 - **URL**: `/product/:id`
-- **Description**: Displays detailed information about a product, including its name, description, price, and image.
+- **Description**: Shows product details with edit/delete options
 
-## Add New Product Page
+## Category Management
 
+### Categories List
+- **URL**: `/categories`
+- **Description**: Lists all categories with options to:
+  - View category products
+  - Edit category
+  - Delete category
+  - Add new category
+
+### Add Category
+- **URL**: `/create/category`
+- **Description**: Form to create a new category
+
+### Edit Category
+- **URL**: `/edit/category/:id`
+- **Description**: Form to modify existing category
+
+## Product Management
+
+### Add Product
 - **URL**: `/create/product`
-- **Description**: Allows users to add a new product by filling out a form with the product's name, description, price, and image URL.
+- **Description**: Form to add new product with category selection
+
+### Edit Product
+- **URL**: `/edit/product/:id`
+- **Description**: Form to modify existing product details
