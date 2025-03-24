@@ -84,6 +84,6 @@ npm run dev
 
 ## اسکرین‌شات
 
-![Screenshot](Screenshot_2025-03-10_204204.png)
+![Screenshot](Screenshot.png)
 
 </div>
