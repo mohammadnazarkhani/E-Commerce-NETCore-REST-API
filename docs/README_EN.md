@@ -70,4 +70,4 @@ npm run dev
 
 ## Screenshot
 
-![Screenshot](../Screenshot_2025-03-10_204204.png)
+![Screenshot](../Screenshot.png)
