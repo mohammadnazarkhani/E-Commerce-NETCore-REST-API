@@ -1,5 +1,7 @@
 using WebApi.Services;
 using Microsoft.OpenApi.Models;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,22 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+// Apply migrations and update the database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<TFDbContext>();
+        context.Database.Migrate(); // Apply pending migrations
+    }
+    catch (Exception ex)
+    {
+        // Log the exception (optional)
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+    }
+}
 
 // Use Swagger middleware
 app.UseSwagger();
