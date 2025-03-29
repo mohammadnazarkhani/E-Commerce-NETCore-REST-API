@@ -31,7 +31,7 @@ public class BaseFileEntity
     /// <summary>
     /// UTC timestamp when the entity was created
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
     /// <summary>
     /// UTC timestamp when the entity was last updated
