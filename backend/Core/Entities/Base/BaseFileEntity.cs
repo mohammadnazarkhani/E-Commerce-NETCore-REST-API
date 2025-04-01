@@ -1,18 +1,13 @@
 using System;
 using AutoMapper.Configuration.Conventions;
 
-namespace Core.Entities;
+namespace Core.Entities.Base;
 
 /// <summary>
 /// Base class for file-based entities providing common properties for file management
 /// </summary>
-public class BaseFileEntity
+public class BaseFileEntity : EntityBase<Guid>
 {
-    /// <summary>
-    /// Unique identifier for the entity
-    /// </summary>
-    public Guid Id { get; set; }
-
     /// <summary>
     /// Display name of the file
     /// </summary>
