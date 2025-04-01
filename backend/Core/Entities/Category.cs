@@ -7,7 +7,7 @@ namespace Core.Entities;
 public class Category : AuditableEntity<int>
 {
     public required string Name { get; set; }
-    public required string Description { get; set; }
+    public string? Description { get; set; }
 
     #region Relationship
     public int? ParentCategoryId { get; set; }
