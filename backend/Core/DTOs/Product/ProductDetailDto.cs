@@ -1,3 +1,5 @@
+using Core.DTOs.Category;
+
 namespace Core.DTOs.Product;
 
 public record class ProductDetailDto(
@@ -6,6 +8,6 @@ public record class ProductDetailDto(
     string? Description,
     decimal Price,
     int StockQuantity,
-    Queue<(int, string)> Categories,
+    Queue<CategoryDto> Categories,
     Guid MainImageId
 );
