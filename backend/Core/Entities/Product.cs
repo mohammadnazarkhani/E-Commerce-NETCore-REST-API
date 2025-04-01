@@ -1,16 +1,38 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using Core.Entities.Base;
+using Core.Entities.Interfaces;
 
 namespace Core.Entities;
 
-public class Product
+public class Product : AuditableEntity<long>, IVersionable
 {
-    public long Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; } = string.Empty;
-    public decimal Price { get; set; }
-    public string? ImageUrl { get; set; }
+    [StringLength(200)]
+    public required string Name { get; set; } = string.Empty;
 
-    // Relation with category
+    [StringLength(2000)]
+    public string? Description { get; set; } = string.Empty;
+
+    public decimal Price { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int StockQuantity { get; set; }
+
+    [Timestamp]
+    public byte[] RowVersion { get; set; } = null!;
+
+    #region Relationships
+    /// <summary>
+    /// Relationship: Many-to-One with category
+    /// Foreign Key: CategoryId
+    /// </summary>
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
+
+    /// <summary>
+    /// Relationship: One-to-One with ProductImage
+    /// </summary>
+    public Guid MainImageId { get; set; }
+    public ProductImage? MainImage { get; set; }
+    #endregion
 }
