@@ -15,6 +15,6 @@ public class AuditableEntity<TId> : EntityBase<TId>, IAuditableEntity, IEntitySt
     public EntityStatus Status { get; private set; } = EntityStatus.Unchanged;
     public void SetStatus(EntityStatus status)
     {
-        throw new NotImplementedException();
+        Status = status;
     }
 }
