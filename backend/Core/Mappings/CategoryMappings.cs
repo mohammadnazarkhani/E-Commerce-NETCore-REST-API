@@ -1,9 +1,6 @@
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using Core.DTOs.Category;
 using Core.Entities;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Core.Entities.Enums;
 
 namespace Core.Mappings;
 
@@ -11,6 +8,8 @@ public static class CategoryMappings
 {
     public static CategoryDto ToDto(this Category category)
     {
+        if (category == null) return null!;
+
         return new CategoryDto(
             category.Id,
             category.Name
@@ -19,6 +18,8 @@ public static class CategoryMappings
 
     public static CategoryListDto ToListDto(this Category category)
     {
+        if (category == null) return null!;
+
         return new CategoryListDto(
             category.Id,
             category.Name,
@@ -29,6 +30,8 @@ public static class CategoryMappings
 
     public static Category ToEntity(this CreateCategoryDto createCategoryDto)
     {
+        if (createCategoryDto == null) return null!;
+
         return new Category
         {
             Name = createCategoryDto.Name,
@@ -37,13 +40,15 @@ public static class CategoryMappings
         };
     }
 
-    public static Category ToEntity(this UpdateCategoryDto updateCategoryDto)
+    public static void UpdateFromDto(this Category category, UpdateCategoryDto updateCategoryDto)
     {
-        return new Category
-        {
-            Name = updateCategoryDto.Name ?? string.Empty,
-            Description = updateCategoryDto.Description,
-            ParentCategoryId = updateCategoryDto.ParentCategoryId,
-        };
+        if (updateCategoryDto == null || category == null) return;
+
+        if (updateCategoryDto.Name != null)
+            category.Name = updateCategoryDto.Name;
+
+        category.Description = updateCategoryDto.Description;
+        category.ParentCategoryId = updateCategoryDto.ParentCategoryId;
+        category.SetStatus(EntityStatus.Modified);
     }
 }
