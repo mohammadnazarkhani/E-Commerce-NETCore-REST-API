@@ -34,7 +34,6 @@ public class Product : AuditableEntity<long>, IVersionable
     /// <summary>
     /// Relationship: One-to-One with ProductImage
     /// </summary>
-    public Guid MainImageId { get; set; }
     public ProductImage? MainImage { get; set; }
     #endregion
 }
