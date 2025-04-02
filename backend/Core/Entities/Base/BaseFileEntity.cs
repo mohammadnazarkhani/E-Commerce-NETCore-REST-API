@@ -1,5 +1,4 @@
 using System;
-using AutoMapper.Configuration.Conventions;
 using Core.Entities.Enums;
 using Core.Entities.Interfaces;
 
