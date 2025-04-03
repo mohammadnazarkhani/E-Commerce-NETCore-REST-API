@@ -14,7 +14,7 @@ public record class CreateProductDto
     public required decimal Price { get; init; }
 
     [Required]
-    public long CategoryId { get; init; }
+    public int CategoryId { get; init; }
 
     /// <summary>
     /// Display name or alt text for the product image
