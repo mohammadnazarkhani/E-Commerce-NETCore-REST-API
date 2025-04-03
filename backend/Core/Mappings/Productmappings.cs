@@ -1,33 +1,45 @@
 using System;
 using Core.DTOs.Product;
 using Core.Entities;
+using Core.Entities.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Mappings;
 
 public static class Productmappings
 {
-    public static (IFormFile, ProductImage, Product) ToEntities(this CreateProductDto createProductDto)
+    /// <summary>
+    /// Maps a CreateProductDto to a tuple containing the product image file, product image entity, and product entity.
+    /// Assumes the DTO has already been validated.
+    /// </summary>
+    public static (IFormFile Image, ProductImage ProductImage, Product Product) ToNewProductEntities(
+        this CreateProductDto createProductDto)
     {
-        Product product = new Product
+        Product product = new()
         {
-            Name = createProductDto.Name,
-            Description = createProductDto.Description,
+            Name = createProductDto.Name.Trim(),
+            Description = createProductDto.Description?.Trim(),
             Price = createProductDto.Price,
             CategoryId = createProductDto.CategoryId,
-            StockQuantity = createProductDto.StockQuantity
+            StockQuantity = createProductDto.StockQuantity,
         };
+        product.SetStatus(EntityStatus.Added);
 
         ProductImage productImage = new()
         {
-            Name = createProductDto.ImageName.Trim(),
+            Name = string.IsNullOrWhiteSpace(createProductDto.ImageName)
+                ? createProductDto.Name.Trim()
+                : createProductDto.ImageName.Trim(),
             ContentType = createProductDto.Image.ContentType,
             FileSize = createProductDto.Image.Length,
             Product = product
         };
+        productImage.SetStatus(EntityStatus.Added);
 
         product.MainImage = productImage;
 
         return (createProductDto.Image, productImage, product);
     }
+
+
 }
