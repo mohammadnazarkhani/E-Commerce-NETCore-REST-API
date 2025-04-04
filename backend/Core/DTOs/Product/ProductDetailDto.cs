@@ -8,6 +8,6 @@ public record class ProductDetailDto(
     string? Description,
     decimal Price,
     int StockQuantity,
-    Queue<CategoryDto> Categories,
+    Stack<CategoryDto> Categories,
     Guid MainImageId
 );
