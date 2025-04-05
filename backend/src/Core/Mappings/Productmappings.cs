@@ -1,4 +1,5 @@
 using System;
+using Core.DTOs.Category;
 using Core.DTOs.Product;
 using Core.Entities;
 using Core.Entities.Enums;
@@ -41,5 +42,23 @@ public static class Productmappings
         return (createProductDto.Image, productImage, product);
     }
 
-
+    public static ProductDetailDto ToProductDetailDto(this Product product)
+    {
+        var productCategory = product.Category;
+        Queue<CategoryDto> categories = new Queue<CategoryDto>();
+        var categoryParent = productCategory.ParentCategory;
+        while (categoryParent is not null)
+        {
+            
+        }
+            return new ProductDetailDto(
+                product.Id,
+                product.Name,
+                product.Description,
+                product.Price,
+                product.StockQuantity,
+                product.
+    
+            );
+    }
 }
