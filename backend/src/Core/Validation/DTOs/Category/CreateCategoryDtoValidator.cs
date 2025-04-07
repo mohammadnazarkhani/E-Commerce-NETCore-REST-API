@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using Core.DTOs.Category;
 using Core.Validation.Base;
+using Core.Validation.DTOs.Shared;
 using FluentValidation;
 
 namespace Core.Validation.DTOs.Category;
@@ -12,10 +13,10 @@ public class CreateCategoryDtoValidator : BaseValidator<CreateCategoryDto>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(200);
+            .ValidateName();
 
         RuleFor(x => x.Description)
-            .MaximumLength(2000);
+            .ValidateDescription();
 
         RuleFor(x => x.ParentCategoryId)
             .GreaterThan(0)

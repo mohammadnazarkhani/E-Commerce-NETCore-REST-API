@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using Core.DTOs.Product;
 using Core.Validation.Base;
+using Core.Validation.DTOs.Shared;
 using FluentValidation;
 
 namespace Core.Validation.DTOs.Product;
@@ -11,11 +12,11 @@ public class UpdateProductDtoValidator : BaseValidator<UpdateProductDto>
     public UpdateProductDtoValidator()
     {
         RuleFor(x => x.Name)
-            .MaximumLength(200)
+            .ValidateName()
             .When(x => x.Name != null);
 
         RuleFor(x => x.Description)
-            .MaximumLength(2000)
+            .ValidateDescription()
             .When(x => x.Description != null);
 
         RuleFor(x => x.Price)

@@ -1,6 +1,7 @@
 using System;
 using Core.DTOs.Category;
 using Core.Validation.Base;
+using Core.Validation.DTOs.Shared;
 using FluentValidation;
 
 namespace Core.Validation.DTOs.Category;
@@ -10,11 +11,11 @@ public class UpdateCategoryDtoValidator : BaseValidator<UpdateCategoryDto>
     public UpdateCategoryDtoValidator()
     {
         RuleFor(x => x.Name)
-            .MaximumLength(200)
+            .ValidateName()
             .When(x => x.Name != null);
 
         RuleFor(x => x.Description)
-            .MaximumLength(2000)
+            .ValidateDescription()
             .When(x => x.Description != null);
 
         RuleFor(x => x.ParentCategoryId)
