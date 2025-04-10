@@ -45,20 +45,24 @@ public static class Productmappings
     public static ProductDetailDto ToProductDetailDto(this Product product)
     {
         var productCategory = product.Category;
-        Queue<CategoryDto> categories = new Queue<CategoryDto>();
-        var categoryParent = productCategory.ParentCategory;
+
+        Stack<CategoryDto> categories = new Stack<CategoryDto>();
+        var categoryParent = productCategory?.ParentCategory;
         while (categoryParent is not null)
         {
-            
+            categories.Push(categoryParent.ToDto());
         }
-            return new ProductDetailDto(
-                product.Id,
-                product.Name,
-                product.Description,
-                product.Price,
-                product.StockQuantity,
-                product.
-    
-            );
+
+        var mainImageId = product.MainImage?.Id ?? Guid.Empty;
+
+        return new ProductDetailDto(
+            product.Id,
+            product.Name,
+            product.Description,
+            product.Price,
+            product.StockQuantity,
+            categories,
+            mainImageId
+        );
     }
 }
