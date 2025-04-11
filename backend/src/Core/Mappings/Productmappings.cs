@@ -1,8 +1,11 @@
 using System;
+using System.Reflection;
 using Core.DTOs.Category;
 using Core.DTOs.Product;
 using Core.Entities;
 using Core.Entities.Enums;
+using Core.Validation.DTOs.Product;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Mappings;
@@ -74,5 +77,31 @@ public static class Productmappings
             product.Price,
             product.MainImage?.Id ?? Guid.Empty
         );
+    }
+
+    public static void UpdateFromDto(this Product product, UpdateProductDto updateProductDto)
+    {
+        if (product == null || updateProductDto == null) return;
+
+        // Using FluentValidation to validate the DTO
+        var validator = new UpdateProductDtoValidator();
+        validator.ValidateAndThrow(updateProductDto);
+
+        // Apply updates only for non-null values
+        if (updateProductDto.Name != null)
+            product.Name = updateProductDto.Name.Trim();
+
+        product.Description = updateProductDto.Description?.Trim();
+
+        if (updateProductDto.Price.HasValue)
+            product.Price = updateProductDto.Price.Value;
+
+        if (updateProductDto.CategoryId.HasValue)
+            product.CategoryId = updateProductDto.CategoryId.Value;
+
+        if (updateProductDto.StockQuantity.HasValue)
+            product.StockQuantity = updateProductDto.StockQuantity.Value;
+
+        product.SetStatus(EntityStatus.Modified);
     }
 }
