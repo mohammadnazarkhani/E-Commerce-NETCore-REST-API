@@ -10,7 +10,7 @@ public record class UpdateProductDto(
     string? Description,
     decimal? Price,
     int? CategoryId,
-    Guid ImageId,
+    Guid? ImageId,
     string? ImageName,
     IFormFile? Image,
     [Range(0, int.MaxValue)]
