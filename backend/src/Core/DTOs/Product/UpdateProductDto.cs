@@ -9,7 +9,7 @@ public record class UpdateProductDto(
     [StringLength(2000)]
     string? Description,
     decimal? Price,
-    long? CategoryId,
+    int? CategoryId,
     Guid ImageId,
     string? ImageName,
     IFormFile? Image,
