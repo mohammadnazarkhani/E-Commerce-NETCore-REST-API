@@ -65,4 +65,14 @@ public static class Productmappings
             mainImageId
         );
     }
+
+    public static ProductListDto ToProductListDto(this Product product)
+    {
+        return new ProductListDto(
+            product.Id,
+            product.Name,
+            product.Price,
+            product.MainImage?.Id ?? Guid.Empty
+        );
+    }
 }
