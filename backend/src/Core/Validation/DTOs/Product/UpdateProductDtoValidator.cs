@@ -27,11 +27,6 @@ public class UpdateProductDtoValidator : BaseValidator<UpdateProductDto>
             .GreaterThan(0)
             .When(x => x.CategoryId.HasValue);
 
-        RuleFor(x => x.Image)
-            .Must(file => file == null || (file.Length > 0 && file.Length <= 5 * 1024 * 1024))
-            .WithMessage("Image size must be between 1 byte and 5MB")
-            .When(x => x.Image != null);
-
         RuleFor(x => x.StockQuantity)
             .GreaterThan(0)
             .When(x => x.StockQuantity.HasValue);
