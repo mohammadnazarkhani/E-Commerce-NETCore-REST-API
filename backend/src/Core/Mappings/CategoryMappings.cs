@@ -14,11 +14,20 @@ public static class CategoryMappings
     /// </summary>
     /// <param name="category">Category entity to be mapped.</param>
     /// <returns>Returns a CategoryDto with mapped id and name properties from Category entity.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when:
+    /// The category parameter is null
+    /// Message: "Category cannot be null
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown when:
+    /// - The category.Name is null or consists only of whitespace characters
+    /// - Message: "Category name cannot be null or empty"
+    /// </exception>
     public static CategoryDto ToDto(this Category category)
     {
         if (category == null)
             throw new ArgumentNullException(nameof(category), "Category cannot be null");
-
 
         if (String.IsNullOrWhiteSpace(category.Name))
             throw new ArgumentException("Category name cannot be null or empty", nameof(category));
