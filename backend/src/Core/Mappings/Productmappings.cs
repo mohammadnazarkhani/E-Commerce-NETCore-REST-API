@@ -19,6 +19,9 @@ public static class Productmappings
     public static (IFormFile Image, ProductImage ProductImage, Product Product) ToNewProductEntities(
         this CreateProductDto createProductDto)
     {
+        ArgumentNullException.ThrowIfNull(createProductDto);
+        ArgumentNullException.ThrowIfNull(createProductDto.Image);
+
         Product product = new()
         {
             Name = createProductDto.Name.Trim(),
@@ -47,13 +50,16 @@ public static class Productmappings
 
     public static ProductDetailDto ToProductDetailDto(this Product product)
     {
-        var productCategory = product.Category;
+        ArgumentNullException.ThrowIfNull(product);
 
-        Stack<CategoryDto> categories = new Stack<CategoryDto>();
-        var categoryParent = productCategory?.ParentCategory;
-        while (categoryParent is not null)
+        var categories = new Stack<CategoryDto>();
+
+        // Traverse up the category hierarchy
+        var currentCategory = product.Category;
+        while (currentCategory != null)
         {
-            categories.Push(categoryParent.ToDto());
+            categories.Push(currentCategory.ToDto());
+            currentCategory = currentCategory.ParentCategory;
         }
 
         var mainImageId = product.MainImage?.Id ?? Guid.Empty;
@@ -71,6 +77,8 @@ public static class Productmappings
 
     public static ProductListDto ToProductListDto(this Product product)
     {
+        ArgumentNullException.ThrowIfNull(product);
+
         return new ProductListDto(
             product.Id,
             product.Name,
@@ -81,7 +89,8 @@ public static class Productmappings
 
     public static void UpdateFromDto(this Product product, UpdateProductDto updateProductDto)
     {
-        if (product == null || updateProductDto == null) return;
+        ArgumentNullException.ThrowIfNull(product);
+        ArgumentNullException.ThrowIfNull(updateProductDto);
 
         // Using FluentValidation to validate the DTO
         var validator = new UpdateProductDtoValidator();
