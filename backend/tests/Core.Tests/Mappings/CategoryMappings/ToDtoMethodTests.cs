@@ -3,9 +3,9 @@ using Core.DTOs.Category;
 using Core.Entities;
 using Core.Mappings;
 
-namespace Core.Tests.Mappings;
+namespace Core.Tests.Mappings.CategoryMappings;
 
-public class CategoryMappingsTests
+public class ToDtoMethodTests
 {
     [Fact]
     public void ToDto_CanMappCategoryToDto_WhenNotNullCategroyProvided()
@@ -27,5 +27,18 @@ public class CategoryMappingsTests
         // Assert Category obj not modified
         Assert.Equal(1, category.Id);
         Assert.Equal("Name", category.Name);
+    }
+
+    [Fact]
+    public void ToDto_ReturnsNull_WhenProvededNullCategoryObj()
+    {
+        // Act - create null category
+        Category category = null!;
+
+        // Act - try to get dto
+        var categoryDto = category.ToDto();
+
+        // Assert
+        Assert.Null(categoryDto);
     }
 }
