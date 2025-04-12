@@ -2,7 +2,7 @@ using Core.DTOs.Category;
 
 namespace Core.DTOs.Product;
 
-public record class ProductDetailDto(
+public record class ProductDetailsDto(
     long Id,
     string Name,
     string? Description,

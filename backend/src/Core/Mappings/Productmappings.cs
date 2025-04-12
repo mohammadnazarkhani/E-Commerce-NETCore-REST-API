@@ -48,7 +48,7 @@ public static class Productmappings
         return (createProductDto.Image, productImage, product);
     }
 
-    public static ProductDetailDto ToProductDetailDto(this Product product)
+    public static ProductDetailsDto ToProductDetailsDto(this Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
@@ -64,7 +64,7 @@ public static class Productmappings
 
         var mainImageId = product.MainImage?.Id ?? Guid.Empty;
 
-        return new ProductDetailDto(
+        return new ProductDetailsDto(
             product.Id,
             product.Name,
             product.Description,
