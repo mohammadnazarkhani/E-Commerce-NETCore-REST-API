@@ -24,6 +24,11 @@ public static class CategoryMappings
         );
     }
 
+    /// <summary>
+    /// Mapping extension method for mapping Category entity to CategoryListDto
+    /// </summary>
+    /// <param name="category">Category entity to be mapped.</param>
+    /// <returns>Returns a CategoryListDto with mapped id, name and ParentCategoryId and Subcategories list if null null properties from Category entity.</returns>
     public static CategoryListDto ToListDto(this Category category)
     {
         if (category == null) return null!;
@@ -31,8 +36,8 @@ public static class CategoryMappings
         return new CategoryListDto(
             category.Id,
             category.Name,
-            category.ParentCategoryId,
-            category.SubCategories?.Select(x => x.ToDto()).ToList() ?? new List<CategoryDto>()
+            category?.ParentCategoryId,
+            category?.SubCategories.Select(x => x.ToDto()).ToList() ?? new List<CategoryDto>()
         );
     }
 
