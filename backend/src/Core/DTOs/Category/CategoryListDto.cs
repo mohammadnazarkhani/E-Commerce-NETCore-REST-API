@@ -4,5 +4,5 @@ public record class CategoryListDto(
     int Id,
     string Name,
     int? ParentCategoryId,
-    ICollection<CategoryDto> SubCategories
+    ICollection<CategoryDto>? SubCategories
 );
