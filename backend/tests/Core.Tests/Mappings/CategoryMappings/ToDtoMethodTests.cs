@@ -8,7 +8,7 @@ namespace Core.Tests.Mappings.CategoryMappings;
 public class ToDtoMethodTests
 {
     [Fact]
-    public void ToDto_CanMappCategoryToDto_WhenNotNullCategroyProvided()
+    public void ToDto_CanMapCategoryToDto_WhenValidCategoryProvided()
     {
         // Arrange
         Category category = new Category()
@@ -30,15 +30,28 @@ public class ToDtoMethodTests
     }
 
     [Fact]
-    public void ToDto_ReturnsNull_WhenProvededNullCategoryObj()
+    public void ToDto_ThrowsArgumentException_WhenNullNamePropertyProvided()
     {
-        // Act - create null category
+        // Arrange
+        Category category = new Category()
+        {
+            Id = 1,
+            Name = null!
+        };
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => category.ToDto());
+        Assert.Equal("Category name cannot be null or empty", exception.Message);
+    }
+
+    [Fact]
+    public void ToDto_ThrowsArgumentNullException_WhenProvidedNullCategoryObj()
+    {
+        // Arrange
         Category category = null!;
 
-        // Act - try to get dto
-        var categoryDto = category.ToDto();
-
-        // Assert
-        Assert.Null(categoryDto);
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentNullException>(() => category.ToDto());
+        Assert.Equal("Category cannot be null (Parameter 'category')", exception.Message);
     }
 }
