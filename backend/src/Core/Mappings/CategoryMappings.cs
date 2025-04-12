@@ -16,7 +16,12 @@ public static class CategoryMappings
     /// <returns>Returns a CategoryDto with mapped id and name properties from Category entity.</returns>
     public static CategoryDto ToDto(this Category category)
     {
-        if (category == null) return null!;
+        if (category == null)
+            throw new ArgumentNullException(nameof(category), "Category cannot be null");
+
+
+        if (String.IsNullOrWhiteSpace(category.Name))
+            throw new ArgumentException("Category name cannot be null or empty", nameof(category));
 
         return new CategoryDto(
             category.Id,
