@@ -4,8 +4,16 @@ using Core.Entities.Enums;
 
 namespace Core.Mappings;
 
+/// <summary>
+/// Provides mappin extension methods between category entity and category dtos
+/// </summary>
 public static class CategoryMappings
 {
+    /// <summary>
+    /// Maps Category entity to CategoryDto 
+    /// </summary>
+    /// <param name="category">Category entity to be mapped.</param>
+    /// <returns>Returns a CategoryDto with mapped id and name properties from Category entity.</returns>
     public static CategoryDto ToDto(this Category category)
     {
         if (category == null) return null!;
