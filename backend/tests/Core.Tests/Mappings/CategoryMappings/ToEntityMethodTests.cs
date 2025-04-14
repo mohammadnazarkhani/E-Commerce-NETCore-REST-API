@@ -50,5 +50,13 @@ public class ToEntityMethodTests
         Assert.Equal(1, category.ParentCategoryId);
     }
 
-    
+    [Fact]
+    public void ToEntity_ThrowsArgumentNullException_WhenProvidedNullCreateCategoryDto()
+    {
+        // Arrange
+        CreateCategoryDto createCategoryDto = null!;
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentNullException>(() => createCategoryDto.ToEntity());
+    }
 }
