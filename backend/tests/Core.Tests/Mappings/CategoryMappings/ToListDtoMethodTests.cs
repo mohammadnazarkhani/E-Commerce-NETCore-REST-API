@@ -9,7 +9,7 @@ namespace Core.Tests.Mappings.CategoryMappings;
 public class ToListDtoMethodTests
 {
     [Fact]
-    public void ToListDto_CanMapCategoryListDto_WhenProvidedValidCategoryEntity()
+    public void ToListDto_CanMapCategoryListDto_WhenProvidedValidCategoryEntityWithoutSubAndParentCategories()
     {
         // Arrange
         Category category = new()
