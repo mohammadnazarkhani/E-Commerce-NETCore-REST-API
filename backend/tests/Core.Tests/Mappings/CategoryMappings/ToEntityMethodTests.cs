@@ -59,4 +59,17 @@ public class ToEntityMethodTests
         // Act & Assert
         var exception = Assert.Throws<ArgumentNullException>(() => createCategoryDto.ToEntity());
     }
+
+    [Fact]
+    public void ToEntity_ThrowsArgumentException_WhenProvidedNullNamedCreateCategoryDto()
+    {
+        // Arrange
+        CreateCategoryDto createCategoryDto = new()
+        {
+            Name = null!
+        };
+
+        // Act & Arrange
+        var exception = Assert.Throws<ArgumentException>(() => createCategoryDto.ToEntity());
+    }
 }
