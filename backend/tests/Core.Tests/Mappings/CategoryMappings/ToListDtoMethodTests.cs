@@ -73,4 +73,14 @@ public class ToListDtoMethodTests
         List<CategoryDto> subAssertionCategories = subCategories.Select(x => x.ToDto()).ToList<CategoryDto>();
         Assert.Equal(subAssertionCategories, categoryListDto.SubCategories);
     }
+
+    [Fact]
+    public void ToListDto_TrhowsArgumentNullExceptiuon_WhenProvidedNullCategoryObj()
+    {
+        // Arrange 
+        Category category = null!;
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentNullException>(() => category.ToDto());
+    }
 }
