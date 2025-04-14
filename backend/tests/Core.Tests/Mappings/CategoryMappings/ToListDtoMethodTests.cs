@@ -83,4 +83,18 @@ public class ToListDtoMethodTests
         // Act & Assert
         var exception = Assert.Throws<ArgumentNullException>(() => category.ToDto());
     }
+
+    [Fact]
+    public void ToListDto_ThrowsArgumentException_WhenNullNamePropertyProvided()
+    {
+        // Arrange
+        Category category = new Category()
+        {
+            Id = 1,
+            Name = null!
+        };
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => category.ToListDto());
+    }
 }
