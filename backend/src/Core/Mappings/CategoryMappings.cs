@@ -124,7 +124,7 @@ public static class CategoryMappings
         if (updateCategoryDto == null)
             throw new ArgumentNullException(nameof(updateCategoryDto), "UpdateCategoryDto cannot be null");
 
-        if (updateCategoryDto.Name != null && String.IsNullOrWhiteSpace(updateCategoryDto.Name))
+        if (updateCategoryDto.Name != null || String.IsNullOrWhiteSpace(updateCategoryDto.Name))
             throw new ArgumentException("Category name cannot be null or empty", nameof(updateCategoryDto));
 
         if (updateCategoryDto.Name != null)
