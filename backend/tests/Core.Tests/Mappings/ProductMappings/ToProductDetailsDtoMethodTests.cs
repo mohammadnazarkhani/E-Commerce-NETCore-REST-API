@@ -10,7 +10,7 @@ namespace Core.Tests.Mappings.ProductMappings;
 public class ToProductDetailsDtoMethodTests
 {
     [Fact]
-    public void ToProductDetailsDto_ThrowsArgumentNullException_WhenNullProductEntityObjProvided()
+    public void ToProductDetailsDto_ShouldThrowArgumentNullException_WhenProductIsNull()
     {
         // Arrange
         Product product = null!;
@@ -20,7 +20,7 @@ public class ToProductDetailsDtoMethodTests
     }
 
     [Fact]
-    public void ToProductDetailsDto_CanMap_ProductEntityToDto()
+    public void ToProductDetailsDto_ShouldMapProductEntityToProductDetailsDtoCorrectly()
     {
         // Arrange
         Category category = new()
