@@ -13,7 +13,7 @@ namespace Core.Tests.Mappings.ProductMappings;
 public class ToNewProductEntitiesMethodTests
 {
     [Fact]
-    public void ToNewProductEntities_ThrowsArgumentNullException_WhenNullCreateProductDtoProvided()
+    public void ToNewProductEntities_ShouldThrowArgumentNullException_WhenCreateProductDtoIsNull()
     {
         // Arrange
         CreateProductDto createProductDto = null!;
@@ -23,7 +23,7 @@ public class ToNewProductEntitiesMethodTests
     }
 
     [Fact]
-    public void ToNewProductEntities_ThrowsArgumentNullException_WhenNullImageFileProvided()
+    public void ToNewProductEntities_ShouldThrowArgumentNullException_WhenImageFileIsNull()
     {
         // Arrange
         CreateProductDto createProductDto = new()
@@ -42,7 +42,7 @@ public class ToNewProductEntitiesMethodTests
     }
 
     [Fact]
-    public void ToNewProductEntities_CanReturnCreateNewProductEntities_WhenProvodedValidCreateProductDto()
+    public void ToNewProductEntities_ShouldReturnEntities_WhenCreateProductDtoIsValid()
     {
         // Arrange - create file mock
         var fileMock = new Mock<IFormFile>();
