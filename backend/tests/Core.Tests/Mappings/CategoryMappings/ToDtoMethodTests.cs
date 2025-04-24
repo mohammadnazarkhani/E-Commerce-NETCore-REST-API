@@ -8,7 +8,7 @@ namespace Core.Tests.Mappings.CategoryMappings;
 public class ToDtoMethodTests
 {
     [Fact]
-    public void ToDto_CanMapCategoryToDto_WhenValidCategoryProvided()
+    public void ToDto_ShouldReturnCategoryDto_WhenCategoryIsValid()
     {
         // Arrange
         Category category = new Category()
@@ -30,7 +30,7 @@ public class ToDtoMethodTests
     }
 
     [Fact]
-    public void ToDto_ThrowsArgumentException_WhenNullNamePropertyProvided()
+    public void ToDto_ShouldThrowArgumentException_WhenCategoryNameIsNull()
     {
         // Arrange
         Category category = new Category()
@@ -44,7 +44,7 @@ public class ToDtoMethodTests
     }
 
     [Fact]
-    public void ToDto_ThrowsArgumentNullException_WhenProvidedNullCategoryObj()
+    public void ToDto_ShouldThrowArgumentNullException_WhenCategoryIsNull()
     {
         // Arrange
         Category category = null!;
