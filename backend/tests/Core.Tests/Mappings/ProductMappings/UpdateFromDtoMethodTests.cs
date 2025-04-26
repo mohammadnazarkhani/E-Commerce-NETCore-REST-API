@@ -43,4 +43,14 @@ public class UpdateFromDtoMethodTests
         // Act & Assert
         var exception = Assert.Throws<ArgumentNullException>(() => product.UpdateFromDto(dto));
     }
+
+    [Fact]
+    public void UpdateFromDto_ShouldThrowValidationException_WhenDtoValidationFails()
+    {
+        // Arrange
+        UpdateProductDto dto = new UpdateProductDto(null!, null!, -1, 1, 1);
+
+        // Act & Assert 
+        var exception = Assert.Throws<FluentValidation.ValidationException>(() => product.UpdateFromDto(dto));
+    }
 }
