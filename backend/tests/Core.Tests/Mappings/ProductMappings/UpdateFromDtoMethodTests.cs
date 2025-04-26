@@ -1,6 +1,8 @@
 using System;
+using System.Reflection;
 using Core.DTOs.Product;
 using Core.Entities;
+using Core.Entities.Enums;
 using Core.Mappings;
 
 namespace Core.Tests.Mappings.ProductMappings;
@@ -52,5 +54,20 @@ public class UpdateFromDtoMethodTests
 
         // Act & Assert 
         var exception = Assert.Throws<FluentValidation.ValidationException>(() => product.UpdateFromDto(dto));
+    }
+
+    [Fact]
+    public void UpdateFromDto_CanUpdateProductEntityByUpdateProductDto()
+    {
+        // Act
+        product.UpdateFromDto(updateDto);
+
+        // Assert
+        Assert.NotNull(product);
+        Assert.Equal("New Name", product.Name);
+        Assert.Equal("New Description", product.Description);
+        Assert.Equal(200M, product.Price);
+        Assert.Equal(1, product.StockQuantity);
+        Assert.Equal(EntityStatus.Modified, product.Status);
     }
 }
