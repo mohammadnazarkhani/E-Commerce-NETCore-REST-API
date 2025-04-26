@@ -33,4 +33,14 @@ public class UpdateFromDtoMethodTests
         // Act & Assert
         var exception = Assert.Throws<ArgumentNullException>(() => prod.UpdateFromDto(updateDto));
     }
+
+    [Fact]
+    public void UpdateFromDto_ShouldThrowArgumentNullException_WhenUpdateProductDtoIsNull()
+    {
+        // Arrange 
+        UpdateProductDto dto = null!;
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentNullException>(() => product.UpdateFromDto(dto));
+    }
 }
