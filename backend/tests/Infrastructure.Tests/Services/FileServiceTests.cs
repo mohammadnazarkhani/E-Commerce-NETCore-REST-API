@@ -35,4 +35,32 @@ public class FileServiceTests
         _fileService = new FileService(resolvers);
     }
 
+    [Fact]
+    public async Task CopyAndRenameFile_WithValidPaths_CopiesFileSuccessfully()
+    {
+        // Arrange
+        var sourceFileName = "test.txt";
+        var sourcePath = Path.Combine(_testDirectory, sourceFileName);
+        var destPath = Path.Combine(_testDirectory, "destination");
+        var newFileName = "renamed.txt";
+
+        // Create source file
+        await File.WriteAllTextAsync(sourcePath, "test content");
+
+        // Setup resolver mocks to return the actual paths
+        _environmentResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+        _contentRootResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+        _configResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+
+        // Act
+        await _fileService.CopyAndRenameFile(sourcePath, destPath, newFileName);
+
+        // Assert
+        var destinationFilePath = Path.Combine(destPath, newFileName);
+        Assert.True(File.Exists(destinationFilePath));
+        Assert.Equal(
+            await File.ReadAllTextAsync(sourcePath),
+            await File.ReadAllTextAsync(destinationFilePath)
+        );
+    }
 }
