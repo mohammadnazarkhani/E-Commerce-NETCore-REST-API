@@ -63,4 +63,22 @@ public class FileServiceTests
             await File.ReadAllTextAsync(destinationFilePath)
         );
     }
+
+    [Fact]
+    public async Task CopyAndRenameFile_WithNonExistentSourceFile_ThrowsFileNotFoundException()
+    {
+        // Arrange
+        var nonExistentPath = Path.Combine(_testDirectory, "nonexistent.txt");
+        var destPath = Path.Combine(_testDirectory, "destination");
+
+        // Setup resolver mocks
+        _environmentResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+        _contentRootResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+        _configResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<FileNotFoundException>(() =>
+            _fileService.CopyAndRenameFile(nonExistentPath, destPath, "newfile.txt")
+        );
+    }
 }
