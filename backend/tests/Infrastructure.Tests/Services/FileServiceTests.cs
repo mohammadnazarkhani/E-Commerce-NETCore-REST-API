@@ -2,6 +2,7 @@ using System;
 using Application.Interfaces.Services;
 using Application.Interfaces.Utility;
 using Infrastructure.Services;
+using Infrastructure.Utility.PathResolvers;
 using Moq;
 
 namespace Infrastructure.Tests.Services;
@@ -80,5 +81,34 @@ public class FileServiceTests
         await Assert.ThrowsAsync<FileNotFoundException>(() =>
             _fileService.CopyAndRenameFile(nonExistentPath, destPath, "newfile.txt")
         );
+    }
+
+    [Fact]
+    public async Task CopyAndRenameFile_PathResolutionUsesAllResolvers()
+    {
+        // Ararnge 
+        var sourceFileName = "test.txt";
+        var sourcePath = Path.Combine(_testDirectory, sourceFileName);
+        var destPath = Path.Combine(_testDirectory, "destination");
+        var newFileName = "renamed.txt";
+
+        // Create source file
+        await File.WriteAllTextAsync(sourcePath, "test content");
+
+        // Setup resolvers to modify paths in sequence
+        _environmentResolver.Setup(r => r.ResolvePath(It.IsAny<string>()))
+            .Returns<string>(p => p + "_env");
+        _configResolver.Setup(r => r.ResolvePath(It.IsAny<string>()))
+            .Returns<string>(p => p.Replace("_env", "_config"));
+        _contentRootResolver.Setup(r => r.ResolvePath(It.IsAny<string>()))
+            .Returns<string>(p => p.Replace("_config", ""));
+
+        // Act
+        await _fileService.CopyAndRenameFile(sourcePath, destPath, newFileName);
+
+        // Assert
+        _environmentResolver.Verify(r => r.ResolvePath(It.IsAny<string>()), Times.Exactly(2));
+        _configResolver.Verify(r => r.ResolvePath(It.IsAny<string>()), Times.Exactly(2));
+        _contentRootResolver.Verify(r => r.ResolvePath(It.IsAny<string>()), Times.Exactly(2));
     }
 }
