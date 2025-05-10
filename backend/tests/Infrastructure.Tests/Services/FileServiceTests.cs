@@ -7,7 +7,7 @@ using Moq;
 
 namespace Infrastructure.Tests.Services;
 
-public class FileServiceTests
+public class FileServiceTests : IDisposable
 {
     private readonly string _testDirectory;
     private readonly Mock<IPathResolver> _environmentResolver;
@@ -136,5 +136,12 @@ public class FileServiceTests
         // Assert
         Assert.True(Directory.Exists(destPath));
         Assert.True(File.Exists(Path.Combine(destPath, newFileName)));
+    }
+
+    public void Dispose()
+    {
+        // Cleanup test directory
+        if (Directory.Exists(_testDirectory))
+            Directory.Delete(_testDirectory, true);
     }
 }
