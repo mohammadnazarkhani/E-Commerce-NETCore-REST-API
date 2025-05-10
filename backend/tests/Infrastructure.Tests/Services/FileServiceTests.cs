@@ -111,4 +111,30 @@ public class FileServiceTests
         _configResolver.Verify(r => r.ResolvePath(It.IsAny<string>()), Times.Exactly(2));
         _contentRootResolver.Verify(r => r.ResolvePath(It.IsAny<string>()), Times.Exactly(2));
     }
+
+    [Fact]
+    public async Task CopyAndRenameFile_CreatesDestinationDirectory_WhenNotExists()
+    {
+        // Arrange
+        var sourceFileName = "test.txt";
+        var sourcePath = Path.Combine(_testDirectory, sourceFileName);
+        var destPath = Path.Combine(_testDirectory, "nested", "destination");
+        var newFileName = "renamed.txt";
+
+        // Create source file
+        await File.WriteAllTextAsync(sourcePath, "test contnet");
+
+        // Setup resolver mocks
+
+        _environmentResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+        _configResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+        _contentRootResolver.Setup(r => r.ResolvePath(It.IsAny<string>())).Returns<string>(p => p);
+
+        // Act
+        await _fileService.CopyAndRenameFile(sourcePath, destPath, newFileName);
+
+        // Assert
+        Assert.True(Directory.Exists(destPath));
+        Assert.True(File.Exists(Path.Combine(destPath, newFileName)));
+    }
 }
