@@ -22,5 +22,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         // Indexes
         builder.HasIndex(p => p.Name);
+        builder.HasIndex(p => p.Price);
     }
 }
