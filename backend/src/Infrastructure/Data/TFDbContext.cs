@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Core.Entities;
+using Core.Entities.Base;
+using System.Runtime.InteropServices;
 
 namespace Infrastructure.Data;
 
@@ -18,14 +20,7 @@ public class TFDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Product>()
-           .HasOne(p => p.MainImage)
-           .WithOne(i => i.Product)
-           .HasForeignKey<ProductImage>(i => i.ProductId);
-
-        modelBuilder.Entity<Category>()
-            .HasMany(c => c.Products)
-            .WithOne(p => p.Category)
-            .HasForeignKey(p => p.CategoryId);
+        // Apply all configurations from assembly
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TFDbContext).Assembly);
     }
 }
