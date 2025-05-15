@@ -43,5 +43,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         // Indexes
         builder.HasIndex(p => p.Name);
         builder.HasIndex(p => p.Price);
+        builder.HasIndex(p => p.StockQuantity);
+        builder.HasIndex(p => new { p.CategoryId, p.Name });
     }
 }
