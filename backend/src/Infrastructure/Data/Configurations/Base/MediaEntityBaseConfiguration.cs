@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Core.Entities.Base;
+using System.Net.Mime;
 
 namespace Infrastructure.Data.Configurations.Base;
 
@@ -24,7 +25,20 @@ public class MediaEntityBaseConfiguration : IEntityTypeConfiguration<BaseMediaEn
             .HasMaxLength(100)
             .IsRequired();
 
+        // Media-specific fields
+        builder.Property(e => e.Name)
+            .HasMaxLength(255)
+            .IsRequired();
 
+        builder.Property(e => e.ContentType)
+            .HasMaxLength(100)
+            .IsRequired();
+
+        builder.Property(e => e.FileSize)
+            .IsRequired();
+
+        // Indexes
         builder.HasIndex(e => e.CreatedAt);
+        builder.HasIndex(e => e.Name);
     }
 }
