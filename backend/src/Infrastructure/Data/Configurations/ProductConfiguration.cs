@@ -9,8 +9,26 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
+        // Property configurations
+        builder.Property(p => p.Name)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder.Property(p => p.Description)
+            .HasMaxLength(2000)
+            .IsRequired(false);
+
         builder.Property(p => p.Price)
-            .HasPrecision(18, 2);
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(p => p.StockQuantity)
+            .IsRequired()
+            .HasDefaultValue(0);
+
+        builder.Property(p => p.RowVersion)
+            .IsRequired()
+            .IsConcurrencyToken();
 
         builder.HasQueryFilter(p => !p.IsDeleted);
 
