@@ -17,5 +17,8 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Description)
             .HasMaxLength(2000)
             .IsRequired(false);
+
+        // Query filter for soft delte
+        builder.HasQueryFilter(c => !c.IsDeleted);
     }
 }
