@@ -2,14 +2,19 @@ using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Core.Entities.Base;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data;
 
 public class TFDbContext : DbContext
 {
-    public TFDbContext(DbContextOptions<TFDbContext> options) : base(options)
-    {
+    private readonly ILogger<TFDbContext> _logger;
 
+    public TFDbContext(
+        DbContextOptions<TFDbContext> options,
+        ILogger<TFDbContext> logger) : base(options)
+    {
+        _logger = logger;
     }
 
     public DbSet<Product> Products { get; set; }
