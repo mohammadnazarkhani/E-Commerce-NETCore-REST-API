@@ -30,13 +30,15 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .IsRequired()
             .IsConcurrencyToken();
 
+        // Query filter for soft delete
         builder.HasQueryFilter(p => !p.IsDeleted);
 
         // Relations
         builder.HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired();
 
         // Indexes
         builder.HasIndex(p => p.Name);
