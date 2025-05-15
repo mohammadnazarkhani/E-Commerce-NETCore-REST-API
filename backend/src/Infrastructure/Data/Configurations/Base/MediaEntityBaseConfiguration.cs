@@ -11,20 +11,19 @@ public class MediaEntityBaseConfiguration : IEntityTypeConfiguration<BaseMediaEn
     {
         builder.UseTpcMappingStrategy();
 
+        // Audit fields
         builder.Property(e => e.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()")
             .IsRequired();
 
         builder.Property(e => e.UpdatedAt)
-                .IsRequired();
+                .HasMaxLength(100)
+                .IsRequired(false);
 
         builder.Property(e => e.CreatedAt)
             .HasMaxLength(100)
-            .IsRequired(false);
+            .IsRequired();
 
-        builder.Property(e => e.UpdatedAt)
-            .HasMaxLength(100)
-            .IsRequired(false);
 
         builder.HasIndex(e => e.CreatedAt);
     }
