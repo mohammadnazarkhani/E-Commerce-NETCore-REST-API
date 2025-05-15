@@ -6,7 +6,6 @@ namespace Core.Entities.Base;
 
 public class AuditableEntity<TId> : EntityBase<TId>, IAuditableEntity, IEntityState
 {
-
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public bool IsDeleted { get; set; }
@@ -16,5 +15,27 @@ public class AuditableEntity<TId> : EntityBase<TId>, IAuditableEntity, IEntitySt
     public void SetStatus(EntityStatus status)
     {
         Status = status;
+    }
+
+    public virtual void OnSaving()
+    {
+        if (Status == EntityStatus.Added)
+        {
+            CreatedAt = DateTime.UtcNow;
+        }
+        else if (Status == EntityStatus.Modified)
+        {
+            UpdatedAt = DateTime.UtcNow;
+        }
+        else if (Status == EntityStatus.Deleted)
+        {
+            IsDeleted = true;
+            DeletedAt = DateTime.UtcNow;
+        }
+    }
+
+    public virtual void OnSaved()
+    {
+        Status = EntityStatus.Unchanged;
     }
 }
