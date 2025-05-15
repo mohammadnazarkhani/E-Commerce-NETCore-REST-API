@@ -20,5 +20,12 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         // Query filter for soft delte
         builder.HasQueryFilter(c => !c.IsDeleted);
+
+        // Relations
+        builder.HasOne(c => c.ParentCategory)
+            .WithMany(c => c.SubCategories)
+            .HasForeignKey(c => c.ParentCategoryId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
     }
 }
