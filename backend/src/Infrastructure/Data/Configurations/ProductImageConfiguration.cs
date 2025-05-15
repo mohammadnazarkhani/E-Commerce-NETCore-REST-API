@@ -14,5 +14,8 @@ public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
             .WithOne(p => p.MainImage)
             .HasForeignKey<ProductImage>(pi => pi.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Indexes
+        builder.HasIndex(pi => pi.ProductId);
     }
 }
