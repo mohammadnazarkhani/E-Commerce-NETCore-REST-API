@@ -2,7 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row col d-flex justify-content-center align-content-center">
+    <form class="card p-4" style="width: 200rem;">
+        <div class="form-group p-2">
+            <label for="exampleInputEmail1">شماره/نام سازمان</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="شماره یا نام سازمانتان را وارد کنید">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
