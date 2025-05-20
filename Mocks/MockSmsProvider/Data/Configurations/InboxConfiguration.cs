@@ -12,6 +12,7 @@ public class InboxConfiguration : IEntityTypeConfiguration<Inbox>
         // Relations
         builder.HasOne(i => i.User)
             .WithOne(u => u.Inbox)
-            .HasForeignKey<Inbox>(i => i.UserId);
+            .HasForeignKey<Inbox>(i => i.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

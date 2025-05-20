@@ -12,10 +12,12 @@ public class SmsConfiguration : IEntityTypeConfiguration<Sms>
         // Relations
         builder.HasOne(s => s.Inbox)
             .WithMany(i => i.Messages)
-            .HasForeignKey(s => s.InboxId);
+            .HasForeignKey(s => s.InboxId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(s => s.Sender)
             .WithMany(sender => sender.SentMessages)
-            .HasForeignKey(s => s.SenderId);
+            .HasForeignKey(s => s.SenderId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
