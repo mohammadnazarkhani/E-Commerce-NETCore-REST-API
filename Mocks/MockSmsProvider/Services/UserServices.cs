@@ -26,6 +26,7 @@ public class UserServices : ServiceBase
                 Id = id
             };
             await _context.Users.AddAsync(userAcc);
+            await _context.SaveChangesAsync();
         }
         catch (Exception)
         {
