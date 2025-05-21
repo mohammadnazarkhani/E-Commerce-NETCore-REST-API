@@ -31,6 +31,7 @@ public class InboxServices : ServiceBase
             };
 
             user.Inbox = usrInbox;
+            await _context.SaveChangesAsync();
         }
 
         return user.Inbox.Id;
