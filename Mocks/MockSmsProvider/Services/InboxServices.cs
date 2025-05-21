@@ -36,6 +36,15 @@ public class InboxServices : ServiceBase
         return user.Inbox.Id;
     }
 
+    public async Task<Inbox> GetUserInbox(string userId)
+    {
+        var userInboxId = await GetUserInboxId(userId);
+
+        var usrInbox = await _context.Inboxes.FirstOrDefaultAsync(i => i.Id == userInboxId);
+
+        return usrInbox!;
+    }
+
     public async Task<List<Sms>> GetUserInboxMessagesByUserId(string userId)
     {
         Guid userInboxId = await GetUserInboxId(userId);
