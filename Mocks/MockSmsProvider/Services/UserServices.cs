@@ -2,18 +2,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using MockSmsProvider.Data;
 using MockSmsProvider.Models;
+using MockSmsProvider.Services.Base;
 
 namespace MockSmsProvider.Services;
 
-public class UserServices
+public class UserServices : ServiceBase
 {
-    private ApplicationDbContext _context;
-
     public UserServices(ApplicationDbContext context)
+        : base(context)
     {
-        _context = context;
-    }
 
+    }
     public async Task<bool> SingInUser(string id)
     {
         try
