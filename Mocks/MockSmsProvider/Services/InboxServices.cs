@@ -16,7 +16,7 @@ public class InboxServices : ServiceBase
     {
     }
 
-    public async Task<List<Sms>> GetUserInboxByUserId(string userId)
+    public async Task<Guid> GetUserInboxId(string userId)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null)
@@ -32,7 +32,15 @@ public class InboxServices : ServiceBase
 
             user.Inbox = usrInbox;
         }
-        var userInbox = await _context.Inboxes.FirstOrDefaultAsync(i => i.Id == user.Inbox.Id);
+
+        return user.Inbox.Id;
+    }
+
+    public async Task<List<Sms>> GetUserInboxMessagesByUserId(string userId)
+    {
+        Guid userInboxId = await GetUserInboxId(userId);
+
+        var userInbox = await _context.Inboxes.FirstOrDefaultAsync(i => i.Id == userInboxId);
 
         return userInbox?.Messages ?? new List<Sms>();
     }
