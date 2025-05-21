@@ -5,7 +5,7 @@ namespace MockSmsProvider.Services.Base;
 
 public class ServiceBase
 {
-    private ApplicationDbContext _context;
+    protected ApplicationDbContext _context;
 
     public ServiceBase(ApplicationDbContext context)
     {
