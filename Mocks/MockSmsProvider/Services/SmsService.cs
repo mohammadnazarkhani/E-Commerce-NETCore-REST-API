@@ -10,9 +10,9 @@ namespace MockSmsProvider.Services;
 
 public class SmsService : ServiceBase, ISmsService
 {
-    protected InboxService _inboxServices;
+    protected IInboxService _inboxServices;
 
-    public SmsService(ApplicationDbContext context, InboxService inboxServices) : base(context)
+    public SmsService(ApplicationDbContext context, IInboxService inboxServices) : base(context)
     {
         _inboxServices = inboxServices;
     }
