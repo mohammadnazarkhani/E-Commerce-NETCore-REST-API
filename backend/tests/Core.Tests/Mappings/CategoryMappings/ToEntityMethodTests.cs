@@ -9,7 +9,7 @@ public class ToEntityMethodTests
 {
 
     [Fact]
-    public void ToEntity_CanMapToEntityWithoutParent_WhenProvidedValidCreateCategoryDtoWithoutParentId()
+    public void ToEntity_ShouldCreateCategoryWithoutParent_WhenParentIdIsNotProvided()
     {
         // Arrange
         CreateCategoryDto createCategoryDto = new()
@@ -29,7 +29,7 @@ public class ToEntityMethodTests
     }
 
     [Fact]
-    public void ToEntity_CanMapToEntityWithParentId_WhenProvidedValidCreateCategoryDtoWithParentId()
+    public void ToEntity_ShouldCreateCategoryWithParent_WhenParentIdIsProvided()
     {
         // Arrange
         CreateCategoryDto createCategoryDto = new()
@@ -51,7 +51,7 @@ public class ToEntityMethodTests
     }
 
     [Fact]
-    public void ToEntity_ThrowsArgumentNullException_WhenProvidedNullCreateCategoryDto()
+    public void ToEntity_ShouldThrowArgumentNullException_WhenDtoIsNull()
     {
         // Arrange
         CreateCategoryDto createCategoryDto = null!;
@@ -61,7 +61,7 @@ public class ToEntityMethodTests
     }
 
     [Fact]
-    public void ToEntity_ThrowsArgumentException_WhenProvidedNullNamedCreateCategoryDto()
+    public void ToEntity_ShouldThrowArgumentException_WhenNameIsNull()
     {
         // Arrange
         CreateCategoryDto createCategoryDto = new()

@@ -31,9 +31,9 @@ public class UpdateFromDtoMethodTests
 
         _sharedUpdateDto = new UpdateCategoryDto("update", "update", _sharedParentCategory.Id);
     }
-    
+
     [Fact]
-    public void UpdateFromDto_ThrowsArgumentNullException_WhenProvidedWithNullCategoryObj()
+    public void UpdateFromDto_ShouldThrowArgumentNullException_WhenCategoryIsNull()
     {
         // Arrange - create null category
         Category category = null!;
@@ -43,7 +43,7 @@ public class UpdateFromDtoMethodTests
     }
 
     [Fact]
-    public void UpdateFromDto_ThrowsArgumentNullException_WhenProvidedWithNullUpdateCategoryDtoObj()
+    public void UpdateFromDto_ShouldThrowArgumentNullException_WhenUpdateDtoIsNull()
     {
         // Arrange
         UpdateCategoryDto updateCategoryDto = null!;
@@ -53,7 +53,7 @@ public class UpdateFromDtoMethodTests
     }
 
     [Fact]
-    public void UpdateFromDto_DoesNotUpdateName_WhenProvidedWith_Null_UpdateCategoryDtoNameProperty()
+    public void UpdateFromDto_ShouldPreserveOriginalName_WhenUpdateDtoNameIsNull()
     {
         // Arrange
         string nullName = null!;
@@ -68,7 +68,7 @@ public class UpdateFromDtoMethodTests
     }
 
     [Fact]
-    public void UpdateFromDto_DoesNotUpdateName_WhenProvidedWith_Empty_UpdateCategoryDtoNameProperty()
+    public void UpdateFromDto_ShouldPreserveOriginalName_WhenUpdateDtoNameIsEmpty()
     {
         // Arrange
         string emptyName = string.Empty;
@@ -84,7 +84,7 @@ public class UpdateFromDtoMethodTests
     }
 
     [Fact]
-    public void UpdateFromDto_DoesNotUpdateName_WhenProvidedWith_WhiteSpace_UpdateCategoryDtoNameProperty()
+    public void UpdateFromDto_ShouldPreserveOriginalName_WhenUpdateDtoNameIsWhitespace()
     {
         // Arrange
         string whiteSpaceName = " ";
@@ -100,7 +100,7 @@ public class UpdateFromDtoMethodTests
     }
 
     [Fact]
-    public void UpdateFromDto_CanUpdateCategory_WhenProvidedValidUpdateDto()
+    public void UpdateFromDto_ShouldUpdateAllProperties_WhenUpdateDtoIsValid()
     {
         // Act
         _sharedCategory.UpdateFromDto(_sharedUpdateDto);

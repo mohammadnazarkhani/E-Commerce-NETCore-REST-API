@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .card {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.95);
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .form-control:focus {
+        border-color: #764ba2;
+        box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.25);
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #667eea, #764ba2);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row w-100 justify-content-center">        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 p-5">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4 fw-bold" style="color: #4a5568;">ورود به صندوق پیام</h2>
+                    <form asp-controller="Inbox" asp-action="Index" method="get" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label for="numberInput" class="form-label fw-semibold">شماره/نام سازمان</label>
+                            <input type="text" class="form-control form-control-lg rounded-3" id="numberInput"
+                                name="userId" placeholder="شماره یا نام سازمانتان را وارد کنید" required pattern=".{1,}"
+                                title="این فیلد نمی‌تواند خالی باشد">
+                            <div class="invalid-feedback">
+                                لطفاً شماره یا نام سازمان خود را وارد کنید
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-3 py-3 fw-bold">ورود</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function ()
+        {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form)
+            {
+                form.addEventListener('submit', function (event)
+                {
+                    if (!form.checkValidity())
+                    {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+}

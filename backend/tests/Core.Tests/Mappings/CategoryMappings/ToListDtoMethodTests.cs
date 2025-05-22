@@ -9,7 +9,7 @@ namespace Core.Tests.Mappings.CategoryMappings;
 public class ToListDtoMethodTests
 {
     [Fact]
-    public void ToListDto_CanMapCategoryListDto_WhenProvidedValidCategoryEntityWithoutSubAndParentCategories()
+    public void ToListDto_ShouldMapSimpleCategory_WhenCategoryHasNoSubCategoriesOrParent()
     {
         // Arrange
         Category category = new()
@@ -29,7 +29,7 @@ public class ToListDtoMethodTests
     }
 
     [Fact]
-    public void ToListDto_CanMapCategoryListDtoWithSubAndParentCategories_WhenProvidedValidCategoryEntityWithSubAndParentCategories()
+    public void ToListDto_ShouldMapCompleteCategory_WhenCategoryHasSubCategoriesAndParent()
     {
         // Arrange
         Category parentCategory = new()
@@ -75,7 +75,7 @@ public class ToListDtoMethodTests
     }
 
     [Fact]
-    public void ToListDto_TrhowsArgumentNullExceptiuon_WhenProvidedNullCategoryObj()
+    public void ToListDto_ShouldThrowArgumentNullException_WhenCategoryIsNull()
     {
         // Arrange 
         Category category = null!;
@@ -85,7 +85,7 @@ public class ToListDtoMethodTests
     }
 
     [Fact]
-    public void ToListDto_ThrowsArgumentException_WhenNullNamePropertyProvided()
+    public void ToListDto_ShouldThrowArgumentException_WhenCategoryNameIsNull()
     {
         // Arrange
         Category category = new Category()

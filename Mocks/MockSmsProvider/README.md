@@ -1,0 +1,6 @@
+# MockSMsProvider
+
+این پروژه کوچک که میبینید قرار است رفتار یک سیستم ارائه پیامک را برای پروژه تند فروش شبیه سازی بکند.
+
+# Screenshot
+![Screenshot](./Screenshot.png)
