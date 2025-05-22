@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using MockSmsProvider.Data;
 using MockSmsProvider.Models;
 using MockSmsProvider.Services.Base;
+using MockSmsProvider.Services.Interfaces;
 
 namespace MockSmsProvider.Services;
 
-public class UserService : ServiceBase
+public class UserService : ServiceBase, IUserService
 {
     public UserService(ApplicationDbContext context)
         : base(context)

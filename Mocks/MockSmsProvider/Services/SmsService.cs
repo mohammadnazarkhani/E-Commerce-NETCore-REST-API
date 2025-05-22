@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using MockSmsProvider.Data;
 using MockSmsProvider.Models;
 using MockSmsProvider.Services.Base;
+using MockSmsProvider.Services.Interfaces;
 
 namespace MockSmsProvider.Services;
 
-public class SmsService : ServiceBase
+public class SmsService : ServiceBase, ISmsService
 {
     protected InboxService _inboxServices;
 
