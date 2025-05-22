@@ -6,9 +6,9 @@ namespace MockSmsProvider.Controllers
 {
     public class InboxController : Controller
     {
-        private InboxServices _inboxServices;
+        private InboxService _inboxServices;
 
-        public InboxController(InboxServices inboxServices)
+        public InboxController(InboxService inboxServices)
         {
             _inboxServices = inboxServices;
         }
