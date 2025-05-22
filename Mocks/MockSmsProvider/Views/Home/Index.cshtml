@@ -50,30 +50,6 @@
                                 لطفاً شماره یا نام سازمان خود را وارد کنید
                             </div>
                         </div>
-                        @section Scripts {
-                            @{
-                                await Html.RenderPartialAsync("_ValidationScriptsPartial");
-                            }
-                            <script>
-                                (function ()
-                                {
-                                    'use strict'
-                                    var forms = document.querySelectorAll('.needs-validation')
-                                    Array.prototype.slice.call(forms).forEach(function (form)
-                                    {
-                                        form.addEventListener('submit', function (event)
-                                        {
-                                            if (!form.checkValidity())
-                                            {
-                                                event.preventDefault()
-                                                event.stopPropagation()
-                                            }
-                                            form.classList.add('was-validated')
-                                        }, false)
-                                    })
-                                })()
-                            </script>
-                        }
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-lg rounded-3 py-3 fw-bold">ورود</button>
                         </div>
@@ -82,9 +58,27 @@
             </div>
         </div>
     </div>
-</div>@{
+</div>
 
-{
-{
-{
-{
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function ()
+        {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form)
+            {
+                form.addEventListener('submit', function (event)
+                {
+                    if (!form.checkValidity())
+                    {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+}
