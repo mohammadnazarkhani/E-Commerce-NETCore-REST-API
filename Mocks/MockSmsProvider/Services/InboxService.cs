@@ -52,7 +52,9 @@ public class InboxService : ServiceBase, IInboxService
     {
         Guid userInboxId = await GetUserInboxId(userId);
 
-        var userInbox = await _context.Inboxes.FirstOrDefaultAsync(i => i.Id == userInboxId);
+        var userInbox = await _context.Inboxes
+            .Include(i => i.Messages)
+            .FirstOrDefaultAsync(i => i.Id == userInboxId);
 
         return userInbox?.Messages ?? new List<Sms>();
     }
