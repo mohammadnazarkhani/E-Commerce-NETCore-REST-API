@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using MockSmsProvider.Data;
 using MockSmsProvider.Services;
+using MockSmsProvider.Services.Interfaces;
 
 namespace MockSmsProvider.Controllers
 {
     public class InboxController : Controller
     {
-        private InboxService _inboxServices;
+        private IInboxService _inboxServices;
+        private IUserService _userService;
 
-        public InboxController(InboxService inboxServices)
+        public InboxController(IInboxService inboxServices, IUserService userService)
         {
             _inboxServices = inboxServices;
+            _userService = userService;
         }
 
         // GET: InboxController
