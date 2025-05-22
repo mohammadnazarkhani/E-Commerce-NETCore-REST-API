@@ -6,9 +6,9 @@ namespace MockSmsProvider.Models.DTOs;
 
 public record SendSmsDto(
     [Required]
-    string sender,
+    string Sender,
     [Required]
-    string receiver,
+    string Receiver,
     [Required]
-    string message
+    string Message
 );
