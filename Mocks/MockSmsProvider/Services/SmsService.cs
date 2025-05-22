@@ -7,11 +7,11 @@ using MockSmsProvider.Services.Base;
 
 namespace MockSmsProvider.Services;
 
-public class SmsServices : ServiceBase
+public class SmsService : ServiceBase
 {
-    protected InboxServices _inboxServices;
+    protected InboxService _inboxServices;
 
-    public SmsServices(ApplicationDbContext context, InboxServices inboxServices) : base(context)
+    public SmsService(ApplicationDbContext context, InboxService inboxServices) : base(context)
     {
         _inboxServices = inboxServices;
     }

@@ -11,9 +11,9 @@ using MockSmsProvider.Services.Interfaces;
 
 namespace MockSmsProvider.Services;
 
-public class InboxServices : ServiceBase, IInboxService
+public class InboxService : ServiceBase, IInboxService
 {
-    public InboxServices(ApplicationDbContext context) : base(context)
+    public InboxService(ApplicationDbContext context) : base(context)
     {
     }
 

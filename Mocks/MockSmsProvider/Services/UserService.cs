@@ -6,9 +6,9 @@ using MockSmsProvider.Services.Base;
 
 namespace MockSmsProvider.Services;
 
-public class UserServices : ServiceBase
+public class UserService : ServiceBase
 {
-    public UserServices(ApplicationDbContext context)
+    public UserService(ApplicationDbContext context)
         : base(context)
     {
 
