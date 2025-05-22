@@ -1,15 +1,13 @@
-﻿@model MockSmsProvider.Models.User
-
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="row col d-flex justify-content-center align-content-center">
-    <form class="card p-4" style="width: 200rem;" asp-controller="Inbox" asp-action="Index">
+    <form class="card p-4" style="width: 200rem;" asp-controller="Inbox" asp-action="Index" method="get">
         <div class="form-group p-2">
             <label for="numberInput">شماره/نام سازمان</label>
-            <input type="text" class="form-control" id="numberInput" placeholder="شماره یا نام سازمانتان را وارد کنید"
-                asp-for=@Model.Id>
+            <input type="text" class="form-control" id="numberInput" name="userId"
+                placeholder="شماره یا نام سازمانتان را وارد کنید">
         </div>
 
         <button type="submit" class="btn btn-primary">ورود</button>
