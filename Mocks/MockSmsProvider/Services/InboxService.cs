@@ -23,19 +23,20 @@ public class InboxService : ServiceBase, IInboxService
         if (user == null)
             throw new UserNotFoundException($"No user found by id of {userId}! Please first sign in the user.");
 
-        if (user.Inbox == null)
+        var existingInbox = await _context.Inboxes.FirstOrDefaultAsync(i => i.UserId == userId);
+        if (existingInbox != null)
+            return existingInbox.Id;
+
+        Inbox usrInbox = new()
         {
-            Inbox usrInbox = new()
-            {
-                Id = new Guid(),
-                UserId = user.Id
-            };
+            Id = new Guid(),
+            UserId = user.Id
+        };
 
-            user.Inbox = usrInbox;
-            await _context.SaveChangesAsync();
-        }
+        await _context.Inboxes.AddAsync(usrInbox);
+        await _context.SaveChangesAsync();
 
-        return user.Inbox.Id;
+        return usrInbox.Id;
     }
 
     public async Task<Inbox> GetUserInbox(string userId)
