@@ -44,8 +44,36 @@
                         <div class="mb-4">
                             <label for="numberInput" class="form-label fw-semibold">شماره/نام سازمان</label>
                             <input type="text" class="form-control form-control-lg rounded-3" id="numberInput"
-                                name="userId" placeholder="شماره یا نام سازمانتان را وارد کنید" required>
+                                name="userId" placeholder="شماره یا نام سازمانتان را وارد کنید" required pattern=".{1,}"
+                                title="این فیلد نمی‌تواند خالی باشد">
+                            <div class="invalid-feedback">
+                                لطفاً شماره یا نام سازمان خود را وارد کنید
+                            </div>
                         </div>
+                        @section Scripts {
+                            @{
+                                await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                            }
+                            <script>
+                                (function ()
+                                {
+                                    'use strict'
+                                    var forms = document.querySelectorAll('.needs-validation')
+                                    Array.prototype.slice.call(forms).forEach(function (form)
+                                    {
+                                        form.addEventListener('submit', function (event)
+                                        {
+                                            if (!form.checkValidity())
+                                            {
+                                                event.preventDefault()
+                                                event.stopPropagation()
+                                            }
+                                            form.classList.add('was-validated')
+                                        }, false)
+                                    })
+                                })()
+                            </script>
+                        }
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-lg rounded-3 py-3 fw-bold">ورود</button>
                         </div>
@@ -54,4 +82,9 @@
             </div>
         </div>
     </div>
-</div>
+</div>@{
+
+{
+{
+{
+{

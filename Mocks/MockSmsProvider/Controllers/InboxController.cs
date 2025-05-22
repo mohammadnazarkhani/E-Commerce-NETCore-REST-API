@@ -14,11 +14,14 @@ namespace MockSmsProvider.Controllers
         {
             _inboxServices = inboxServices;
             _userService = userService;
-        }
-
-        // GET: InboxController
+        }        // GET: InboxController
         public async Task<ActionResult> Index(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             await _userService.SingInUser(userId);
             var messages = await _inboxServices.GetUserInboxMessagesByUserId(userId);
 
