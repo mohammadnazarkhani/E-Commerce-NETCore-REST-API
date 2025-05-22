@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MockSmsProvider.Data;
+using MockSmsProvider.Services;
+using MockSmsProvider.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddTransient<IInboxService, InboxServices>();
 
 var app = builder.Build();
 
