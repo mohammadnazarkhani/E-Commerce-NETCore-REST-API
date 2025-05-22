@@ -14,9 +14,11 @@ namespace MockSmsProvider.Controllers
         }
 
         // GET: InboxController
-        public ActionResult Index(string userId)
+        public async Task<ActionResult> Index(string userId)
         {
-            return View();
+            var messages = await _inboxServices.GetUserInboxMessagesByUserId(userId);
+
+            return View(messages);
         }
 
     }
