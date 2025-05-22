@@ -1,3 +1,16 @@
-﻿@model MockSmsProvider.Models.User
+﻿@model List<Sms>
 
-<h1>Hello world</h1>
+<div class="container-lg bg-light Small shadow">
+    <h1>Inbox</h1>
+    <div class="container-md">
+        @foreach (var sms in @Model)
+        {
+            <div class="card" style="width: fit-content;">
+                <div class="card-body">
+                    <h5 class="card-title">@sms.SenderId</h5>
+                    <p class="card-text">@sms.Message</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
