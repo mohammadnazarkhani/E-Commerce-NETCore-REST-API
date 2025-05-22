@@ -17,11 +17,11 @@ public class SmsService : ServiceBase, ISmsService
         _inboxServices = inboxServices;
     }
 
-    public async Task<bool> SendSms(string senderId, string userId, string message)
+    public async Task<bool> SendSms(string senderId, string receiverId, string message)
     {
         try
         {
-            var receiverInbox = await _inboxServices.GetUserInbox(userId);
+            var receiverInbox = await _inboxServices.GetUserInbox(receiverId);
 
             Sms sms = new()
             {
