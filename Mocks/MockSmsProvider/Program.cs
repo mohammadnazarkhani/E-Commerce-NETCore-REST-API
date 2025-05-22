@@ -12,7 +12,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddTransient<IInboxService, InboxServices>();
+builder.Services.AddTransient<IInboxService, InboxService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ISmsService, SmsService>();
 
 var app = builder.Build();
 
