@@ -7,10 +7,11 @@ using MockSmsProvider.Common.Exceptions;
 using MockSmsProvider.Data;
 using MockSmsProvider.Models;
 using MockSmsProvider.Services.Base;
+using MockSmsProvider.Services.Interfaces;
 
 namespace MockSmsProvider.Services;
 
-public class InboxServices : ServiceBase
+public class InboxServices : ServiceBase, IInboxService
 {
     public InboxServices(ApplicationDbContext context) : base(context)
     {
