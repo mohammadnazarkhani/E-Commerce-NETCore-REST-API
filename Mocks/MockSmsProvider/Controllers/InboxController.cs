@@ -5,6 +5,9 @@ using MockSmsProvider.Services.Interfaces;
 
 namespace MockSmsProvider.Controllers
 {
+    /// <summary>
+    /// MVC controller for retrival and presentation of messages in user inbox
+    /// </summary>
     public class InboxController : Controller
     {
         private IInboxService _inboxServices;
@@ -14,7 +17,14 @@ namespace MockSmsProvider.Controllers
         {
             _inboxServices = inboxServices;
             _userService = userService;
-        }        // GET: InboxController
+        }
+
+        // GET: /inbox?userId={id}
+        /// <summary>
+        /// User inbox page action method
+        /// </summary>
+        /// <param name="userId">Id of the user whom to get his/her inbox messages</param>
+        /// <returns>List of messages(i.e. List<Sms>) of user's inbox</returns>
         public async Task<ActionResult> Index(string userId)
         {
             if (string.IsNullOrWhiteSpace(userId))
