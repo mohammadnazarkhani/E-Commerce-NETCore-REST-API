@@ -5,6 +5,9 @@ using MockSmsProvider.Models;
 
 namespace MockSmsProvider.Controllers;
 
+/// <summary>
+/// MVC controller for handling default home (i.e. {domain}/) and privacy page (at {domain}/privacy)
+/// </summary>
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
