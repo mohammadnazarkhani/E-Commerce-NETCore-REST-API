@@ -10,14 +10,9 @@ namespace MockSmsProvider.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class SmsController : ControllerBase
+    public class SmsController(ISmsService smsService) : ControllerBase
     {
-        private ISmsService _smsService;
-
-        public SmsController(ISmsService smsService)
-        {
-            _smsService = smsService;
-        }
+        private ISmsService _smsService = smsService;
 
         /// <summary>
         /// Api endpoint for sending sms for another user
