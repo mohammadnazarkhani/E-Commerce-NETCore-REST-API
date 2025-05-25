@@ -2,6 +2,9 @@ using System;
 
 namespace MockSmsProvider.Models;
 
+/// <summary>
+/// Sms entity representing each message that will be received by receiver user's inbox.
+/// </summary>
 public class Sms
 {
     public required Guid Id { get; set; }
