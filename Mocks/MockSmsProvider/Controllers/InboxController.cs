@@ -8,16 +8,10 @@ namespace MockSmsProvider.Controllers
     /// <summary>
     /// MVC controller for retrival and presentation of messages in user inbox
     /// </summary>
-    public class InboxController : Controller
+    public class InboxController(IInboxService inboxServices, IUserService userService) : Controller
     {
-        private IInboxService _inboxServices;
-        private IUserService _userService;
-
-        public InboxController(IInboxService inboxServices, IUserService userService)
-        {
-            _inboxServices = inboxServices;
-            _userService = userService;
-        }
+        private IInboxService _inboxServices = inboxServices;
+        private IUserService _userService = userService;
 
         // GET: /inbox?userId={id}
         /// <summary>
