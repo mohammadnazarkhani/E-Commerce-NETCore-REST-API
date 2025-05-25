@@ -8,16 +8,10 @@ namespace MockSmsProvider.Controllers;
 /// <summary>
 /// MVC controller for handling default home (i.e. {domain}/) and privacy page (at {domain}/privacy)
 /// </summary>
-public class HomeController : Controller
+public class HomeController(ILogger<HomeController> logger, ApplicationDbContext context) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-    private ApplicationDbContext _context;
-
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
-    {
-        _logger = logger;
-        _context = context;
-    }
+    private readonly ILogger<HomeController> _logger = logger;
+    private ApplicationDbContext _context = context;
 
     public IActionResult Index()
     {
