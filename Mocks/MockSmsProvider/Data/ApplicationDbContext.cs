@@ -5,14 +5,8 @@ using MockSmsProvider.Models;
 
 namespace MockSmsProvider.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> opts) : DbContext(opts)
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opts)
-        : base(opts)
-    {
-
-    }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Inbox> Inboxes { get; set; }
     public DbSet<Sms> Messages { get; set; }
