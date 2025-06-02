@@ -9,6 +9,9 @@ public class User : Base.EntityBase
     public string? LastName { get; set; }
     [Required(ErrorMessage = "Email address is required.")]
     [EmailAddress(ErrorMessage = "Invalid email address format.")]
+    [MaxLength(256, ErrorMessage = "Email address cannot exceed 256 characters.")]
+    [UniqueEmail(ErrorMessage = "Email address must be unique.")]
+    [DataType(DataType.EmailAddress)]
     public required string EmailAddress { get; set; }
     [Required(ErrorMessage = "Password is required.")]
     [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
