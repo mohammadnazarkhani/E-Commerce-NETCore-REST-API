@@ -9,5 +9,5 @@ public class Outbox : Base.EntityBase
     public User? User { get; set; }
 
     // Navigation properties
-    public List<Email> SentEmails { get; set; }
+    public List<Email> SentEmails { get; set; } = new List<Email>();
 }
