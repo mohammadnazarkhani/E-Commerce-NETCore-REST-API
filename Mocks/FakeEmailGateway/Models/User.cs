@@ -18,4 +18,8 @@ public class User : Base.EntityBase
     public string? PhoneNumber { get; set; }
     [DataType(DataType.Date)]
     public DateTime? DateOfBirth { get; set; }
+
+    // Navigation properties
+    public Outbox? Outbox { get; set; }
+    public Inbox? Inbox { get; set; }
 }

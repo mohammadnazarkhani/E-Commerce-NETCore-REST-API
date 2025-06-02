@@ -9,4 +9,11 @@ public class Email : Base.EntityBase
     [Required(ErrorMessage = "Body is required.")]
     public required string Body { get; set; }
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+
+    // Relations
+    public Outbox? SenderOutbox { get; set; }
+    public Guid? SenderOutboxId { get; set; }
+
+    public Inbox? ReceiverInbox { get; set; }
+    public Guid? ReceiverInboxId { get; set; }
 }
