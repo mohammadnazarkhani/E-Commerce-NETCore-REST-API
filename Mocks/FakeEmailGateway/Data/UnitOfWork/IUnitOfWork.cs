@@ -1,4 +1,6 @@
 using System;
+using FakeEmailGateway.Data.Repository;
+using FakeEmailGateway.Models;
 
 namespace FakeEmailGateway.Data.UnitOfWork;
 
@@ -8,6 +10,11 @@ namespace FakeEmailGateway.Data.UnitOfWork;
 /// </summary>
 public interface IUnitOfWork
 {
+    Repository<User> UsersRepo { get; set; }
+    Repository<Email> EmailsRepo { get; set; }
+    Repository<Inbox> InboxesRepo { get; set; }
+    Repository<Outbox> OutboxesRepo { get; set; }
+
     /// <summary>
     /// Saves all changes made in this unit of work to the database.
     /// </summary>
