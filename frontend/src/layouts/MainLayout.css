@@ -1,5 +1,0 @@
-.main-content {
-  min-height: calc(100vh - 100px); /* Adjust 100px to the combined height of Navbar and Footer */
-  padding-top: 56px; /* Adjust to the height of the Navbar */
-  padding-bottom: 44px; /* Adjust to the height of the Footer */
-}
