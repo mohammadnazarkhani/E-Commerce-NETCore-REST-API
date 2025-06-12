@@ -11,5 +11,7 @@ namespace ECommerce.RestAPI.Entities
         // Relationships
         public Guid ProvinceId { get; set; }
         public Province Province { get; set; } = null!;
+
+        public ICollection<UserAddress> UserAddreses { get; set; } = new List<UserAddress>();
     }
 }
