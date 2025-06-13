@@ -3,6 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.RestAPI.Entities
 {
+    /// <summary>
+    /// Represents a physical address associated with a user in the e-commerce system.
+    /// This entity stores detailed address information including contact details.
+    /// </summary>
+    /// <remarks>
+    /// Inherits from <see cref="AuditableEntityBase"/> to track creation and modification dates.
+    /// All required fields must be provided when creating a new address.
+    /// </remarks>
     public class UserAddress : AuditableEntityBase
     {
         [Length(3, 255)]
