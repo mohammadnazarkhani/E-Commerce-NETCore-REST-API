@@ -37,5 +37,8 @@ namespace ECommerce.RestAPI.Entities
         // Relationships
         public required Guid CityId { get; set; }
         public City City { get; set; } = null!;
+
+        public required Guid UserId { get; set; }
+        public User User { get; set; } = null!;
     }
 }

@@ -18,7 +18,7 @@ namespace ECommerce.RestAPI.Entities
         [Length(2,50)]
        public required string Name { get; set; }
 
-       // RelationShips
-       public City? City { get; set; }
+        // RelationShips
+        public ICollection<City> Cities { get; set; } = new List<City>();
     }
 }

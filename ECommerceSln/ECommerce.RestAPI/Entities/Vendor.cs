@@ -8,5 +8,11 @@ namespace ECommerce.RestAPI.Entities
         public required string Name { get; set; }
         [EmailAddress]
         public string? Email { get; set; }
+
+        // Relationships
+        public required Guid UserId { get; set; }
+        public User User { get; set; } = null!;
+
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

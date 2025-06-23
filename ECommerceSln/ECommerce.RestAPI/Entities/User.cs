@@ -1,4 +1,5 @@
 ﻿using ECommerce.RestAPI.Entities.Base;
+using ECommerce.RestAPI.Entities.Enums;
 using ECommerce.RestAPI.Entities.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,10 +18,26 @@ namespace ECommerce.RestAPI.Entities
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public string? NationalCode { get; set; }
+        public required UserRole Role { get; set; } = UserRole.User;
 
         // Auditable properties
         public required Guid Id { get; set; }
         public required DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? LastModifiedAt { get; set; }
+
+        // Relationships
+        public UserAddress? Address { get; set; }
+
+        public ICollection<Review>? Reviews { get; set; } = new List<Review>();
+
+        public ICollection<Question>? AskedQuestions { get; set; } = new List<Question>();
+
+        public Vendor? Vendor { get; set; }
+
+        public Cart? Cart { get; set; }
+
+        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

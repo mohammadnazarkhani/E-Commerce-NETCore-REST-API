@@ -22,5 +22,12 @@ namespace ECommerce.RestAPI.Entities
         /// </remarks>
         [EnumDataType(typeof(Rating))]
         public Rating RatingScore { get; set; }
+
+        // Relationships
+        public required Guid UserId { get; set; }
+        public User User { get; set; } = null!;
+
+        public required Guid ProductId { get; set; }
+        public Product Product { get; set; } = null!;
     }
 }
