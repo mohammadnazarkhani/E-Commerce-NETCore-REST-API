@@ -8,10 +8,28 @@ namespace ECommerce.RestAPI.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<AuditableEntityBase> builder)
         {
+            // Use Table Per Concrete Type strategy
             builder.UseTpcMappingStrategy();
 
+            // Configure Id property
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .IsRequired();
+
+            // Configure audit fields
             builder.Property(e => e.CreatedAt)
-                .HasDefaultValue("GETUTCDATE()");
+                .IsRequired()
+                .HasDefaultValueSql("GETUTCDATE()")
+                .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.LastModifiedAt)
+                .IsConcurrencyToken() // Optimistic concurrency control
+                .ValueGeneratedOnUpdate();
+
+            // Create indexes for better query performance
+            builder.HasIndex(e => e.CreatedAt);
+            builder.HasIndex(e => e.LastModifiedAt);
         }
     }
 }
