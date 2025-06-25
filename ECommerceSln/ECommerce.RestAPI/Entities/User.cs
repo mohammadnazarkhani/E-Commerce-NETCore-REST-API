@@ -21,7 +21,6 @@ namespace ECommerce.RestAPI.Entities
         public required UserRole Role { get; set; } = UserRole.User;
 
         // Auditable properties
-        public required Guid Id { get; set; }
         public required DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? LastModifiedAt { get; set; }
 
