@@ -6,7 +6,7 @@ namespace ECommerce.RestAPI.Entities
     {
         // Relationships
         public required Guid UserId { get; set; }
-        public User User { get; set; }
+        public User User { get; set; } = null!;
 
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
