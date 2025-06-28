@@ -1,4 +1,5 @@
 ﻿using ECommerce.RestAPI.Entities.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.RestAPI.Entities.Base
 {

@@ -12,6 +12,7 @@ namespace ECommerce.RestAPI.Entities
         /// <summary>
         /// Gets or sets the review comment text.
         /// </summary>
+        [StringLength(1000, ErrorMessage = "Review comment should not exeed 1000 characters.")]
         public required string Comment { get; set; }
 
         /// <summary>
