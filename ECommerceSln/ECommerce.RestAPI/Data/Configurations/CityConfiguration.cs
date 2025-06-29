@@ -15,7 +15,7 @@ namespace ECommerce.RestAPI.Data.Configurations
             // Load and seed city data
             var jsonPath = Path.Combine("Resources", "SeedData_Assets", "province_city_iran.json");
             var jsonContent = File.ReadAllText(jsonPath);
-            var provinceCityData = JsonSerializer.Deserialize<List<ProvinceData>>(jsonContent);
+            var provinceCityData = JsonSerializer.Deserialize<List<ProvinceData>>(jsonContent) ?? new List<ProvinceData>();
 
             var cities = new List<City>();
             foreach (var provinceData in provinceCityData)

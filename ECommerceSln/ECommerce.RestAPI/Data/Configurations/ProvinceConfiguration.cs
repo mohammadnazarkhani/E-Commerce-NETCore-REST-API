@@ -18,13 +18,13 @@ namespace ECommerce.RestAPI.Data.Configurations
             var jsonContent = File.ReadAllText(jsonPath);
             var provinceCityData = JsonSerializer.Deserialize<List<ProvinceData>>(jsonContent);
 
-            var provinces = provinceCityData.Select((p, index) => new Province
+            var provinces = provinceCityData?.Select((p, index) => new Province
             {
                 Id = GetProvinceId(p.province),
                 Name = p.province,
                 CreatedAt = DateTime.UtcNow,
                 LastModifiedAt = null
-            }).ToList();
+            }).ToList() ?? new List<Province>();
 
             builder.HasData(provinces);
         }
