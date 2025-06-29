@@ -10,6 +10,14 @@ namespace ECommerce.RestAPI.Data.Configurations
         {
             builder.HasIndex(c => c.Name)
                    .IsUnique();
+
+            builder.HasData(
+                new Category { Name = "Electronics" },
+                new Category { Name = "Books" },
+                new Category { Name = "Clothing" },
+                new Category { Name = "Home & Kitchen" },
+                new Category { Name = "Sports & Outdoors" }
+            );
         }
     }
 }
