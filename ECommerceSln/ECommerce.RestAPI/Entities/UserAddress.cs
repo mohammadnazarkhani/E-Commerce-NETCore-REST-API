@@ -13,20 +13,25 @@ namespace ECommerce.RestAPI.Entities
     /// </remarks>
     public class UserAddress : AuditableEntityBase
     {
-        [Length(3, 255)]
+        [Required]
+        [StringLength(255, MinimumLength = 3)]
         public required string Street { get; set; }
-        [Length(0, 255)]
+        [StringLength(255)]
         public string? Alley { get; set; }
-        [Length(1, 20)]
+        [Required]
+        [StringLength(20, MinimumLength = 1)]
         public required string BuildingNumber { get; set; }
-        [Length(0, 10)]
+        [MaxLength(10)]
         public string? Floor { get; set; }
-        [Length(0, 10)]
+        [MaxLength(10)]
         public string? UnitNumber { get; set; }
-        [RegularExpression(@"^\d{10$|13}$", ErrorMessage = "Invalid Postal Code format. It must be 10 or 13 digits long.")]
-        [Length(10, 13)]
+        [Required]
+        [RegularExpression(@"^\d{10}$|^\d{13}$", ErrorMessage = "Invalid Postal Code format. It must be 10 or 13 digits long.")]
+        [StringLength(13, MinimumLength = 10)]
         public required string PostalCode { get; set; }
+        [Required]
         public required string OwnerName { get; set; }
+        [Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid phone format. It must be exaclty 10 digist long.")]
         [MaxLength(10)]
         public required string PhoneNumber { get; set; }
