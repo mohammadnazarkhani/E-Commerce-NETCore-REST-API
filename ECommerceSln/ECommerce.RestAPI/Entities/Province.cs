@@ -15,8 +15,8 @@ namespace ECommerce.RestAPI.Entities
     /// </remarks>
     public class Province : AuditableEntityBase
     {
-        [Length(2,50)]
-       public required string Name { get; set; }
+        [StringLength(50)] 
+        public required string Name { get; set; }
 
         // RelationShips
         public ICollection<City> Cities { get; set; } = new List<City>();
