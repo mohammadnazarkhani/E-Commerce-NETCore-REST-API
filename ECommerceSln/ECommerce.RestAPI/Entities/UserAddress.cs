@@ -37,13 +37,15 @@ namespace ECommerce.RestAPI.Entities
         public required string PhoneNumber { get; set; }
         [EmailAddress]
         [MaxLength(255)]
-        public string? CostumerEmail { get; set;}
+        public string? CostumerEmail { get; set; }
 
         // Relationships
-        public required Guid CityId { get; set; }
+        [Required]
+        public Guid CityId { get; set; }
         public City City { get; set; } = null!;
 
-        public required Guid UserId { get; set; }
+        [Required]
+        public Guid UserId { get; set; }
         public User User { get; set; } = null!;
     }
 }

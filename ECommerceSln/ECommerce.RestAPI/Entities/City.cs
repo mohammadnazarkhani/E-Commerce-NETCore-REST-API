@@ -13,11 +13,13 @@ namespace ECommerce.RestAPI.Entities
     /// </remarks>
     public class City : AuditableEntityBase
     {
-        [Length(2, 255)]
+        [Required]
+        [StringLength(255, MinimumLength = 2)]
         public required string Name { get; set; }
 
         // Relationships
-        public Guid ProvinceId { get; set; }
+        [Required]
+        public required Guid ProvinceId { get; set; }
         public Province Province { get; set; } = null!;
 
         public ICollection<UserAddress> UserAddreses { get; set; } = new List<UserAddress>();

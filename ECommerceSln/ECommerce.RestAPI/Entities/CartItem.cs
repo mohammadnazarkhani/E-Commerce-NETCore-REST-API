@@ -1,16 +1,20 @@
-﻿using ECommerce.RestAPI.Entities.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using ECommerce.RestAPI.Entities.Base;
 
 namespace ECommerce.RestAPI.Entities
 {
     public class CartItem : AuditableEntityBase
     {
+        [Required]
         public int Quantity { get; set; }
 
         // Relationships
-        public required Guid ProductId { get; set; }
+        [Required]
+        public Guid ProductId { get; set; }
         public Product Product { get; set; } = null!;
 
-        public required Guid CartId { get; set; }
+        [Required]
+        public Guid CartId { get; set; }
         public Cart Cart { get; set; } = null!;
     }
 }

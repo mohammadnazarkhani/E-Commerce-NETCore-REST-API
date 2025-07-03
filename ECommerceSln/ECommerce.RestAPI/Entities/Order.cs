@@ -1,14 +1,17 @@
-﻿using ECommerce.RestAPI.Entities.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using ECommerce.RestAPI.Entities.Base;
 using ECommerce.RestAPI.Entities.Enums;
 
 namespace ECommerce.RestAPI.Entities
 {
     public class Order : AuditableEntityBase
     {
+        [Required]
         public required OrderStatus Status { get; set; }
 
         // Relationships
-        public required Guid UserId { get; set; }
+        [Required]
+        public Guid UserId { get; set; }
         public User User { get; set; } = null!;
 
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

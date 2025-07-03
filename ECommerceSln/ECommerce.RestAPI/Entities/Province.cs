@@ -15,6 +15,7 @@ namespace ECommerce.RestAPI.Entities
     /// </remarks>
     public class Province : AuditableEntityBase
     {
+        [Required]
         [StringLength(50)] 
         public required string Name { get; set; }
 

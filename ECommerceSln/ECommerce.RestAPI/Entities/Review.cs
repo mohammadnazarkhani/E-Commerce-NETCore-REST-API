@@ -12,6 +12,7 @@ namespace ECommerce.RestAPI.Entities
         /// <summary>
         /// Gets or sets the review comment text.
         /// </summary>
+        [Required]
         [StringLength(1000, ErrorMessage = "Review comment should not exeed 1000 characters.")]
         public required string Comment { get; set; }
 
@@ -21,14 +22,17 @@ namespace ECommerce.RestAPI.Entities
         /// <remarks>
         /// The rating is stored as an enum value from 1 to 5 stars.
         /// </remarks>
+        [Required]
         [EnumDataType(typeof(Rating))]
         public Rating RatingScore { get; set; }
 
         // Relationships
-        public required Guid UserId { get; set; }
+        [Required]
+        public Guid UserId { get; set; }
         public User User { get; set; } = null!;
 
-        public required Guid ProductId { get; set; }
+        [Required]
+        public Guid ProductId { get; set; }
         public Product Product { get; set; } = null!;
     }
 }

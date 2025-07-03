@@ -6,22 +6,28 @@ namespace ECommerce.RestAPI.Entities
 {
     public class OrderItem : AuditableEntityBase
     {
+        [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
-        public required int Quantity { get; set; }
+        public int Quantity { get; set; }
         
+        [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Price cannot be negative")]
-        public required decimal Price { get; set; }
+        public decimal Price { get; set; }
         
+        [Required]
         public OrderItemStatus Status { get; set; } = OrderItemStatus.Pending;
 
         // Relationships
-        public required Guid ProductId { get; set; }
+        [Required]
+        public Guid ProductId { get; set; }
         public Product Product { get; set; } = null!;
 
-        public required Guid OrderId { get; set; }
+        [Required]
+        public Guid OrderId { get; set; }
         public Order Order { get; set; } = null!;
 
-        public required Guid VendorId { get; set; }
+        [Required]
+        public Guid VendorId { get; set; }
         public Vendor Vendor { get; set; } = null!;
     }
 }
