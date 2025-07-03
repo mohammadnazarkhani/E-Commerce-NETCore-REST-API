@@ -1,4 +1,6 @@
-﻿using ECommerce.RestAPI.Entities.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using ECommerce.RestAPI.Entities.Base;
 using ECommerce.RestAPI.Entities.Enums;
 using ECommerce.RestAPI.Entities.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -15,13 +17,23 @@ namespace ECommerce.RestAPI.Entities
     /// </remarks>
     public class User : IdentityUser<Guid>, IAuditableEntity
     {
+        [Required]
+        [MaxLength(50)]
         public required string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public required string LastName { get; set; }
+
+        [MaxLength(10)]
         public string? NationalCode { get; set; }
-        public required UserRole Role { get; set; } = UserRole.User;
+
+        [Required]
+        public UserRole Role { get; set; } = UserRole.User;
 
         // Auditable properties
-        public required DateTime CreatedAt { get; set; } = DateTime.Now;
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? LastModifiedAt { get; set; }
 
         // Relationships
