@@ -34,8 +34,8 @@ namespace ECommerce.RestAPI.Tests.Entities
         [Fact]
         public void UserAddress_MissingRequiredFields_ShouldBeInvalid()
         {
-            // Use reflection to create an uninitialized object (bypassing required property checks)
-            var address = (UserAddress)System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(UserAddress));
+            // Create a new UserAddress with no required fields set
+            var address = new UserAddress();
             var results = new List<ValidationResult>();
             var context = new ValidationContext(address);
             var isValid = Validator.TryValidateObject(address, context, results, true);

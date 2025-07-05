@@ -15,12 +15,12 @@ namespace ECommerce.RestAPI.Entities
     {
         [Required]
         [StringLength(255, MinimumLength = 3)]
-        public required string Street { get; set; }
+        public string Street { get; set; } = string.Empty;
         [StringLength(255)]
         public string? Alley { get; set; }
         [Required]
         [StringLength(20, MinimumLength = 1)]
-        public required string BuildingNumber { get; set; }
+        public string BuildingNumber { get; set; } = string.Empty;
         [MaxLength(10)]
         public string? Floor { get; set; }
         [MaxLength(10)]
@@ -28,13 +28,13 @@ namespace ECommerce.RestAPI.Entities
         [Required]
         [RegularExpression(@"^\d{10}$|^\d{13}$", ErrorMessage = "Invalid Postal Code format. It must be 10 or 13 digits long.")]
         [StringLength(13, MinimumLength = 10)]
-        public required string PostalCode { get; set; }
+        public string PostalCode { get; set; } = string.Empty;
         [Required]
-        public required string OwnerName { get; set; }
+        public string OwnerName { get; set; } = string.Empty;
         [Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid phone format. It must be exaclty 10 digist long.")]
         [MaxLength(10)]
-        public required string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
         [EmailAddress]
         [MaxLength(255)]
         public string? CostumerEmail { get; set; }
