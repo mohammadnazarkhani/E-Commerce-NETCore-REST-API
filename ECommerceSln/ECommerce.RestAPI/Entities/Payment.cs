@@ -13,7 +13,7 @@ namespace ECommerce.RestAPI.Entities
 
         // Relationships
         [Required]
-        public required Guid UserId { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; } = null!;
 
         [Required]

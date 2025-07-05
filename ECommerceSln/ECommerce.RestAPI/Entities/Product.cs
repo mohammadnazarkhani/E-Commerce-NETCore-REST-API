@@ -13,6 +13,7 @@ namespace ECommerce.RestAPI.Entities
         public string? Description { get; set; }
 
         [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Price cannot be negative")]
         public decimal Price { get; set; }
 
         [Required]
