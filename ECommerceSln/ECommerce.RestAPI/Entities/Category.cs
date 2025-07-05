@@ -7,7 +7,7 @@ namespace ECommerce.RestAPI.Entities
     {
         [Required]
         [StringLength(100)]
-        public required string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         // Relationships
         public ICollection<Product> Products { get; set; } = new List<Product>();

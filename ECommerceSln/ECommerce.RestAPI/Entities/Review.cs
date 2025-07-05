@@ -14,7 +14,7 @@ namespace ECommerce.RestAPI.Entities
         /// </summary>
         [Required]
         [StringLength(1000, ErrorMessage = "Review comment should not exeed 1000 characters.")]
-        public required string Comment { get; set; }
+        public string Comment { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the rating score for this review.

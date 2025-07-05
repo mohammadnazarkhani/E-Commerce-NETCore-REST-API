@@ -7,7 +7,7 @@ namespace ECommerce.RestAPI.Entities
     {
         [Required]
         [MaxLength(500)]
-        public required string Quest { get; set; }
+        public string Quest { get; set; } = string.Empty;
 
         public string? Answer { get; set; }
 

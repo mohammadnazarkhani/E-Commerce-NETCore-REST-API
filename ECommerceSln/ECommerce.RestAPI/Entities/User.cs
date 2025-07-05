@@ -19,11 +19,11 @@ namespace ECommerce.RestAPI.Entities
     {
         [Required]
         [MaxLength(50)]
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(50)]
-        public required string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
         [MaxLength(10)]
         public string? NationalCode { get; set; }

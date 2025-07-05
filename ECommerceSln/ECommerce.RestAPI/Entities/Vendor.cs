@@ -7,10 +7,10 @@ namespace ECommerce.RestAPI.Entities
     {
         [Required]
         [StringLength(100, ErrorMessage = "Vendor Name cannot be longer than 100 characters.")]
-        public required string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         [Required]
         [EmailAddress(ErrorMessage ="Enter a valid email address. Example: example@domain.com")]
-        public required string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [StringLength(255)]
         public string Address { get; set; } = null!;

@@ -7,7 +7,7 @@ namespace ECommerce.RestAPI.Entities
     public class Order : AuditableEntityBase
     {
         [Required]
-        public required OrderStatus Status { get; set; }
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         // Relationships
         [Required]
