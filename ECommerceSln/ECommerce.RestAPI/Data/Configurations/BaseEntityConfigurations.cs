@@ -14,7 +14,6 @@ namespace ECommerce.RestAPI.Data.Configurations
             // Configure Id property
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
                 .IsRequired();
 
             // Configure audit fields

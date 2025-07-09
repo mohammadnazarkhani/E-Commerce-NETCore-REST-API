@@ -12,11 +12,11 @@ namespace ECommerce.RestAPI.Data.Configurations
                    .IsUnique();
 
             builder.HasData(
-                new Category { Name = "Electronics" },
-                new Category { Name = "Books" },
-                new Category { Name = "Clothing" },
-                new Category { Name = "Home & Kitchen" },
-                new Category { Name = "Sports & Outdoors" }
+                new Category { Id = Guid.NewGuid(), Name = "Electronics" },
+                new Category { Id = Guid.NewGuid(), Name = "Books" },
+                new Category { Id = Guid.NewGuid(), Name = "Clothing" },
+                new Category { Id = Guid.NewGuid(), Name = "Home & Kitchen" },
+                new Category { Id = Guid.NewGuid(), Name = "Sports & Outdoors" }
             );
         }
     }
