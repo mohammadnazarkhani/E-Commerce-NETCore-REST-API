@@ -138,7 +138,7 @@ public interface IUnitOfWork : IDisposable
     );
 
     /// <summary>
-    /// Executes an action within a transaction scope
+    /// Executes an action w0ithin a transaction scope
     /// </summary>
     /// <param name="opration">Opration to execute</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -237,6 +237,45 @@ public interface IUnitOfWork : IDisposable
     /// Event raised when save changes fails
     /// </summary>
     event Func<Exception, CancellationToken, Task> SaveChangesFailded;
+
+    #endregion
+
+    #region Advanced Features
+
+    /// <summary>
+    /// Creates a save3point within the current transaction
+    /// </summary>
+    /// <param name="name">Savepoint name</param>
+    /// <param name="cancellationToken">Cancellation tokne</param>
+    /// <returns>Task representing the opration</returns>
+    Task CreateSavepointAsync(string name, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Rolls back to a specific savepoint
+    /// </summary>
+    /// <param name="name">Savepont name</param>
+    /// <param name="cancellatioinToken">Cancellation token</param>
+    /// <returns>Task representing the opration</returns>
+    Task RollbackToSavepointAsync(string name, CancellationToken cancellatioinToken = default);
+
+    /// <summary>
+    /// Release a savepoint
+    /// </summary>
+    /// <param name="name">Savepoint name</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Task representing the opration</returns>
+    Task ReleaseSavepointAsync(string name, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Enables or disables auto-detect changes
+    /// </summary>
+    /// <param name="enabled">Wether to enable auto-detect changes</param>
+    void SetAutoDetectChanges(bool enabled);
+
+    /// <summary>
+    /// Munually detects changes in tracked entities
+    /// </summary>
+    void DetectChanges();
 
     #endregion
 }
