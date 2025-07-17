@@ -7,7 +7,7 @@ namespace ECommerce.RestAPI.Data.Specifications;
 /// Specification interface for read oprations
 /// </summary>
 /// <typeparam name="TEntity">Entity type</typeparam>
-public interface IReadSpecefication<TEntity> : ISpecification<TEntity> where TEntity : class, IEntity
+public interface IReadSpecification<TEntity> : ISpecification<TEntity> where TEntity : class, IEntity
 {
     /// <summary>
     /// Evaluates the specification against an entity
