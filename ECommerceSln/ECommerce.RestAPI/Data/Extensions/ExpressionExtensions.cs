@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Net.Http.Headers;
 
 namespace ECommerce.RestAPI.Data.Extensions;
 
@@ -41,6 +42,18 @@ public static class ExpressionExtensions
                 rightVisitor.Visit(right.Body)
             ),
             parameter);
+    }
+
+    /// <summary>
+    /// Negates an expression
+    /// </summary>
+    public static Expression<Func<T, bool>> Not<T>(this Expression<Func<T, bool>> expression)
+    {
+        var parameter = expression.Parameters[0];
+        return Expression.Lambda<Func<T, bool>>(
+            Expression.Not(expression.Body),
+            parameter
+        );
     }
 
     private class ReplaceExpressionVisitor : ExpressionVisitor
