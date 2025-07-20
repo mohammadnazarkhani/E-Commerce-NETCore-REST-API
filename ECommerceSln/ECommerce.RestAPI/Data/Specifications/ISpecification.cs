@@ -13,7 +13,7 @@ public interface ISpecification<TEntity> where TEntity : class, IEntity
     /// <summary>
     /// Ceriteria expression for filtering
     /// </summary>
-    Expression<Func<IEntity, bool>>? Criteria { get; }
+    Expression<Func<TEntity, bool>>? Criteria { get; }
 
     /// <summary>
     /// Include expressions for eager loading
