@@ -1,4 +1,5 @@
 using ECommerce.RestAPI.Data;
+using ECommerce.RestAPI.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
