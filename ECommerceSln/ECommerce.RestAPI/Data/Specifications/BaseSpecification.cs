@@ -11,7 +11,7 @@ namespace ECommerce.RestAPI.Data.Specifications;
 /// <typeparam name="TEntity">Entity type</typeparam>
 public class BaseSpecification<TEntity> : IReadSpecification<TEntity> where TEntity : class, IEntity
 {
-    public Expression<Func<IEntity, bool>>? Criteria { get; private set; }
+    public Expression<Func<TEntity, bool>>? Criteria { get; private set; }
     public List<Expression<Func<TEntity, object>>> Includes { get; } = new();
     public List<string> IncludeStrings { get; } = new();
     public List<Expression<Func<TEntity, object>>> OrderBy { get; } = new();
@@ -22,13 +22,12 @@ public class BaseSpecification<TEntity> : IReadSpecification<TEntity> where TEnt
     public bool AsSplitQuery { get; private set; }
     public Expression<Func<TEntity, object>>? GroupBy { get; private set; }
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseSpecification{TEntity}"/> class.
     /// Allows setting criteria for filtering entities.
     /// </summary>
     /// <param name="criteria">Filter criteria</param>
-    protected BaseSpecification(Expression<Func<IEntity, bool>>? criteria = null)
+    protected BaseSpecification(Expression<Func<TEntity, bool>>? criteria = null)
     {
         Criteria = criteria;
     }
