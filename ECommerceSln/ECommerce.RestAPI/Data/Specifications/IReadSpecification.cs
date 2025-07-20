@@ -14,5 +14,5 @@ public interface IReadSpecification<TEntity> : ISpecification<TEntity> where TEn
     /// </summary>
     /// <param name="entity">Entity to evaluate</param>
     /// <returns>True if entity staisfies the specification</returns>
-    bool ISSatisfiedBy(TEntity entity);
+    bool IsStatisfiedBy(TEntity entity);
 }

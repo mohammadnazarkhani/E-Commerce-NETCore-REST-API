@@ -140,9 +140,4 @@ public class BaseSpecification<TEntity> : IReadSpecification<TEntity> where TEnt
 
         return Criteria.Compile()(entity);
     }
-
-    public bool ISSatisfiedBy(TEntity entity)
-    {
-        throw new NotImplementedException();
-    }
 }
