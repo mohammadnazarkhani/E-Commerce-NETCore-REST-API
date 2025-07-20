@@ -50,5 +50,5 @@ public interface IRepositoryFactory
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
     /// <returns>True if removed, false if not found</returns>
-    bool RemoveFromcache<TEntity>() where TEntity : class, IEntity;
+    bool RemoveFromCache<TEntity>() where TEntity : class, IEntity;
 }
