@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.ConstrainedExecution;
 using ECommerce.RestAPI.Entities.Base;
+using ECommerce.RestAPI.Entities.Enums;
 
 namespace ECommerce.RestAPI.Entities.Audit;
 
