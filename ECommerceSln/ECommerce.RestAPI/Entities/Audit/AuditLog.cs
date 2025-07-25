@@ -45,7 +45,8 @@ public class AuditLog : AuditableEntityBase
     public string? ChangedProperties { get; set; }
 
     [MaxLength(1000)]
-    public string? AuditionalInfo { get; set; }
+    public string? AdditionalInfo { get; set; }
+
 
     // Navigation property
     public User? User { get; set; }
