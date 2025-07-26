@@ -143,7 +143,7 @@ public interface IUnitOfWork : IDisposable
     /// <param name="opration">Opration to execute</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task representing the opration</returns>
-    Task ExecuteInTransatctionAsync(
+    Task ExecuteInTransactionAsync(
         Func<Task> opration,
         CancellationToken cancellationToken = default
     );
@@ -176,7 +176,7 @@ public interface IUnitOfWork : IDisposable
     /// <param name="oprations">Array of oprations to execute</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task representing the bulk opration</returns>
-    Task ExecuteBulkOprationAsync(
+    Task ExecuteBulkOperationAsync(
         Func<IUnitOfWork, Task>[] oprations,
         CancellationToken cancellationToken = default
     );
@@ -236,7 +236,7 @@ public interface IUnitOfWork : IDisposable
     /// <summary>
     /// Event raised when save changes fails
     /// </summary>
-    event Func<Exception, CancellationToken, Task> SaveChangesFailded;
+    event Func<Exception, CancellationToken, Task>? SaveChangesFailed;
 
     #endregion
 
