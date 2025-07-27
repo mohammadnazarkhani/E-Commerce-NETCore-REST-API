@@ -1,11 +1,8 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using ECommerce.RestAPI.Data.Repository;
-using ECommerce.RestAPI.Data.UnitOfWork;
 using ECommerce.RestAPI.Entities;
 using ECommerce.RestAPI.Entities.Interfaces;
-using ECommerce.RestAPI.Entities.Audit;
 
 namespace ECommerce.RestAPI.Data.UnitOfWork;
 
@@ -35,11 +32,10 @@ public class UnitOfWork(DbContext context) : IUnitOfWork
     private IRepository<Province>? _provinces;
     private IRepository<City>? _cities;
     private IRepository<ShipmentDepartment>? _shipmentDepartments;
-    private IRepository<AuditLog>? _auditLogs;
 
     #region Entity Repositories
 
-    public IRepository<User> Users 
+    public IRepository<User> Users
     {
         get
         {
@@ -61,9 +57,6 @@ public class UnitOfWork(DbContext context) : IUnitOfWork
     public IRepository<Province> Provinces { get { ThrowIfDisposed(); return _provinces ??= new Repository<Province>(_context); } }
     public IRepository<City> Cities { get { ThrowIfDisposed(); return _cities ??= new Repository<City>(_context); } }
     public IRepository<ShipmentDepartment> ShipmentDepartments { get { ThrowIfDisposed(); return _shipmentDepartments ??= new Repository<ShipmentDepartment>(_context); } }
-
-    // Audit repository (not exposed in interface but used internally)
-    private IRepository<AuditLog> AuditLogs => _auditLogs ??= new Repository<AuditLog>(_context);
 
     #endregion
 

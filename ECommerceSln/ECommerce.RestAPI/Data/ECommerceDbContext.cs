@@ -1,14 +1,22 @@
+using System.Text.Json;
 using ECommerce.RestAPI.Entities;
 using ECommerce.RestAPI.Entities.Base;
+using ECommerce.RestAPI.Entities.Audit;
+using ECommerce.RestAPI.Entities.Enums;
+using ECommerce.RestAPI.Services.Interfaces;
+using AuditEntry = ECommerce.RestAPI.Data.Audit.AuditEntry;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ECommerce.RestAPI.Data
 {
     public class ECommerceDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options) { }
+        public ECommerceDbContext(DbContextOptions<ECommerceDbContext> options) : base(options)
+        {
+        }
 
         // DbSets for all entities
         public new DbSet<User> Users { get; set; }
