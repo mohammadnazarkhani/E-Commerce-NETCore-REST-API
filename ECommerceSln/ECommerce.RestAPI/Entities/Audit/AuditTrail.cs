@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using ECommerce.RestAPI.Entities.Enums;
 using ECommerce.RestAPI.Entities.Interfaces;
 
 namespace ECommerce.RestAPI.Entities.Audit;
@@ -20,8 +21,7 @@ public class AuditTrail : IEntity
     public Guid EntityId { get; set; }
 
     [Required]
-    [MaxLength(50)]
-    public string Action { get; set; } = string.Empty; // INSERT, UPDATE, DELETE
+    public AuditAction Action { get; set; } // Enum: INSERT, UPDATE, DELETE
 
     public string? OldValues { get; set; } // JSON string of old values
     public string? NewValues { get; set; } // JSON string of new values
@@ -45,8 +45,7 @@ public class AuditTrail : IEntity
     [MaxLength(500)]
     public string? Reason { get; set; } // Optional reason for the change
 
-    [MaxLength(100)]
-    public string? Source { get; set; } // API, Web, Mobile, etc.
+    public AuditSource? Source { get; set; } // Enum: API, Web, Mobile, etc.
 
     public TimeSpan? Duration { get; set; } // Time taken for the opration
 
