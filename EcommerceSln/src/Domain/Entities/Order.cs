@@ -1,17 +1,15 @@
+using Domain.Entities.Base;
 using Domain.Entities.Enums;
 
 namespace Domain.Entities;
 
-public class Order
+public class Order : BaseEntity
 {
-    public Guid Id { get; set; }
     public string OrderNumber { get; set; } = string.Empty;
     public OrderStatus Status { get; set; }
     public decimal TotalAmount { get; set; }
     public DateTime OrderDate { get; set; }
     public DateTime? ShippedDate { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
     
     // Navigation properties
     public Guid CustomerId { get; set; }
