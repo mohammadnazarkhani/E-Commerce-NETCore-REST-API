@@ -1,25 +1,29 @@
-namespace Domain.DTOs;
+using Domain.Entities;
 
-public record AddressResponse(
+namespace Application.DTOs;
+
+public record AddressDto(
     Guid Id,
     string Street,
     string City,
     string State,
     string Country,
     string PostalCode,
-    bool IsDefault
+    bool IsDefault,
+    Guid CustomerId
 );
 
-public record CreateAddressRequest(
+public record CreateAddressDto(
     string Street,
     string City,
     string State,
     string Country,
     string PostalCode,
-    bool IsDefault
+    bool IsDefault,
+    Guid CustomerId
 );
 
-public record UpdateAddressRequest(
+public record UpdateAddressDto(
     string Street,
     string City,
     string State,

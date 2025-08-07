@@ -1,6 +1,6 @@
-namespace Domain.DTOs;
+namespace Application.DTOs;
 
-public record ProductResponse(
+public record ProductDto(
     Guid Id,
     string Name,
     string Description,
@@ -8,19 +8,12 @@ public record ProductResponse(
     int StockQuantity,
     string SKU,
     bool IsAvailable,
-    string CategoryName
+    DateTime CreatedAt,
+    DateTime? UpdatedAt,
+    CategoryDto Category
 );
 
-public record CreateProductRequest(
-    string Name,
-    string Description,
-    decimal Price,
-    int StockQuantity,
-    string SKU,
-    Guid CategoryId
-);
-
-public record UpdateProductRequest(
+public record CreateProductDto(
     string Name,
     string Description,
     decimal Price,
@@ -28,4 +21,21 @@ public record UpdateProductRequest(
     string SKU,
     bool IsAvailable,
     Guid CategoryId
+);
+
+public record UpdateProductDto(
+    string Name,
+    string Description,
+    decimal Price,
+    int StockQuantity,
+    string SKU,
+    bool IsAvailable,
+    Guid CategoryId
+);
+
+public record ProductSummaryDto(
+    Guid Id,
+    string Name,
+    decimal Price,
+    bool IsAvailable
 );
